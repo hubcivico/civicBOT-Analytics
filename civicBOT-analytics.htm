@@ -49,7 +49,7 @@
                                       </select> entries</label></div>
                                       <div id="example_filter" class="dataTables_filter">
                                         <label>Buscar: <input aria-controls="example" type="text"></label></div>
-                                        <table aria-describedby="example_info" id="example" class="table table-striped responsive-utilities jambo_table dataTable">
+                                        <table aria-describedby="example_info" id="table" class="table table-striped responsive-utilities jambo_table dataTable">
                                         <thead>
                                             <tr role="row" class="headings">
                                                 <th aria-label="Hace referencia ala clasificación otorgada a la imagen." style="width: 170px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" role="columnheader" class="sorting">Etiqueta </th>
@@ -61,15 +61,16 @@
                                                 </th>
                                               </tr>
                                         </thead>
-                                            <tr class="pointer odd" id="row">
+                                            <tr class="pointer odd" >
                                                 <td class="  ">121000040</td>
                                                 <td class="  ">May 23, 2014 11:47:56 PM </td>
                                                 <td class="  ">Podemos</td>
                                                 <td class="  ">Barcelona</td>
                                                 <td class="  ">eldiario.es</td>
                                                 <td class="a-right a-right  ">Miniatura</td>
-                                                <tr style="display: none"><td colspan="3"><p>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas</p></td>
-                                              </tr>
+                                            </tr>
+                                            <tr style="display: none" class="hide1">
+                                              <td colspan="6"><p>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas</p></td>
                                             </tr>
                                             <tr class="pointer even">
                                                 <td class="  ">121000039</td>
@@ -154,8 +155,8 @@
                 		</div>
 
                     <script>
-                    $("#row").click(function(){
-                              $("table").click(function(event) {
+                    $function(){
+                              $("tr").click(function(event) {
                                   event.stopPropagation();
                                   var $target = $(event.target);
                                   if ( $target.closest("td").attr("colspan") > 1 ) {
@@ -164,7 +165,7 @@
                                       $target.closest("tr").next().find("p").slideToggle();
                                   }
                               });
-                              });​
+                      });​
                     </script>
 
   </body>
