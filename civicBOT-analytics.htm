@@ -21,6 +21,7 @@
     <link href="civicBOT-analytics_files/dataTables.css" rel="stylesheet">
 
     <script src="civicBOT-analytics_files/jquery_002.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
 
 </head>
@@ -30,13 +31,9 @@
 
     <div class="container body">
         <div class="main_container">
-                    <div class="clearfix"></div>
-
                     <div class="row">
-
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_panel">
-
                                 <div class="x_content">
                                     <div id="example_wrapper" class="dataTables_wrapper" role="grid"><div class="dataTables_length" id="example_length">
                                       <label>
@@ -52,6 +49,7 @@
                                         <table aria-describedby="example_info" id="table" class="table table-striped responsive-utilities jambo_table dataTable">
                                         <thead>
                                             <tr role="row" class="headings">
+                                                <th aria-label="Miniatura de la imagen o logo del texto. " style="width: 138px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" role="columnheader" class="sorting"><button class="paginate_button">DALE</button></th>
                                                 <th aria-label="Hace referencia ala clasificación otorgada a la imagen." style="width: 170px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" role="columnheader" class="sorting">Etiqueta </th>
                                                 <th aria-label="Fecha que recibimos la imagen." style="width: 382px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" role="columnheader" class="sorting">Fecha </th>
                                                 <th aria-label="Partido a la que se hace referencia." style="width: 208px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" role="columnheader" class="sorting">Partido político </th>
@@ -61,61 +59,39 @@
                                                 </th>
                                               </tr>
                                         </thead>
-                                            <tr class="pointer odd" >
-                                                <td class="  ">121000040</td>
-                                                <td class="  ">May 23, 2014 11:47:56 PM </td>
-                                                <td class="  ">Podemos</td>
-                                                <td class="  ">Barcelona</td>
-                                                <td class="  ">eldiario.es</td>
-                                                <td class="a-right a-right  ">Miniatura</td>
+                                            <tr>
+                                                <td ><a href="#" class="mostrar">DALE</a></td>
+                                                <td >121000040</td>
+                                                <td >May 23, 2014 11:47:56 PM </td>
+                                                <td >Podemos</td>
+                                                <td >Barcelona</td>
+                                                <td >eldiario.es</td>
+                                                <td >Miniatura</td>
                                             </tr>
-                                            <tr style="display: none" class="hide1">
-                                              <td colspan="6"><p>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas</p></td>
-                                            </tr>
-                                            <tr class="pointer even">
-                                                <td class="  ">121000039</td>
-                                                <td class="  ">May 23, 2014 11:30:12 PM</td>
-                                                <td class="  ">PP</td>
-                                                <td class="  ">Valencia</td>
-                                                <td class="  ">larazon.com</td>
-                                                <td class="a-right a-right  ">Miniatura</td>
-                                                <tr style="display: none"><td colspan="3"><p>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas</p></td>
-                                                </td>
-                                            </tr>
-                                            <tr class="pointer odd">
-                                                <td class="  ">121000038</td>
-                                                <td class="  ">May 24, 2014 10:55:33 PM</td>
-                                                <td class="  ">PSOE</td>
-                                                <td class="  ">Sevilla</td>
-                                                <td class="  ">elmundo.es</td>
-                                                <td class="a-right a-right  ">Miniatura</td>
-                                                <tr style="display: none"><td colspan="3"><p>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas</p></td>
-                                                </td>
+                                            <tr class="content" style="display: none ;">
+                                                 <td>
+                                                   <p> holaaaaaaaaaaaaaaaaaaaaaaaaas </p>
+                                                 </td>
                                             </tr>
                                           </tbody>
                                         </table>
-
-                                            <div id="example_info" class="dataTables_info">Mostrando 12 de 40 entradas</div>
-                                            <div id="example_paginate" class="dataTables_paginate paging_full_numbers">
-                                              <a id="example_first" tabindex="0" class="first paginate_button paginate_button_disabled">Primera</a>
-                                              <a id="example_previous" tabindex="0" class="previous paginate_button paginate_button_disabled">Anterior</a>
+                                        <!-- Completar-->
+                                            <div id="info" class="dataTables_info">Mostrando 12 de 40 entradas</div>
+                                            <div id="paginate" class="dataTables_paginate paging_full_numbers">
+                                              <button id="first" tabindex="0" class="first paginate_button">Primera</button>
+                                              <button id="previous" tabindex="0" class="previous paginate_button">Anterior</button>
                                               <span>
-                                                <a tabindex="0" class="paginate_active">1</a>
-                                                <a tabindex="0" class="paginate_button">2</a>
-                                                <a tabindex="0" class="paginate_button">3</a>
+                                                <button tabindex="0" class="paginate_active">1</button>
+                                                <button tabindex="0" class="paginate_button">2</button>
                                               </span>
-                                              <a id="example_next" tabindex="0" class="next paginate_button">Siguiente</a>
-                                              <a id="example_last" tabindex="0" class="last paginate_button">Última</a>
+                                              <button id="next" tabindex="0" class="next paginate_button">Siguiente</button>
+                                              <button id="last" tabindex="0" class="last paginate_button">Última</button>
                                             </div>
                                           </div>
+
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
                     </div>
                 </div>
                     <!-- footer content -->
@@ -131,42 +107,11 @@
                 </div>
                 <!-- /page content -->
 
-                <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
-        </div>
-        <div class="modal-body">
-          <p>Some text in the modal.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-                				 </form>
-                			</div>
-                		</div>
-
-                    <script>
-                    $function(){
-                              $("tr").click(function(event) {
-                                  event.stopPropagation();
-                                  var $target = $(event.target);
-                                  if ( $target.closest("td").attr("colspan") > 1 ) {
-                                      $target.slideUp();
-                                  } else {
-                                      $target.closest("tr").next().find("p").slideToggle();
-                                  }
-                              });
-                      });​
-                    </script>
-
+                <script type="text/javascript">
+                  // Bind to the Read More link to toggle the
+                  $("a.mostrar" ).click(function(){
+                     $( "tr.content" ).slideToggle(1000);
+                  );
+              </script>
   </body>
 </html>
