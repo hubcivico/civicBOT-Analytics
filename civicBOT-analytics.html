@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- saved from url=(0075)file:///C:/Users/joamolpe/Desktop/civicBOT-analytics/civicBOT-analytics.htm -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,15 +20,9 @@
     <script src="./civicBOT-analytics_files/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            $("#report tr:odd").addClass("odd");
-            $("#report tr:not(.odd)").hide();
-            $("#report tr:first-child").show();
-
-            $("#report tr.odd").click(function(){
-                $(this).next("tr").toggle();
-                $(this).find(".arrow").toggleClass("up");
-            });
-            //$("#report").jExpand();
+          $('#button').click(function(){
+            $('#hidden').slideToggle(500);
+          });
         });
     </script>
 
@@ -44,7 +38,8 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_panel">
                                 <div class="x_content">
-                                    <div id="example_wrapper" class="dataTables_wrapper" role="grid"><div class="dataTables_length" id="example_length">
+                                    <div id="example_wrapper" class="dataTables_wrapper" role="grid">
+                                      <div class="dataTables_length" id="example_length">
                                       <label>
                                         Mostrar
                                       <select aria-controls="example" size="1" style="width: 56px;padding: 6px;" name="example_length">
@@ -65,11 +60,11 @@
                                                 <th aria-label="Capital de la provincia donde se ha generado la noticia." style="width: 204px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" role="columnheader" class="sorting">Localización </th>
                                                 <th aria-label="Medio de comunicación al que se hace referencia." style="width: 116px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" role="columnheader" class="sorting">Médio </th>
                                                 <th aria-label="Miniatura de la imagen o logo del texto. " style="width: 138px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" role="columnheader" class="sorting">Thumbmail </th>
-                                                
+
                                               </tr>
                                         </thead>
                                             <tbody><tr>
-                                                <td><div class="arrow"></div></td>
+                                                <td><button id="button" class="paginate_button">DALE</button></td>
                                                 <td>121000040</td>
                                                 <td>May 23, 2014 11:47:56 PM </td>
                                                 <td>Podemos</td>
@@ -78,8 +73,7 @@
                                                 <td>Miniatura</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="5">
-                                                    <img src="./civicBOT-analytics_files/125px-Flag_of_the_United_States.svg.png" alt="Flag of USA">
+                                                <td colspan="6" style="display: none" id="hidden">
                                                     <h4>Additional information</h4>
                                                     <ul>
                                                         <li><a href="http://en.wikipedia.org/wiki/Usa">USA on Wikipedia</a></li>
@@ -121,13 +115,5 @@
 
                 </div>
                 <!-- /page content -->
-
-                <script type="text/javascript">
-                  // Bind to the Read More link to toggle the
-                  $("a.mostrar" ).click(function(){
-                     $( "tr.content" ).slideToggle(1000);
-                  );
-              </script>
-  
-
-</body></html>
+      </body>
+</html>
