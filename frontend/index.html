@@ -1,10 +1,316 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+	<title>CivicBot Analytics</title>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" type="text/css" href="static/css/civicbot.css">
+	<link rel="stylesheet" href="static/css/font-awesome.min.css">
+	<link rel="stylesheet" href="static/css/odometer.css" />
+	<script src="static/js/Chart.min.js"></script>
+	<script src="static/js/odometer.min.js"></script>
+	
 </head>
 <body>
+	<!--<nav>
+		TEst
+	</nav>-->
+	<div class="main_container">
+		<h1>CivicBot <i class="fa fa-database"></i></h1>
+		<hr>
 
+		<div class="info_main_container">	
+
+			<h2>¿Qué es CivicBot?</h1>
+			<p>
+				CivicBot es una herramienta para el seguimiento de la actuación de los partidos políticos.<br>
+				La información servirá para elaborar informes periódicos de la actuación de los partidos.<br>
+				Civic Bot es un proyecto de Grup Càlam.
+			</p>
+		</div>
+		<hr>	
+
+		<div class="info_main_container">	
+
+			<h2>¿Como puedes colaborar?</h1>
+			<p>
+				En @CivicBot, desde Telegram, puedes enviar fotografías o mensajes a cerca de la participación de los partidos políticos que quedarán almacenados y mostrados en las estadísticas que puedes observar más abajo.
+			</p>
+		</div>
+
+		<div class="info_main_container">	
+
+			<div class="big_info_container">
+				<a class="twitter_tag" href="#"><img src="static/images/tw-icon.png" alt="Share"></a>
+				<div class="title">
+					<h3><i class="fa fa-exclamation-circle"></i> Actividad en CivicBot</h3>
+				</div>
+				<hr>
+				<div class="content">
+					<canvas id="line_chart"></canvas>
+				</div>
+			</div>
+
+		</div>	
+
+		<div class="info_main_container">	
+
+			<div class="info_container">
+				<a class="twitter_tag" href="#"><img src="static/images/tw-icon.png" alt="Share"></a>
+				<div class="title">
+					<h3><i class="fa fa-tags"></i> Categorías más comentadas</h3>
+				</div>
+				<hr>
+				<div class="content">
+					<canvas id="pie_chart"></canvas>
+				</div>
+				<div class="legend left_legend" id="pie_legend"></div>
+			</div>
+
+			<!--  -->
+
+			<div class="info_container">
+				<a class="twitter_tag" href="#"><img src="static/images/tw-icon.png" alt="Share"></a>
+				<div class="title">
+					<h3><i class="fa fa-commenting"></i> Top categorías este mes</h3>
+				</div>
+				<hr>
+				<div class="content">
+					<canvas id="radar_chart"></canvas>
+				</div>
+			</div>
+
+			<div class="info_container">
+				<a class="twitter_tag" href="#"><img src="static/images/tw-icon.png" alt="Share"></a>
+				<div class="title">
+					<h3><i class="fa fa-desktop"></i> Medios más compartidos</h3>
+				</div>
+				<hr>
+				<div class="content">
+					<canvas id="donut_chart"></canvas>
+				</div>
+				<div class="legend right_legend" id="donut_legend"></div>
+			</div>
+
+			<div class="info_container">
+				<a class="twitter_tag" href="#"><img src="static/images/tw-icon.png" alt="Share"></a>
+				<div class="title">
+					<h3><i class="fa fa-user-plus"></i> Gente usando CivicBot</h3>
+				</div>
+				<hr>
+				<div class="content">
+					<div id="gente" class="odometer">0</div>
+				</div>
+			</div>
+
+			<div class="info_container">
+				<a class="twitter_tag" href="#"><img src="static/images/tw-icon.png" alt="Share"></a>
+				<div class="title">
+					<h3><i class="fa fa-send"></i> Mensajes archivados</h3>
+				</div>
+				<hr>
+				<div class="content">
+					<div id="mensajes" class="odometer">0</div>
+				</div>
+			</div>
+
+			<div class="info_container">
+				<a class="twitter_tag" href="#"><img src="static/images/tw-icon.png" alt="Share"></a>
+				<div class="title">
+					<h3><i class="fa fa-camera"></i> Fotografías archivadas</h3>
+				</div>
+				<hr>
+				<div class="content">
+					<div id="fotos" class="odometer">0</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!--
+		<div class="info_main_container">	
+
+			<div class="big_info_container">
+				<a class="twitter_tag" href="#"><img src="static/images/tw-icon.png" alt="Share"></a>
+				<div class="title">
+					<h3>Informacion</h3>
+				</div>
+				<hr>
+				<div class="content">
+					<canvas id="bar_chart"></canvas>
+				</div>
+			</div>
+
+		</div>
+		-->
+		<div style="display: block; clear: both;"></div>
+
+	</div>	
+
+	<script type="text/javascript">
+		var pie_data = [
+		    {
+		        value: 300,
+		        color:"#659AC9",
+		        highlight: "#5B90BF",
+		        label: "Cultura"
+		    },
+		    {
+		        value: 50,
+		        color: "#B0CC99",
+		        highlight: "#A3BE8C",
+		        label: "Economia"
+		    },
+		    {
+		        value: 100,
+		        color: "#E8A590",
+		        highlight: "#D08770",
+		        label: "Educación"
+		    },
+		    {
+		        value: 100,
+		        color: "#BD9FB7",
+		        highlight: "#B48EAD",
+		        label: "M. Ambiente"
+		    },
+		    {
+		        value: 100,
+		        color: "#B88877",
+		        highlight: "#AB7967",
+		        label: "M de Comunicación"
+		    },
+		    {
+		        value: 100,
+		        color: "#96B5B4",
+		        highlight: "#7DADAC",
+		        label: "Política"
+		    },
+		    {
+		        value: 100,
+		        color: "#7DE8CF",
+		        highlight: "#6AD9BF",
+		        label: "Sanidad"
+		    },
+		    {
+		        value: 100,
+		        color: "#9FE890",
+		        highlight: "#8FE87D",
+		        label: "Otros"
+		    }
+		]
+
+		var donut_data = [
+		    {
+		        value: 300,
+		        color:"#659AC9",
+		        highlight: "#5B90BF",
+		        label: "Television"
+		    },
+		    {
+		        value: 50,
+		        color: "#B0CC99",
+		        highlight: "#A3BE8C",
+		        label: "Periódico"
+		    },
+		    {
+		        value: 100,
+		        color: "#E8A590",
+		        highlight: "#D08770",
+		        label: "Web"
+		    },
+		    {
+		        value: 100,
+		        color: "#BD9FB7",
+		        highlight: "#B48EAD",
+		        label: "Boca a boca"
+		    }
+		]
+
+		var line_data = {
+		    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+		    datasets: [
+		        {
+		            label: "My First dataset",
+		            fillColor: "rgba(220,220,220,0.2)",
+		            strokeColor: "rgba(220,220,220,1)",
+		            pointColor: "rgba(220,220,220,1)",
+		            pointStrokeColor: "#fff",
+		            pointHighlightFill: "#fff",
+	           		pointHighlightStroke: "rgba(220,220,220,1)",
+		            data: [65, 59, 80, 81, 56, 55, 40, 55, 40, 55, 40, 30]
+		        },
+		        {
+		            label: "My Second dataset",
+		            fillColor: "rgba(151,187,205,0.2)",
+		            strokeColor: "rgba(151,187,205,1)",
+		            pointColor: "rgba(151,187,205,1)",
+		            pointStrokeColor: "#fff",
+		            pointHighlightFill: "#fff",
+		            pointHighlightStroke: "rgba(151,187,205,1)",
+		            data: [28, 48, 40, 19, 30, 40, 50, 60, 80, 100, 90, 80]
+		        }
+		    ]
+		};
+
+		var radar_data = {
+		    labels: ["Cultura", "Economía", "Educación", "M. Ambiente", "M. de Com.", "Política", "Sanidad", "Otros"],
+		    datasets: [
+		        {
+		            label: "My First dataset",
+		            fillColor: "rgba(220,220,220,0.2)",
+		            strokeColor: "rgba(220,220,220,1)",
+		            pointColor: "rgba(220,220,220,1)",
+		            pointStrokeColor: "#fff",
+		            pointHighlightFill: "#fff",
+		            pointHighlightStroke: "rgba(220,220,220,1)",
+		            data: [65, 59, 90, 0, 0, 0, 40, 70]
+		        },
+		        {
+		            label: "My Second dataset",
+		            fillColor: "rgba(151,187,205,0.2)",
+		            strokeColor: "rgba(151,187,205,1)",
+		            pointColor: "rgba(151,187,205,1)",
+		            pointStrokeColor: "#fff",
+		            pointHighlightFill: "#fff",
+		            pointHighlightStroke: "rgba(151,187,205,1)",
+		            data: [28, 48, 40, 19, 96, 0, 0, 0]
+		        }
+		    ]
+		};
+		
+		Chart.defaults.global.responsive = true;
+
+		var currentChart = document.getElementById("pie_chart").getContext("2d");
+		var PieChart = new Chart(currentChart).Pie(pie_data, {
+			legendTemplate : "<% for (var i=0; i<segments.length; i++){%><span style=\"background-color:<%=segments[i].fillColor%>\"><%if(segments[i].label){%><%=segments[i].label%><%}%></span><%}%>"
+		});
+		document.getElementById("pie_legend").innerHTML = PieChart.generateLegend();
+
+		currentChart = document.getElementById("line_chart").getContext("2d");
+		var LineChart = new Chart(currentChart).Line(line_data);
+
+		currentChart = document.getElementById("donut_chart").getContext("2d");
+		var DonutChart = new Chart(currentChart).Doughnut(donut_data, {
+			legendTemplate : "<% for (var i=0; i<segments.length; i++){%><span style=\"background-color:<%=segments[i].fillColor%>\"><%if(segments[i].label){%><%=segments[i].label%><%}%></span><%}%>"
+		});
+		document.getElementById("donut_legend").innerHTML = DonutChart.generateLegend();
+
+		currentChart = document.getElementById("radar_chart").getContext("2d");
+		var RadarChart = new Chart(currentChart).Radar(radar_data);
+
+		setTimeout(function(){
+    		gente.innerHTML = 456;
+    		mensajes.innerHTML = 6034;
+    		fotos.innerHTML = 340;
+		}, 500);
+	</script>
+
+	<footer>
+		<p>
+			CivicBot <i class="fa fa-database"></i> - 2016<br>
+			Un proyecto de HubCivico.org
+		</p>
+	</footer>
 </body>
-</html>
