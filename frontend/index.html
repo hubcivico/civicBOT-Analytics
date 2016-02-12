@@ -130,22 +130,6 @@
 
 		</div>
 
-		<!--
-		<div class="info_main_container">	
-
-			<div class="big_info_container">
-				<a class="twitter_tag" href="#"><img src="static/images/tw-icon.png" alt="Share"></a>
-				<div class="title">
-					<h3>Informacion</h3>
-				</div>
-				<hr>
-				<div class="content">
-					<canvas id="bar_chart"></canvas>
-				</div>
-			</div>
-
-		</div>
-		-->
 		<div style="display: block; clear: both;"></div>
 
 		<script type="text/javascript">
@@ -176,7 +160,11 @@
 			}, 500);
 		</script>
 
-		<div id="images" ng-controller="data">
+		<hr>
+		<h1>Galería <i class="fa fa-camera"></i></h1>
+		<hr>
+
+		<div id="images" ng-controller="data" class="images">
 			<div ng-repeat="image in images" class="image">
 				<img ng-src="{{ image.url }}">
 				<div class="info">

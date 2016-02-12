@@ -109,15 +109,22 @@ p {
 }
 
 #images {
-	overflow: hidden;
+    -moz-column-gap: 10px;
+    -webkit-column-gap: 10px;
+    -webkit-column-count: 3;
+    column-count: 3;
 }
 
 #images .image {
-	width: calc(100%/3 - 7px);
-	margin-right: 10px;
-	margin-bottom: 10px;
-	float: left;
-	position: relative;
+	display: inline-block;
+    background: #fff;
+    padding: 10px;
+    margin: 0 0 10px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.18);
+    border-radius: 3px;
+    position: relative;
 }
 
 #images .image img {
@@ -139,6 +146,7 @@ p {
 	font-size: 18px;
 	box-sizing: border-box;
 	padding: 10px;
+	border-radius: 3px;
 }
 
 #images .image:hover .info {
@@ -178,6 +186,11 @@ p {
 	.twitter_tag {
 		right: 0; !important;
 	}
+
+	#images .image {
+		margin-right: 0; !important;
+		width: 100%;
+	}
 }
 
 @media only screen and (min-width: 500px) and (max-width: 1100px) {
@@ -186,7 +199,6 @@ p {
 	}
 
     .info_container, .big_info_container {
-		margin-right: 0; !important;
 		width: calc(50% - 5px); !important;
 	}
 
@@ -196,6 +208,14 @@ p {
 
 	.twitter_tag {
 		right: 0; !important;
+	}
+
+	#images .image {
+		width: calc(50% - 5px); !important;
+	}
+
+	#images div:nth-child(2n) {
+		margin-right: 0; !important;
 	}
 }
 

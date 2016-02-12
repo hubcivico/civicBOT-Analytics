@@ -166,5 +166,5 @@ civicbot.controller("data", function ($scope) {
             $scope.images.push({url: additional_images[i].url, cat: additional_images[i].cat, catName: additional_images[i].catName});
         }
         $scope.$apply();
-    };
+    }; 
 });
