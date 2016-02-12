@@ -2,9 +2,11 @@
 <html>
 
 <head>
-  <title>civicBOT</title>
+  <title>CivicBot Analytics</title>
   <link rel="stylesheet" href="css\bootstrap.min.css">
   <link rel="stylesheet" href="assets\bootstrap-table\src\bootstrap-table.css">
+
+  <link rel="stylesheet" type="text/css" href="css\civicbot.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
   <script src="js\bootstrap.min.js"></script>
@@ -15,32 +17,11 @@
 
 <body>
   <nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">civicBOT</a>
-    </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Algun sitio<span class="sr-only">(current)</span></a></li>
-        <li><a href="http://www.hubcivico.org">hubcivico.org</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Más opciones<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
 </nav>
 
 
-  <div class="container">
+  <div class="container" style="width:100%;">
     <table  id="table"
             data-toolbar="#toolbar"
             data-search="true"
@@ -58,7 +39,13 @@
     </table>
   </div>
 
+
 </body>
 <script src="controller\index.js"></script>
-
+<footer>
+  <p>
+    CivicBot- 2016<br>
+    Un proyecto de HubCivico.org
+  </p>
+</footer>
 </html>
