@@ -1,4 +1,4 @@
-/*!
+/*
  * civitbot.css
  * Version: 0.0.1
  */
@@ -108,6 +108,59 @@ p {
 	font-weight: bold;
 }
 
+#images {
+	overflow: hidden;
+}
+
+#images .image {
+	width: calc(100%/3 - 7px);
+	margin-right: 10px;
+	margin-bottom: 10px;
+	float: left;
+	position: relative;
+}
+
+#images .image img {
+	width: 100%;
+}
+
+#images .info {
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.6);
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0s, opacity 0.3s linear;
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: white;
+	font-weight: bold;
+	font-size: 18px;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+#images .image:hover .info {
+	visibility: visible;
+	opacity: 1;
+}
+
+.cat {
+	padding: 5px;
+	border-radius: 3px;
+}
+
+.cat-A { background: #659AC9; }
+.cat-B { background: #B0CC99; }
+.cat-C { background: #E8A590; }
+.cat-D { background: #BD9FB7; }
+.cat-E { background: #B88877; }
+.cat-F { background: #AB7967; }
+.cat-G { background: #96B5B4; }
+.cat-H { background: #7DE8CF; }
+.cat-I { background: #9FE890; }
+
 @media only screen and (max-width: 500px) {
 	p {
 		padding: 0 5px 0 5px;
@@ -163,5 +216,9 @@ p {
 
 	.right_legend {
 		right: -105px;
+	}
+
+	#images div:nth-child(3n) {
+		margin-right: 0; !important;
 	}
 }
