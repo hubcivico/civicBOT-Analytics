@@ -44,6 +44,12 @@ $(document).ready(function() {
       formatter: operateFormatter
     }]
   });
+
+  $(window).resize(function () {
+           $table.bootstrapTable('resetView', {
+               height: getHeight()
+           });
+       });
 });
 
 function totalFormatter(data) {
