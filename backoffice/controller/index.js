@@ -3,6 +3,14 @@ $(document).ready(function() {
   $('#table').bootstrapTable({
     url: "http://jsonplaceholder.typicode.com/photos",
     columns: [{
+      field: 'title',
+      title: "Fecha de publicaci&oacuten",
+      align: 'center'
+    },{
+      field: 'thumbnailUrl',
+      title: 'Thumbmail',
+      align: 'center'
+    },{
       field: 'albumId',
       title: 'Etiqueta',
       sortable: true,
@@ -10,10 +18,6 @@ $(document).ready(function() {
       footerFormatter: totalFormatter,
       align: 'center'
 
-    }, {
-      field: 'title',
-      title: "Fecha de publicaci&oacuten",
-      align: 'center'
     }, {
       field: 'url',
       title: "Partido pol&iacutetico",
@@ -27,10 +31,6 @@ $(document).ready(function() {
       sortable: true,
       editable: true,
       footerFormatter: totalFormatter,
-      align: 'center'
-    }, {
-      field: 'thumbnailUrl',
-      title: 'Thumbmail',
       align: 'center'
     }, {
       field: 'operate',
