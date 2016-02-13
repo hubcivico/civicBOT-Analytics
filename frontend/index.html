@@ -13,6 +13,7 @@
 	<script src="static/js/odometer.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 	<script src="static/js/civicbot.js"></script>
+	<script src="static/js/angulargrid.min.js"></script>
 </head>
 <body id="body">
 	<!--<nav>
@@ -164,26 +165,30 @@
 		<h1>Galería <i class="fa fa-camera"></i></h1>
 		<hr>
 
-		<div id="images" ng-controller="data" class="images">
-			<div ng-repeat="image in images" class="image">
-				<img ng-src="{{ image.url }}">
-				<div class="info">
-					Categoria: <span class="cat cat-{{ image.cat }}">{{ image.catName }}<span>
-				</div>
-			</div>
-		</div>
+		<div id="image-gallery" ng-controller="data">
+			<div id="images" angular-grid="images" ag-gutter-size="10">
+	     		<div data-ng-repeat="image in images" class="image">
+	         		<img src="{{ image.url }}" class="grid-img"/>
+	         		<div class="info">
+						Categoria: <span class="cat cat-{{ image.cat }}">{{ image.catName }}<span>
+					</div>
+	     		</div>
+	 		</div>
+ 		</div>
 
 		<script type="text/javascript">
 			window.onscroll = function(ev) {
 	    		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-	        		angular.element(document.getElementById('images')).scope().addMoreImages();
+	        		angular.element(document.getElementById('images')).scope().loadMore();
 	    		}
 			};
+
+			window.onbeforeunload = function () {window.scrollTo(0,0);}
 		</script>
 
 		</div>	
 
-	<footer>
+	<footer id="footer">
 		<p>
 			CivicBot <i class="fa fa-database"></i> - 2016<br>
 			Un proyecto de HubCivico.org

@@ -128,9 +128,61 @@ var radar_data = {
     ]
 };
 
-var civicbot = angular.module("civicbot", [])
+var civicbot = angular.module("civicbot", ['angularGrid'])
 
-civicbot.controller("data", function ($scope) {
+civicbot.service('imageService',['$q','$http',function($q,$http){
+        this.loadImages = function(){
+            return $http.jsonp("https://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=JSON_CALLBACK");
+        };
+    }])
+    .controller('data', ['$scope','imageService','angularGridInstance', function ($scope,imageService,angularGridInstance) {
+       imageService.loadImages().then(function(data){
+            //$scope.images = data.data.items;
+
+            $scope.images = [
+                { url: "static/images/test/test1.jpg", cat: "A", catName: "Cultura" },
+                { url: "static/images/test/test2.jpg", cat: "B", catName: "Economia" },
+                { url: "static/images/test/test3.jpeg", cat: "C", catName: "Educación" },
+                { url: "static/images/test/test4.JPEG", cat: "D", catName: "M. Ambiente" },
+                { url: "static/images/test/test5.jpg", cat: "E", catName: "M de Comunicación" },
+                { url: "static/images/test/test6.jpg", cat: "F", catName: "Política" },
+                { url: "static/images/test/test7.jpg", cat: "G", catName: "Sanidad" },
+                { url: "static/images/test/test8.jpg", cat: "H", catName: "Otros" },
+                { url: "static/images/test/test9.jpg", cat: "D", catName: "M. Ambiente" },
+                { url: "static/images/test/test10.png", cat: "A", catName: "Cultura" },
+                { url: "static/images/test/test11.jpg", cat: "B", catName: "Economia" },
+                { url: "static/images/test/test12.jpg", cat: "C", catName: "Educación" },
+            ];
+        });
+
+        $scope.refresh = function(){
+            angularGridInstance.gallery.refresh();
+        }
+
+        var additional_images = [
+            { url: "static/images/test/test1.jpg", cat: "A", catName: "Cultura" },
+            { url: "static/images/test/test2.jpg", cat: "B", catName: "Economia" },
+            { url: "static/images/test/test3.jpeg", cat: "C", catName: "Educación" },
+            { url: "static/images/test/test4.JPEG", cat: "D", catName: "M. Ambiente" },
+            { url: "static/images/test/test5.jpg", cat: "E", catName: "M de Comunicación" },
+            { url: "static/images/test/test6.jpg", cat: "F", catName: "Política" },
+            { url: "static/images/test/test7.jpg", cat: "G", catName: "Sanidad" },
+            { url: "static/images/test/test8.jpg", cat: "H", catName: "Otros" },
+            { url: "static/images/test/test9.jpg", cat: "D", catName: "M. Ambiente" },
+            { url: "static/images/test/test10.png", cat: "A", catName: "Cultura" },
+            { url: "static/images/test/test11.jpg", cat: "B", catName: "Economia" },
+            { url: "static/images/test/test12.jpg", cat: "C", catName: "Educación" },
+        ];
+
+        $scope.loadMore = function () {
+            for (var i = 0; i < Object.keys(additional_images).length; i++) {
+                $scope.images.push({url: additional_images[i].url, cat: additional_images[i].cat, catName: additional_images[i].catName});
+            }
+            $scope.$apply();
+        }; 
+    }]);
+
+/*civicbot.controller("data", function ($scope) {
     $scope.images = [
         { url: "static/images/test/test1.jpg", cat: "A", catName: "Cultura" },
         { url: "static/images/test/test2.jpg", cat: "B", catName: "Economia" },
@@ -167,4 +219,4 @@ civicbot.controller("data", function ($scope) {
         }
         $scope.$apply();
     }; 
-});
+});*/
