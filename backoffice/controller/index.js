@@ -3,10 +3,6 @@ $(document).ready(function() {
   $('#table').bootstrapTable({
     url: "http://jsonplaceholder.typicode.com/photos",
     columns: [{
-      field: 'id',
-      title: 'Seleccionar',
-      checkbox: 'true'
-    }, {
       field: 'albumId',
       title: 'Etiqueta',
       sortable: true,
@@ -45,11 +41,11 @@ $(document).ready(function() {
     }]
   });
 
-  $(window).resize(function () {
-           $table.bootstrapTable('resetView', {
-               height: getHeight()
-           });
-       });
+  $(function() {
+    $(window).resize(function() {
+      $('#table').bootstrapTable('resetView');
+    });
+  });
 });
 
 function totalFormatter(data) {
@@ -84,15 +80,26 @@ function getIdSelections() {
 
 function operateFormatter(value, row, index) {
   return [
-    '<a class="like" href="javascript:void(0)" title="Like">',
-    '<i class="glyphicon glyphicon-heart"></i>',
+    '<a class="save" href="javascript:void(0)" title="Guardar">',
+    '<i class="glyphicon glyphicon-floppy-save"></i>',
     '</a>  '
   ].join('');
 }
 
 
 window.operateEvents = {
-  'click .like': function(e, value, row, index) {
-    alert('Vas a guardar la siguiente informaci&oacuten: ' + JSON.stringify(row));
+  'click .save': function(e, value, row, index) {
+    var url = 'http://jsonplaceholder.typicode.com/photos/' + index;
+    $.ajax({
+      url: url,
+      type: 'PUT',
+      data: JSON.stringify(row),
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      async: false,
+      success: function(msg) {
+       alert('Vas a guardar la siguiente informaci&oacuten: ' + JSON.stringify(row) +index	);
+      }
+    });
   }
 };
