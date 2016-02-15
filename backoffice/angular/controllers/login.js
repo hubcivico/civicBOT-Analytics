@@ -4,7 +4,7 @@ angular.module('login')
       $auth.login($scope.user)
         .then(function() {
           toastr.success('Te has conectado!');
-          $location.path('/index.html');
+          $location.path('/index.html'); 
         })
         .catch(function(error) {
           toastr.error(error.data.message, error.status);

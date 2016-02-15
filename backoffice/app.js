@@ -2,7 +2,7 @@ angular.module('login', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
   .config(function($stateProvider, $urlRouterProvider, $authProvider) {
     $stateProvider
       .state('login', {
-        url: '/login',
+        url: '/login.html',
         templateUrl: 'login.html',
         controller: 'LoginCtrl',
         resolve: {
@@ -21,6 +21,10 @@ angular.module('login', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
         resolve: {
           skipIfLoggedIn: skipIfLoggedIn
         }
+        $authProvider.loginUrl = "http://api.com/auth/login"; //direccion de la api que controla el login
+        $authProvider.signupUrl = "http://api.com/auth/signup"; //direccion de la api que controla el registro
+        $authProvider.tokenName = "token";
+        $authProvider.tokenPrefix = "login",
       });
 
     $urlRouterProvider.otherwise('/login.html'); //for invalid routes
