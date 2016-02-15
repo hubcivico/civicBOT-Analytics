@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="login">
+<html lang="en" ng-app="civicBot">
 
 <head>
   <meta charset="utf-8">
@@ -23,26 +23,17 @@
     <script src="js/login.js"></script>
 
     <!-- Third-party Libraries -->
-    <script src="angular/vendor/angular.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
     <script src="angular/vendor/angular-animate.js"></script>
     <script src="angular/vendor/angular-messages.js"></script>
     <script src="angular/vendor/angular-resource.js"></script>
     <script src="angular/vendor/angular-sanitize.js"></script>
-    <script src="angular/vendor/angular-ui-router.js"></script>
     <script src="angular/vendor/angular-toastr.tpls.js"></script>
-    <script src="angular/vendor/satellizer.js"></script>
+    <script src="bower_components/satellizer/satellizer.js"></script>
 
     <!-- Application Code -->
     <script src="app.js"></script>
-    <script src="angular/directives/passwordStrength.js"></script>
-    <script src="angular/directives/passwordMatch.js"></script>
-    <script src="angular/controllers/home.js"></script>
     <script src="angular/controllers/login.js"></script>
-    <script src="angular/controllers/signup.js"></script>
-    <script src="angular/controllers/logout.js"></script>
-    <script src="angular/controllers/profile.js"></script>
-    <script src="angular/controllers/navbar.js"></script>
-    <script src="angular/services/account.js"></script>
 
 
 
@@ -56,20 +47,11 @@
 			<div class="col-md-6 col-md-offset-3">
 				<div class="panel panel-login">
 					<div class="panel-heading">
-						<div class="row">
-							<div class="col-xs-6">
 								<a href="#" class="active" id="login-form-link">Iniciar sesión</a>
-							</div>
-							<div class="col-xs-6">
-								<a href="#" id="register-form-link">Registrarse</a>
-							</div>
-						</div>
-						<hr>
 					</div>
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-12">
-
 								<form id="login-form" method="post" role="form" style="display: block;" ng-submit="login()" name="login-form">
 									<div class="form-group">
 										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Nombre de usuario" ng-model="user.email" required="required">
@@ -77,44 +59,11 @@
 									<div class="form-group">
 										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Contraseña" ng-model="user.password" required="required">
 									</div>
-									<div class="form-group text-center">
-										<input type="checkbox" tabindex="3" class="" name="remember" id="remember">
-										<label for="remember"> Recuérdame!</label>
-									</div>
+
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
-												<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Iniciar sesión">
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="row">
-											<div class="col-lg-12">
-												<div class="text-center">
-													<a href="#" tabindex="5" class="forgot-password"> No recuerdas la contraseña?</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</form>
-								<form id="register-form" action="#" method="post" role="form" style="display: none;" ng-submit="signup()" name="register-form" >
-									<div class="form-group">
-										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Nombre de usuario" value=""  ng-model="user.displayName" required="required">
-									</div>
-									<div class="form-group">
-										<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="E-mail" value="" ng-model="user.email" required="required">
-									</div>
-									<div class="form-group">
-										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Contraseña" ng-model="user.password" required="required">
-									</div>
-									<div class="form-group">
-										<input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirmar contraseña">
-									</div>
-									<div class="form-group">
-										<div class="row">
-											<div class="col-sm-6 col-sm-offset-3">
-												<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Registrate ahora!" >
+												<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Iniciar sesión" ng-controller="LoginCtrl">
 											</div>
 										</div>
 									</div>

@@ -89,9 +89,8 @@ function operateFormatter(value, row, index) {
 
 window.operateEvents = {
   'click .save': function(e, value, row, index) {
-    var url = 'http://jsonplaceholder.typicode.com/photos/' + index;
     $.ajax({
-      url: url,
+      url: "http://jsonplaceholder.typicode.com/photos",
       type: 'PUT',
       data: JSON.stringify(row),
       contentType: 'application/json; charset=utf-8',
