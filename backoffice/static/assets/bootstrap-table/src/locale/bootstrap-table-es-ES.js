@@ -10,7 +10,7 @@
             return 'Por favor espere...';
         },
         formatRecordsPerPage: function (pageNumber) {
-            return pageNumber + ' resultados por página';
+            return pageNumber + ' resultados por p&aacutegina';
         },
         formatShowingRows: function (pageFrom, pageTo, totalRows) {
             return 'Mostrando desde ' + pageFrom + ' hasta ' + pageTo + ' - En total ' + totalRows + ' resultados';

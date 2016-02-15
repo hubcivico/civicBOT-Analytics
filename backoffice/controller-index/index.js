@@ -98,7 +98,7 @@ window.operateEvents = {
       dataType: 'json',
       async: false,
       success: function(msg) {
-       alert('Vas a guardar la siguiente informaci&oacuten: ' + JSON.stringify(row) +index	);
+       alert('Vas a guardar la siguiente informaci&oacuten: ' + JSON.stringify(row) + index	);
       }
     });
   }
