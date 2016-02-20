@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="navbar navbar-default navbar-static-top">
+    <ul class="nav navbar-nav pull-right">
+      <button class="btn btn-danger" href="/#/login" style="padding-top: 10px;">Logout</button>
+    </ul>
+  </div>
+  <div class="table-responsive">
+    <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped" ng-controller="adminController">
+      <thead>
+        <tr>
+          <th st-sort="albumId" width="15%">
+            <center>Fecha de publicaci&oacuten</center>
+          </th>
+          <th st-sort="id" width="15%">
+            <center>Thumbmail</center>
+          </th>
+          <th st-sort="title" width="15%">
+            <center>Etiqueta</center>
+          </th>
+          <th st-sort="url" width="15%">
+            <center>Partido pol&iacutetico</center>
+          </th>
+          <th st-sort="thumbnailUrl" width="15%">
+            <center>Medios de comunicaci&oacuten</center>
+          </th>
+          <th st-sort="id" width="15%">
+            <center>Opciones</center>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <input st-search="date" placeholder="search for date" class="input-sm form-control" type="search" />
+          </th>
+          <th>
+            <input st-search="thumbmail" placeholder="search for thumbmail" class="input-sm form-control" type="search" />
+          </th>
+          <th>
+            <input st-search="label" placeholder="search for label" class="input-sm form-control" type="search" />
+          </th>
+          <th>
+            <input st-search="politic" placeholder="search for politic party" class="input-sm form-control" type="search" />
+          </th>
+          <th>
+            <input st-search="media" placeholder="search for media" class="input-sm form-control" type="search" />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr dir-paginate="row in rowCollection | itemsPerPage: 10" current-page="currentPage" st-select-row="row" st-select-mode="multiple">
+          <td>
+            <span editable-text="row.albumId" e-name="albumId" e-form="rowform" e-required>
+              {{row.albumId}}
+              </span>
+          </td>
+          <td>
+            <span editable-text="row.id" e-name="id" e-form="rowform">
+            {{row.id}}
+            </span>
+          </td>
+          <td>
+            <span editable-text="row.title" e-name="tittle" e-form="rowform" e-required>
+            {{row.title}}
+            </span>
+          </td>
+          <td>
+            <span editable-text="row.url" e-name="url" e-form="rowform" e-required>
+            {{showParty(row.url)}}
+            </span>
+          </td>
+          <td>
+            <span editable-text="row.thumbnailUrl" e-name="thumbnailUrl" e-form="rowform" e-required>
+            {{showGroup(row.thumbnailUrl)}}
+            </span>
+          </td>
+          <td>
+            <form editable-form name="rowform" onbeforesave="" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == row">
+              <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                Save
+              </button>
+              <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                Cancel
+              </button>
+            </form>
+            <div class="buttons" ng-show="!rowform.$visible">
+              <button class="btn btn-primary" ng-click="rowform.$show()">Edit</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+
+      </tfoot>
+    </table>
+    <div class="text-center">
+      <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+    </div>
+  </div>
+</div>
+
+<link href="https://fonts.googleapis.com/css?family=Roboto|Montserrat:400,700|Open+Sans:400,300,600" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/animatecss/3.2.0/animate.css" rel="stylesheet">
