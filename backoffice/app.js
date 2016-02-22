@@ -22,9 +22,11 @@ civicBot.config(function($routeProvider) {
 
 
 
-civicBot.controller('loginController', function($scope) {});
+civicBot.controller('loginController', [ 'services',function($scope) {
 
-civicBot.controller('adminController', ['$scope', '$http', function($scope, $http) {
+});
+
+civicBot.controller('adminController', ['$scope', '$http', 'services', function($scope, $http) {
 
 $scope.rowCollection = [];
 $http.get('http://jsonplaceholder.typicode.com/photos').
