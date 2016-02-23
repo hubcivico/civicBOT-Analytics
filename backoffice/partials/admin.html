@@ -1,89 +1,103 @@
-<div class="container">
+<div class="container" style="width: 100%; height: 85%;">
   <div class="navbar navbar-default navbar-static-top">
     <ul class="nav navbar-nav pull-right">
       <button class="btn btn-danger" href="/#/login" style="padding-top: 10px;">Logout</button>
     </ul>
   </div>
   <div class="table-responsive">
-    <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped" ng-controller="adminController">
+    <table st-table="entradas" st-safe-src="entradas" class="table table-striped" ng-controller="adminController">
       <thead>
         <tr>
-          <th st-sort="albumId" width="15%">
+          <th st-sort="date" width="15%">
             <center>Fecha de publicaci&oacuten</center>
           </th>
-          <th st-sort="id" width="15%">
-            <center>Thumbmail</center>
+          <th st-sort="thumbnail" width="15%">
+            <center>Thumbnail</center>
           </th>
-          <th st-sort="title" width="15%">
-            <center>Etiqueta</center>
-          </th>
-          <th st-sort="url" width="15%">
+          <th st-sort="politic" width="12.5%">
             <center>Partido pol&iacutetico</center>
           </th>
-          <th st-sort="thumbnailUrl" width="15%">
+          <th st-sort="city" width="10%">
+            <center>Municipio</center>
+          </th>
+          <th st-sort="label" width="10%">
+            <center>Categoria</center>
+          </th>
+          <th st-sort="media" width="10%">
             <center>Medios de comunicaci&oacuten</center>
           </th>
-          <th st-sort="id" width="15%">
+          <th st-sort="state" width="10%">
+            <center>Estado</center>
+          </th>
+          <th st-sort="options" width="17.5%">
             <center>Opciones</center>
           </th>
         </tr>
         <tr>
           <th>
-            <input st-search="date" placeholder="search for date" class="input-sm form-control" type="search" />
+            <input st-search="date" placeholder="Buscar por fecha" class="input-sm form-control" type="search" />
+          </th>
+          <th> </th>
+          <th>
+            <input st-search="politic" placeholder="Buscar por partido político" class="input-sm form-control" type="search" />
           </th>
           <th>
-            <input st-search="thumbmail" placeholder="search for thumbmail" class="input-sm form-control" type="search" />
+            <input st-search="city" placeholder="Buscar por municipio" class="input-sm form-control" type="search" />
           </th>
           <th>
-            <input st-search="label" placeholder="search for label" class="input-sm form-control" type="search" />
+            <input st-search="label" placeholder="Buscar por categoria" class="input-sm form-control" type="search" />
           </th>
           <th>
-            <input st-search="politic" placeholder="search for politic party" class="input-sm form-control" type="search" />
-          </th>
-          <th>
-            <input st-search="media" placeholder="search for media" class="input-sm form-control" type="search" />
+            <input st-search="media" placeholder="Buscar por medios de comunicación" class="input-sm form-control" type="search" />
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr dir-paginate="row in rowCollection | itemsPerPage: 10" current-page="currentPage" st-select-row="row" st-select-mode="multiple">
+        <tr dir-paginate="entrada in entradas | itemsPerPage: 10" current-page="currentPage" st-select-row="entrada" st-select-mode="multiple">
           <td>
-            <span editable-text="row.albumId" e-name="albumId" e-form="rowform" e-required>
-              {{row.albumId}}
-              </span>
+            {{entrada.date}}
           </td>
           <td>
-            <span editable-text="row.id" e-name="id" e-form="rowform">
-            {{row.id}}
+            {{entrada.thumbnail}}
+          </td>
+          <td>
+            <span editable-text="entrada.politic" e-name="politic" e-form="rowform" e-required>
+            {{entrada.politic}}
             </span>
           </td>
           <td>
-            <span editable-text="row.title" e-name="tittle" e-form="rowform" e-required>
-            {{row.title}}
+            <span editable-text="entrada.city" e-name="city" e-form="rowform" e-required>
+            {{entrada.city}}
             </span>
           </td>
           <td>
-            <span editable-text="row.url" e-name="url" e-form="rowform" e-required>
-            {{showParty(row.url)}}
+            <span editable-text="entrada.label" e-name="label" e-form="rowform" e-required>
+            {{entrada.label}}
             </span>
           </td>
           <td>
-            <span editable-text="row.thumbnailUrl" e-name="thumbnailUrl" e-form="rowform" e-required>
-            {{showGroup(row.thumbnailUrl)}}
+            <span editable-text="entrada.media" e-name="media" e-form="rowform" e-required>
+            {{entrada.media}}
             </span>
           </td>
           <td>
-            <form editable-form name="rowform" onbeforesave="" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == row">
-              <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-                Save
-              </button>
-              <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
-                Cancel
-              </button>
-            </form>
-            <div class="buttons" ng-show="!rowform.$visible">
-              <button class="btn btn-primary" ng-click="rowform.$show()">Edit</button>
-            </div>
+            <span editable-text="entrada.state" e-name="state" e-form="rowform" e-required>
+            {{entrada.state}}
+            </span>
+          </td>
+          <td>
+            <form name="buttons">
+            <button class="btn btn-default btn-sm" ng-click="entrada.isEditing = true" ng-if="!entrada.isEditing"><span class="glyphicon glyphicon-pencil"></span></button>
+            <!-- editar -->
+            <button class="btn btn-default btn-sm" ng-click="guardar(entrada)" ng-if="!entrada.isEditing"><span class="glyphicon glyphicon-save"></span></button>
+            <!-- guardar -->
+            <button class="btn btn-default btn-sm" ng-click="despublicar()" ng-if="!entrada.isEditing"><span class="glyphicon glyphicon-scissors"></span></button>
+            <!-- Despublicar -->
+            <button class="btn btn-primary btn-sm" ng-click="publicar()" ng-if="!entrada.isEditing"><span class="glyphicon glyphicon-ok"></span></button>
+            <!-- Publicar -->
+            <button class="btn btn-danger btn-sm" ng-if="entrada.isEditing"><span class="glyphicon glyphicon-remove"></span></button>
+            <!-- Cancelar -->
+          </form>
           </td>
         </tr>
       </tbody>

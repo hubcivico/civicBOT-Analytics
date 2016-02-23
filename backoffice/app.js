@@ -1,10 +1,10 @@
-var civicBot = angular.module('civicBot', ['ngRoute', 'angularUtils.directives.dirPagination', 'xeditable' ]);
+var civicBot = angular.module('civicBot', [ 'ngRoute' , 'angularUtils.directives.dirPagination' , 'xeditable' , 'services' ]);
 
 civicBot.run(function(editableOptions) {
   editableOptions.theme = 'bs3';
 });
 // Configuración de las rutas
-civicBot.config(function($routeProvider) {
+civicBot.config(['$routeProvider',function($routeProvider) {
 
   $routeProvider
     .when('/login', {
@@ -18,57 +18,33 @@ civicBot.config(function($routeProvider) {
     .otherwise({
       redirectTo: '/login'
     });
-});
+}]);
 
 
 
-civicBot.controller('loginController', [ 'services',function($scope) {
+civicBot.controller('loginController', [ '$scope' , function($scope) {
+  $scope.login = function(data){
 
-});
+  };
+}]);
 
-civicBot.controller('adminController', ['$scope', '$http', 'services', function($scope, $http) {
+civicBot.controller('adminController', ['$scope', '$http', function($scope, $http) {
+  $scope.entradas = getData();
 
-$scope.rowCollection = [];
-$http.get('http://jsonplaceholder.typicode.com/photos').
-success(function(data, status, headers, config) {
-  $scope.rowCollection = data;
-}).
-error(function(data, status, headers, config) {
-  // log error
-});
+  $scope.getLabelList = getLabelList();
+  $scope.getLocationList = getLocationList();
+  $scope.getPartyList = getPartyList();
 
-$scope.getLocationList = [];
-$scope.loadLocationList = function() {
-  return $scope.getLocationList.length ? null : $http.get('/getLocationList').success(function(data) {
-    $scope.getLocationList = data;
-  });
-};
+  $scope.guardar = function(data){
 
-$scope.getPartyList = [];
-$scope.loadPartyList = function() {
-  return $scope.getPartyList.length ? null : $http.get('/getPartyList').success(function(data) {
-    $scope.getPartyList = data;
-  });
-};
+  };
+  $scope.publicar = function(data){
 
-$scope.showLocation = function(user) {
-  if (row.url && $scope.getLocationList.length) {
-    var selected = $filter('filter')($scope.getLocationList, {
-      id: row.url
-    });
-    return selected.length ? selected[0].text : 'Vacio';
-  }
-};
+  };
+  $scope.despublicar = function(data){
 
-$scope.showParty = function(user) {
-  var selected = [];
-  if (row.thumbnailUrl) {
-    selected = $filter('filter')($scope.statuses, {
-      value: user.status
-    });
-  }
-  return selected.length ? selected[0].text : 'Not set';
-};
+  };
+  $scope.logout = function(data){
 
-
+  };
 }]);

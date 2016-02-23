@@ -1,6 +1,6 @@
-var services = angular.module('services', [ 'http', 'httpProvider' , 'ngStorage']);
+var services = angular.module('civicBot', [ 'ngRoute','http', 'httpProvider' , 'ngStorage']);
 
-services.factory('login', ['', function(formData) {
+services.factory('login',  function(formData) {
   $http({
   method: 'GET',
   url: '/Private/Login',
@@ -8,108 +8,118 @@ services.factory('login', ['', function(formData) {
 }).then(function successCallback(response) {
     // this callback will be called asynchronously
     // when the response is available
-    $localStorage.token = response.data.token;
+    $localStorage.token = response.token;
     window.location = "/admin";
   }, function errorCallback(response) {
     // called asynchronously if an error occurs
     // or server returns response with an error status.
   });
-}]);
+});
 
-services.factory('logout', ['', function() {
+services.factory('logout',  function() {
   $http({
     method: 'GET',
-    url: '/Private/logout'
+    url: '/Private/logout',
+    headers: {
+      'Authorization': 'Bearer ' + $localStorage.token
+        }
   }).then(function successCallback(response) {
       // this callback will be called asynchronously
       // when the response is available
-      $localStorage.token = response.
+      $localStorage.token = response;
+      window.location = "/";
     }, function errorCallback(response) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
     });
-}]);
+});
 
 //SET
 
-services.factory('setParty', ['', function(data) {
+services.factory('setParty',  function(data) {
   $http({
     method: 'POST',
     url: '/Private/setParty',
-    data: data
-  }).then(function successCallback(response) {
-      // this callback will be called asynchronously
-      // when the response is available
+    data: data,
+    headers: {
+      'Authorization': 'Bearer ' + $localStorage.token
+        }
+  });
+});
 
-    }, function errorCallback(response) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-    });
-}]);
-
-services.factory('setMedia', ['', function(data) {
+services.factory('setMedia',  function(data) {
   $http({
     method: 'POST',
     url: '/Private/setMedia',
-    data: data
-  }).then(function successCallback(response) {
-      // this callback will be called asynchronously
-      // when the response is available
-    }, function errorCallback(response) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-    });
-}]);
+    data: data,
+    headers: {
+      'Authorization': 'Bearer ' + $localStorage.token
+        }
+  });
+});
 
-services.factory('setLocation', ['', function(data) {
+services.factory('setLocation',  function(data) {
   $http({
     method: 'POST',
     url: '/Private/setLocation',
-    data: data
-  }).then(function successCallback(response) {
-      // this callback will be called asynchronously
-      // when the response is available
-    }, function errorCallback(response) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-    });
-}]);
+    data: data,
+    headers: {
+      'Authorization': 'Bearer ' + $localStorage.token
+        }
+  });
+});
 
-services.factory('setLabel', ['', function(data) {
+services.factory('setLabel',  function(data) {
   $http({
     method: 'POST',
     url: '/Private/setLabel',
-    data: data
-  }).then(function successCallback(response) {
-      // this callback will be called asynchronously
-      // when the response is available
-    }, function errorCallback(response) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-    });
-}]);
+    data: data,
+    headers: {
+      'Authorization': 'Bearer ' + $localStorage.token
+        }
+  });
+});
 
-services.factory('setToPublish', ['', function(data) {
+services.factory('setToPublish',  function(data) {
   $http({
     method: 'POST',
     url: '/Private/setToPublish',
-    data: data
+    data: data,
+    headers: {
+      'Authorization': 'Bearer ' + $localStorage.token
+        }
+  });
+});
+
+//GET
+
+services.factory('getData',  function(){
+  var getData = [];
+  $http({
+    method: 'GET',
+    url: 'http://jsonplaceholder.typicode.com/photos',
+    headers: {
+      'Authorization': 'Bearer ' + $localStorage.token
+        }
   }).then(function successCallback(response) {
       // this callback will be called asynchronously
       // when the response is available
+      getData = response;
     }, function errorCallback(response) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
     });
-}]);
+    return getData;
+});
 
-//GET
-
-services.factory('getPartyList', ['', function() {
+services.factory('getPartyList',  function() {
   var getPartyList = [];
   $http({
     method: 'GET',
-    url: '/Private/getPartyList'
+    url: '/Private/getPartyList',
+    headers: {
+      'Authorization': 'Bearer ' + $localStorage.token
+        }
   }).then(function successCallback(response) {
       // this callback will be called asynchronously
       // when the response is available
@@ -119,13 +129,16 @@ services.factory('getPartyList', ['', function() {
       // or server returns response with an error status.
     });
     return getPartyList;
-}]);
+});
 
-services.factory('getLocationList', ['', function() {
+services.factory('getLocationList',  function() {
   var getLocationList  = [];
   $http({
     method: 'GET',
-    url: '/Private/getLocationList'
+    url: '/Private/getLocationList',
+    headers: {
+      'Authorization': 'Bearer ' + $localStorage.token
+        }
   }).then(function successCallback(response) {
       // this callback will be called asynchronously
       // when the response is available
@@ -135,13 +148,16 @@ services.factory('getLocationList', ['', function() {
       // or server returns response with an error status.
     });
     return getLocationList;
-}]);
+});
 
-services.factory('getMediaList', ['', function(data) {
+services.factory('getMediaList',  function(data) {
   var getMediaList = [];
   $http({
     method: 'GET',
-    url: '/Private/getMediaList'
+    url: '/Private/getMediaList',
+    headers: {
+      'Authorization': 'Bearer ' + $localStorage.token
+        }
   }).then(function successCallback(response) {
       // this callback will be called asynchronously
       // when the response is available
@@ -151,13 +167,16 @@ services.factory('getMediaList', ['', function(data) {
       // or server returns response with an error status.
     });
     return getMediaList;
-}]);
+});
 
-services.factory('getLabelList', ['', function() {
+services.factory('getLabelList',  function() {
   var getLabelList = [];
   $http({
     method: 'GET',
-    url: '/Private/getLabelList'
+    url: '/Private/getLabelList',
+    headers: {
+      'Authorization': 'Bearer ' + $localStorage.token
+        }
   }).then(function successCallback(response) {
       // this callback will be called asynchronously
       // when the response is available
@@ -167,14 +186,17 @@ services.factory('getLabelList', ['', function() {
       // or server returns response with an error status.
     });
     return getLabelList;
-}]);
+});
 
 
-services.factory('getContributionList', ['', function(data) {
+services.factory('getContributionList',  function(data) {
   var getContributionList = [];
   $http({
     method: 'GET',
-    url: '/Private/getContributionList'
+    url: '/Private/getContributionList',
+    headers: {
+      'Authorization': 'Bearer ' + $localStorage.token
+        }
   }).then(function successCallback(response) {
       // this callback will be called asynchronously
       // when the response is available
@@ -184,4 +206,4 @@ services.factory('getContributionList', ['', function(data) {
       // or server returns response with an error status.
     });
     return getContributionList;
-}]);
+});
