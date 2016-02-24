@@ -1,3 +1,5 @@
+var API_URL = "http://devcivicbot.herokuapp.com/Public/";
+
 var pie_data = [
     {
         value: 300,
@@ -47,7 +49,7 @@ var pie_data = [
         highlight: "#8FE87D",
         label: "Otros"
     }
-]
+];
 
 var donut_data = [
     {
@@ -74,7 +76,7 @@ var donut_data = [
         highlight: "#B48EAD",
         label: "Boca a boca"
     }
-]
+];
 
 var line_data = {
     labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
@@ -86,7 +88,7 @@ var line_data = {
             pointColor: "rgba(220,220,220,1)",
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
-       		pointHighlightStroke: "rgba(220,220,220,1)",
+            pointHighlightStroke: "rgba(220,220,220,1)",
             data: [65, 59, 80, 81, 56, 55, 40, 55, 40, 55, 40, 30]
         },
         {
@@ -128,98 +130,26 @@ var radar_data = {
     ]
 };
 
- // JSON INFO!!!
-var json_content = {
-    "list": [{
-            "id": 1,
-            "type": 1,
-            "img_id": 24,
-            "txt:id": 21,
-            "label": "A",
-            "label_id": 1,
-            "party": "Partido Popular",
-            "party_id": 12,
-            "location": "Valencia",
-            "location_id": 7,
-            "lat": 39.30134,
-            "lon": -0.43414,
-            "media": "Levante-EMV",
-            "media_id": 13
-        },
-        {
-            "id": 2,
-            "type": 2,
-            "img_id": 24,
-            "txt:id": 21,
-            "label": "C",
-            "label_id": 3,
-            "party": "Partido Socialista",
-            "party_id": 18,
-            "location": "Valencia",
-            "location_id": 7,
-            "lat": 39.30134,
-            "lon": -0.43414,
-            "media": "Las Províncias",
-            "media_id": 13
-        }]
-};
-
-var image_count = 0;
-var message_count = 0;
-
-for (var i = 0; i < Object.keys(json_content.list).length; i++) {
-    if(json_content.list[i].type == 1) {
-        image_count++;
-    } else {
-        message_count++;
-    }
-};
-
 var civicbot = angular.module("civicbot", ['angularGrid'])
 
-civicbot.service('imageService',['$q','$http',function($q,$http){
-        this.loadImages = function(){
-            return $http.jsonp("https://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=JSON_CALLBACK");
-        };
-    }])
-    .controller('data', ['$scope','imageService','angularGridInstance', function ($scope,imageService,angularGridInstance) {
-       imageService.loadImages().then(function(data){
-            //$scope.images = data.data.items;
+civicbot.controller('data', ['$scope','angularGridInstance', function ($scope, angularGridInstance) {
+        $.getJSON(API_URL + "getcontributionlist", function(data) {
+            return data;
+        }).then(function(data){
+            $scope.images = [];
+            for (var i = 0; i < Object.keys(data).length; i++) {
+                if(data[i].type == 1) {
+                    $scope.images.push(data[i]);
+                }    
+            };
 
-            /*$scope.images = [
-                { url: "static/images/test/test1.jpg", cat: "A", catName: "Cultura" },
-                { url: "static/images/test/test2.jpg", cat: "B", catName: "Economia" },
-                { url: "static/images/test/test3.jpeg", cat: "C", catName: "Educación" },
-                { url: "static/images/test/test4.JPEG", cat: "D", catName: "M. Ambiente" },
-                { url: "static/images/test/test5.jpg", cat: "E", catName: "M de Comunicación" },
-                { url: "static/images/test/test6.jpg", cat: "F", catName: "Política" },
-                { url: "static/images/test/test7.jpg", cat: "G", catName: "Sanidad" },
-                { url: "static/images/test/test8.jpg", cat: "H", catName: "Otros" },
-                { url: "static/images/test/test9.jpg", cat: "D", catName: "M. Ambiente" },
-                { url: "static/images/test/test10.png", cat: "A", catName: "Cultura" },
-                { url: "static/images/test/test11.jpg", cat: "B", catName: "Economia" },
-                { url: "static/images/test/test12.jpg", cat: "C", catName: "Educación" },
-            ];*/
+            $scope.$apply()
         });
-
-        $scope.images = [];
-        for (var i = 0; i < Object.keys(json_content.list).length; i++) {
-            if(json_content.list[i].type == 1) {
-                $scope.images.push(json_content.list[i]);
-            }    
-        };
 
         $scope.refresh = function(){
             angularGridInstance.gallery.refresh();
         }
-
-        /*$scope.loadMore = function () {
-            for (var i = 0; i < Object.keys(additional_images).length; i++) {
-                $scope.images.push({url: additional_images[i].url, cat: additional_images[i].cat, catName: additional_images[i].catName});
-            }
-            $scope.$apply();
-        };*/
-    }]);
+     }]);
 
 var colors = [
     {"color": "#659AC9", "hcolor": "#5B90BF"},
@@ -232,94 +162,188 @@ var colors = [
     {"color": "#9FE890", "hcolor": "#8FE87D"},
 ]
 
-// JSON INFO!!!
-var cats = {
-    "A": {
-        "count": 456,
-        "cat": "Cultura"
-    },
-    "B":{
-        "count": 45,
-        "cat": "Economía"
-    },
-    "C":{
-        "count": 33,
-        "cat": "Educación"
-    },
-    "D":{
-        "count": 125,
-        "cat": "Medio Ambiente"
-    },
-    "E":{
-        "count": 2,
-        "cat": "Medios de Comunicación"
-    },
-    "F":{
-        "count": 11,
-        "cat": "Política"
-    },
-    "G":{
-        "count": 22,
-        "cat": "Sanidad"
-    },
-    "H":{
-        "count": 5,
-        "cat": "Otros Temas"
-    }
-};
+$.getJSON(API_URL + "getcontribbycategory", function(data) { return data; }).then(function(data) {
+    var cat_data = [];
 
-var cat_data = [];
+    for (var i = 0; i < Object.keys(data).length; i++) {
+        currentLetter = String.fromCharCode(65 + i);
+        cat_data.push({
+            value: data[currentLetter].count,
+            color: colors[i].color,
+            highlight: colors[i].hcolor,
+            label: data[currentLetter].cat
+        });  
+    };
 
-for (var i = 0; i < Object.keys(cats).length; i++) {
-    currentLetter = String.fromCharCode(65 + i);
-    cat_data.push({
-        value: cats[currentLetter].count,
-        color: colors[i].color,
-        highlight: colors[i].hcolor,
-        label: cats[currentLetter].cat
-    });
-};
+    var currentChart = document.getElementById("pie_chart").getContext("2d");
+        var PieChart = new Chart(currentChart).Pie(cat_data);
+});
 
-// JSON INFO!!!
-var users = {
-    "count": 456
-};
+$.getJSON(API_URL + "gettopcategorybymonth", function(data) { return data; }).then(function(data) {
+    var top_cat_data_month = [];
 
-/*civicbot.controller("data", function ($scope) {
-    $scope.images = [
-        { url: "static/images/test/test1.jpg", cat: "A", catName: "Cultura" },
-        { url: "static/images/test/test2.jpg", cat: "B", catName: "Economia" },
-        { url: "static/images/test/test3.jpeg", cat: "C", catName: "Educación" },
-        { url: "static/images/test/test4.JPEG", cat: "D", catName: "M. Ambiente" },
-        { url: "static/images/test/test5.jpg", cat: "E", catName: "M de Comunicación" },
-        { url: "static/images/test/test6.jpg", cat: "F", catName: "Política" },
-        { url: "static/images/test/test7.jpg", cat: "G", catName: "Sanidad" },
-        { url: "static/images/test/test8.jpg", cat: "H", catName: "Otros" },
-        { url: "static/images/test/test9.jpg", cat: "D", catName: "M. Ambiente" },
-        { url: "static/images/test/test10.png", cat: "A", catName: "Cultura" },
-        { url: "static/images/test/test11.jpg", cat: "B", catName: "Economia" },
-        { url: "static/images/test/test12.jpg", cat: "C", catName: "Educación" },
-    ];
+    for (var i = 0; i < Object.keys(data).length; i++) {
+        currentLetter = String.fromCharCode(65 + i);
+        top_cat_data_month.push({
+            value: data[currentLetter].count,
+            color: colors[i].color,
+            highlight: colors[i].hcolor,
+            label: data[currentLetter].cat
+        });  
+    };
 
-    var additional_images = [
-        { url: "static/images/test/test1.jpg", cat: "A", catName: "Cultura" },
-        { url: "static/images/test/test2.jpg", cat: "B", catName: "Economia" },
-        { url: "static/images/test/test3.jpeg", cat: "C", catName: "Educación" },
-        { url: "static/images/test/test4.JPEG", cat: "D", catName: "M. Ambiente" },
-        { url: "static/images/test/test5.jpg", cat: "E", catName: "M de Comunicación" },
-        { url: "static/images/test/test6.jpg", cat: "F", catName: "Política" },
-        { url: "static/images/test/test7.jpg", cat: "G", catName: "Sanidad" },
-        { url: "static/images/test/test8.jpg", cat: "H", catName: "Otros" },
-        { url: "static/images/test/test9.jpg", cat: "D", catName: "M. Ambiente" },
-        { url: "static/images/test/test10.png", cat: "A", catName: "Cultura" },
-        { url: "static/images/test/test11.jpg", cat: "B", catName: "Economia" },
-        { url: "static/images/test/test12.jpg", cat: "C", catName: "Educación" },
-    ];
+    currentChart = document.getElementById("polar_chart").getContext("2d");
+    var RadarChart = new Chart(currentChart).PolarArea(top_cat_data_month);
+});
 
-    $scope.addMoreImages = function () {
-        for (var i = 0; i < Object.keys(additional_images).length; i++) {
-            $scope.images.push({url: additional_images[i].url, cat: additional_images[i].cat, catName: additional_images[i].catName});
-        }
-        $scope.$apply();
-    }; 
-});*/
+$.getJSON(API_URL + "gettotalactiveusers", function(data) { return data; }).then(function(data) {
+    gente.innerHTML = data.count;
+});
+
+$.getJSON(API_URL + "getTotalReceivedImg", function(data) { return data; }).then(function(data) {
+    fotos.innerHTML = data.count;
+});
+
+$.getJSON(API_URL + "gettotalreceivedmsg", function(data) { return data; }).then(function(data) {
+    mensajes.innerHTML = data.count;
+});
+
+$.getJSON(API_URL + "gettodaycontribnum", function(data) { return data; }).then(function(data) {
+    mensajes_hoy.innerHTML = data.count;
+});
+
+$.getJSON(API_URL + "gettoplocations", function(data) { return data; }).then(function(data) {
+    var top_places_data = {
+        labels: [],
+        datasets: [
+            {
+                label: "Dataset",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: []
+            },
+        ]
+    };
+
+    for (var i = 0; i < Object.keys(data).length; i++) {
+        top_places_data.labels.push(data[i].location.name);
+        top_places_data.datasets[0].data.push(data[i].count);
+    };
+
+    currentChart = document.getElementById("radar_chart").getContext("2d");
+    var RadarChart = new Chart(currentChart).Radar(top_places_data);
+});
+
+$.getJSON(API_URL + "gettoplocationsbymonth", function(data) { return data; }).then(function(data) {
+    var top_places_data_month = {
+        labels: [],
+        datasets: [
+            {
+                label: "Dataset",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: []
+            },
+        ]
+    };
+
+    for (var i = 0; i < Object.keys(data).length; i++) {
+        top_places_data_month.labels.push(data[i].location.name);
+        top_places_data_month.datasets[0].data.push(data[i].count);
+    };
+
+    currentChart = document.getElementById("radar_chart4").getContext("2d");
+    var RadarChart = new Chart(currentChart).Radar(top_places_data_month);
+});
+
+$.getJSON(API_URL + "gettopparties", function(data) { return data; }).then(function(data) {
+    var top_parties_data = {
+        labels: [],
+        datasets: [
+            {
+                label: "Dataset",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: []
+            },
+        ]
+    };
+
+    for (var i = 0; i < Object.keys(data).length; i++) {
+        top_parties_data.labels.push(data[i].party.party);
+        top_parties_data.datasets[0].data.push(data[i].count);
+    };
+
+    currentChart = document.getElementById("radar_chart2").getContext("2d");
+    var RadarChart = new Chart(currentChart).Radar(top_parties_data);
+});
+
+$.getJSON(API_URL + "gettoppartiesbymonth", function(data) { return data; }).then(function(data) {
+    var top_parties_data_month = {
+        labels: [],
+        datasets: [
+            {
+                label: "Dataset",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: []
+            },
+        ]
+    };
+
+    for (var i = 0; i < Object.keys(data).length; i++) {
+        top_parties_data_month.labels.push(data[i].party.party);
+        top_parties_data_month.datasets[0].data.push(data[i].count);
+    };
+
+    currentChart = document.getElementById("radar_chart3").getContext("2d");
+    var RadarChart = new Chart(currentChart).Radar(top_parties_data_month);
+});
+
+$.getJSON(API_URL + "gettopmedia", function(data) { return data; }).then(function(data) {
+    var top_media_data = [];
+
+    for (var i = 0; i < Object.keys(data).length; i++) {
+        top_media_data.push({
+            value: data[i].count,
+            color: colors[i].color,
+            highlight: colors[i].hcolor,
+            label: data[i].media.media
+        });
+    };
+
+    currentChart = document.getElementById("donut_chart").getContext("2d");
+    var DonutChart = new Chart(currentChart).Doughnut(top_media_data);
+});
+
+$.getJSON(API_URL + "gettopmediabymonth", function(data) { return data; }).then(function(data) {
+    var top_media_data_month = [];
+
+    for (var i = 0; i < Object.keys(data).length; i++) {
+        top_media_data_month.push({
+            value: data[i].count,
+            color: colors[i].color,
+            highlight: colors[i].hcolor,
+            label: data[i].media.media
+        });
+    };
+
+    currentChart = document.getElementById("donut_chart2").getContext("2d");
+    var DonutChart = new Chart(currentChart).PolarArea(top_media_data_month);
+});
