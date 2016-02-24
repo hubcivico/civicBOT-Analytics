@@ -1,0 +1,116 @@
+  <div class="navbar navbar-default navbar-static-top">
+    <ul class="nav navbar-nav pull-right">
+      <button class="btn btn-danger" href="/#/login" style="padding-top: 10px;">Logout</button>
+    </ul>
+  </div>
+  <div class="table-responsive">
+    <table st-table="entradas" st-safe-src="entradas" class="table table-striped">
+      <thead>
+        <tr>
+          <th st-sort="date" width="15%">
+            <center>Fecha de publicaci&oacuten</center>
+          </th>
+          <th st-sort="thumbnail" width="15%">
+            <center>Thumbnail</center>
+          </th>
+          <th st-sort="politic" width="10%">
+            <center>Partido pol&iacutetico</center>
+          </th>
+          <th st-sort="city" width="10%">
+            <center>Municipio</center>
+          </th>
+          <th st-sort="label" width="10%">
+            <center>Categoria</center>
+          </th>
+          <th st-sort="media" width="10%">
+            <center>Medios de comunicaci&oacuten</center>
+          </th>
+          <th st-sort="state" width="10%">
+            <center>Estado</center>
+          </th>
+          <th st-sort="options" width="20%">
+            <center>Opciones</center>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <input st-search="albumId" placeholder="Buscar por fecha" class="input-sm form-control" type="search" />
+          </th>
+          <th> </th>
+          <th>
+            <input st-search="url" placeholder="Buscar por partido político" class="input-sm form-control" type="search" />
+          </th>
+          <th>
+            <input st-search="title" placeholder="Buscar por municipio" class="input-sm form-control" type="search" />
+          </th>
+          <th>
+            <input st-search="id" placeholder="Buscar por categoria" class="input-sm form-control" type="search" />
+          </th>
+          <th>
+            <input st-search="id" placeholder="Buscar por medios de comunicación" class="input-sm form-control" type="search" />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr dir-paginate="entrada in entradas | itemsPerPage: 10" current-page="currentPage" st-select-row="entrada" st-select-mode="multiple">
+          <td>
+            {{entrada.updatedAt}}
+          </td>
+          <td>
+            <img ng-src="entrada.photo"/>
+          </td>
+          <td>
+            <span editable-text="entrada.politic" e-name="politic" e-form="rowform" e-required>
+            {{getPartyList}}
+            </span>
+          </td>
+          <td>
+            <span editable-text="entrada.city" e-name="city" e-form="rowform" e-required>
+            {{getLocationList}}
+            </span>
+          </td>
+          <td>
+            <span editable-text="entrada.label" e-name="label" e-form="rowform" e-required>
+            {{entrada.label.label}}
+            </span>
+          </td>
+          <td>
+            <span editable-text="entrada.media" e-name="media" e-form="rowform" e-required>
+            {{getMediaList}}
+            </span>
+          </td>
+          <td>
+            <span editable-text="entrada.state" e-name="state" e-form="rowform" e-required>
+            {{entrada.published}}
+            </span>
+          </td>
+          <td>
+            <form name="buttons">
+            <button class="btn btn-default btn-sm" ng-click="entrada.isEditing = true" ng-if="!entrada.isEditing"><span class="glyphicon glyphicon-pencil"></span></button>
+            <!-- editar -->
+            <button class="btn btn-default btn-sm" ng-click="guardar(entrada)" ng-if="!entrada.isEditing"><span class="glyphicon glyphicon-save"></span></button>
+            <!-- guardar -->
+            <button class="btn btn-default btn-sm" ng-click="despublicar()" ng-if="!entrada.isEditing"><span class="glyphicon glyphicon-remove  "></span></button>
+            <!-- Despublicar -->
+            <button class="btn btn-primary btn-sm" ng-click="publicar()" ng-if="!entrada.isEditing"><span class="glyphicon glyphicon-ok"></span></button>
+            <!-- Publicar -->
+            <button class="btn btn-danger btn-sm" ng-click="entrada.isEditing = false" ng-if="entrada.isEditing"><span class="glyphicon glyphicon-remove"></span></button>
+            <!-- Cancelar -->
+          </form>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+
+      </tfoot>
+    </table>
+    <div class="text-center">
+      <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+    </div>
+  </div>
+
+<link href="https://fonts.googleapis.com/css?family=Roboto|Montserrat:400,700|Open+Sans:400,300,600" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/animatecss/3.2.0/animate.css" rel="stylesheet">
