@@ -52,7 +52,8 @@ $(document).ready(function() {
         }, {
           field: 'photo',
           title: 'Fotografia',
-          align: 'center'
+          align: 'center',
+          	formatter: imageFormatter
         }, {
           field: 'operate',
           align: 'center',
@@ -78,6 +79,10 @@ $(document).ready(function() {
 
 function totalFormatter(data) {
   return data.lenght;
+}
+
+function imageFormatter(value, row) {
+    return '<img src="'+value+'" width="100" height="50"/>';
 }
 
 function responseHandler(res) {
@@ -114,7 +119,6 @@ function operateFormatter(value, row, index) {
   return [
     '<div class="btn-toolbar" role="group">',
     ' <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-save"/></button>',
-    '<br>',
     '<button type="button" class="btn btn-info publish"><span class="glyphicon glyphicon-ok"/></button>',
     '</div>'
   ].join('');
