@@ -1,45 +1,63 @@
 $(document).ready(function() {
+    $.ajax({
+      type: "GET",
+        url: "http://devcivicbot.herokuapp.com/Private/getContributionList",
+      headers: {
+        'Authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwiaWF0IjoxNDU2MzQ0NjAwfQ.A_F1V1IPHBP7EP26IQZuRZsOzKPNQ4bPo7Go3fswZmA",
+      },
+      success: function(data) {
+        console.log('OK');
+        $('#table').bootstrapTable({
+          data: data,
+          columns: [{
+            field: 'createdAt',
+            title: "Fecha de publicaci&oacuten",
+            align: 'center'
+          }, {
+            field: 'photo',
+            title: 'Fotograf&iactutea',
+            align: 'center'
+          }, {
+            field: 'label.name',
+            title: 'Categoria',
+            sortable: true,
+            editable: true,
+            footerFormatter: totalFormatter,
+            align: 'center'
 
-  $('#table').bootstrapTable({
-    url: "http://jsonplaceholder.typicode.com/photos",
-    columns: [{
-      field: 'title',
-      title: "Fecha de publicaci&oacuten",
-      align: 'center'
-    },{
-      field: 'thumbnailUrl',
-      title: 'Thumbmail',
-      align: 'center'
-    },{
-      field: 'albumId',
-      title: 'Etiqueta',
-      sortable: true,
-      editable: true,
-      footerFormatter: totalFormatter,
-      align: 'center'
+          }, {
+            field: 'party.party',
+            title: "Partido pol&iacutetico",
+            sortable: true,
+            editable: true,
+            footerFormatter: totalFormatter,
+            align: 'center'
+          }, {
+            field: 'media.media',
+            title: 'Medios de comunicaci&oacuten',
+            sortable: true,
+            editable: true,
+            footerFormatter: totalFormatter,
+            align: 'center'
+          },
+          {
+           field: 'publish',
+           title: 'Estado',
+           sortable: true,
+           editable: true,
+           footerFormatter:totalFormatter,
+           align: 'center'
+         },{
+            field: 'operate',
+            align: 'center',
+            title: 'Guardar',
+            events: operateEvents,
+            formatter: operateFormatter
+          }]
+        });
+      }
+    });
 
-    }, {
-      field: 'url',
-      title: "Partido pol&iacutetico",
-      sortable: true,
-      editable: true,
-      footerFormatter: totalFormatter,
-      align: 'center'
-    }, {
-      field: 'albumId',
-      title: 'Medios de comunicaci&oacuten',
-      sortable: true,
-      editable: true,
-      footerFormatter: totalFormatter,
-      align: 'center'
-    }, {
-      field: 'operate',
-      align: 'center',
-      title: 'Guardar',
-      events: operateEvents,
-      formatter: operateFormatter
-    }]
-  });
 
   $(function() {
     $(window).resize(function() {
@@ -89,17 +107,157 @@ function operateFormatter(value, row, index) {
 
 window.operateEvents = {
   'click .save': function(e, value, row, index) {
-    var url = 'http://jsonplaceholder.typicode.com/photos/' + index;
-    $.ajax({
-      url: url,
-      type: 'PUT',
-      data: JSON.stringify(row),
-      contentType: 'application/json; charset=utf-8',
-      dataType: 'json',
-      async: false,
-      success: function(msg) {
-       alert('Vas a guardar la siguiente informaci&oacuten: ' + JSON.stringify(row) +index	);
-      }
-    });
+    console.log("save")
+    setParty(row.id,row.party.id);
+    setMedia(row.id,row.media.id);
+    setLocation(row.id,row.location.id);
+    setLabel(row.id,row.label.id);
+  },
+  'click .save': function(e, value, row, index) {
+    console.log("publish")
+    setParty(row.id,row.party.id);
+    setMedia(row.id,row.media.id);
+    setLocation(row.id,row.location.id);
+    setLabel(row.id,row.label.id);
   }
 };
+
+function setParty(contribId, partyId) {
+  $.ajax({
+    type: "POST",
+    url: "devcivicbot.herokuapp.com/Private/setParty",
+    data: '{"contribId": "' + contribId + '", "partyId" : "' + partyId + '"}',
+		headers: {
+			'Authorization': "Bearer " + localStorage.token
+		},
+    success: function() {
+      console.log('OK');
+    }
+  });
+}
+
+function setMedia(contribId, mediaId) {
+  $.ajax({
+    type: "POST",
+    url: "devcivicbot.herokuapp.com/Private/setMedia",
+    data: '{"contribId": "' + contribId + '", "mediaId" : "' + mediaId + '"}',
+		headers: {
+			'Authorization': "Bearer " + localStorage.token
+		},
+    success: function() {
+      console.log('OK');
+    }
+  });
+}
+
+function setLocation(contribId, locationId) {
+  $.ajax({
+    type: "POST",
+    url: "devcivicbot.herokuapp.com/Private/setLocation",
+    data: '{"contribId": "' + contribId + '", "locationId" : "' + locationId + '"}',
+		headers: {
+			'Authorization': "Bearer " + localStorage.token
+		},
+    success: function() {
+      console.log('OK');
+    }
+  });
+}
+
+function setLabel(contribId, labelId) {
+  $.ajax({
+    type: "POST",
+    url: "devcivicbot.herokuapp.com/Private/setLabel",
+    data: '{"contribId": "' + contribId + '", "labelId" : "' + labelId + '"}',
+		headers: {
+			'Authorization': "Bearer " + localStorage.token
+		},
+    success: function() {
+      console.log('OK');
+    }
+  });
+}
+
+function setToPublish(contribId, publish) {
+  $.ajax({
+    type: "POST",
+    url: "devcivicbot.herokuapp.com/Private/setToPublish",
+    data: '{"contribId": "' + contribId + '", "publish" : "' + publish + '"}',
+		headers: {
+			'Authorization': "Bearer " + localStorage.token
+		},
+    success: function() {
+      console.log('OK');
+    }
+  });
+}
+
+function getPartyList() {
+  $.ajax({
+    type: "GET",
+    url: "devcivicbot.herokuapp.com/Private/getPartyList",
+		headers: {
+			'Authorization': "Bearer " + localStorage.token
+		},
+    success: function(data) {
+      console.log('OK');
+      return data;
+    }
+  });
+}
+
+function getLocationList() {
+  $.ajax({
+    type: "GET",
+    url: "devcivicbot.herokuapp.com/Private/getLocationList",
+		headers: {
+			'Authorization': "Bearer " + localStorage.token
+		},
+    success: function(data) {
+      console.log('OK');
+      return data;
+    }
+  });
+}
+
+function getMediaList() {
+  $.ajax({
+    type: "GET",
+    url: "devcivicbot.herokuapp.com/Private/getMediaList",
+		headers: {
+			'Authorization': "Bearer " + localStorage.token
+		},
+    success: function(data) {
+      console.log('OK');
+      return data;
+    }
+  });
+}
+
+function getLabelList() {
+  $.ajax({
+    type: "GET",
+    url: "devcivicbot.herokuapp.com/Private/getLabelList",
+		headers: {
+			'Authorization': "Bearer " + localStorage.token
+		},
+    success: function(data) {
+      console.log('OK');
+      return data;
+    }
+  });
+}
+
+function getContributionList() {
+  $.ajax({
+    type: "GET",
+    url: "devcivicbot.herokuapp.com/Private/getContributionList",
+		headers: {
+			'Authorization': "Bearer " + localStorage.token
+		},
+    success: function(data) {
+      console.log('OK');
+      return data;
+    }
+  });
+}
