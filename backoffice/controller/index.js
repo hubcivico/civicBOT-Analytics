@@ -18,7 +18,7 @@ $(document).ready(function() {
                     align: 'center'
                 }, {
                     field: 'photo',
-                    title: 'Fotograf&iactutea',
+                    title: 'Fotografia',
                     align: 'center'
                 }, {
                     field: 'label.name',
@@ -44,10 +44,16 @@ $(document).ready(function() {
                     align: 'center'
                 },
                     {
-                        field: 'publish',
-                        title: 'Estado',
+                        field: 'published',
+                        title: 'Publicado?',
                         sortable: true,
-                        editable: true,
+                        footerFormatter:totalFormatter,
+                        align: 'center'
+                    },
+                    {
+                        field: 'edited',
+                        title: 'Editado?',
+                        sortable: true,
                         footerFormatter:totalFormatter,
                         align: 'center'
                     },{
@@ -87,7 +93,11 @@ function responseHandler(res) {
 function detailFormatter(index, row) {
     var html = [];
     $.each(row, function(key, value) {
+      console.log("key: "+key);
+      console.log("value: "+value);
+
         html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+
     });
     return html.join('');
 }
@@ -105,34 +115,29 @@ function getIdSelections() {
 
 function operateFormatter(value, row, index) {
     return [
-        '<a class="save" href="javascript:void(0)" title="Guardar">',
-        '<i class="glyphicon glyphicon-floppy-save"></i>',
-        '</a>  '
+      '<div class="btn-toolbar" role="group">',
+        ' <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-save"/></button>',
+        '<br>',
+        '<button type="button" class="btn btn-info publish"><span class="glyphicon glyphicon-ok"/></button>',
+        '</div>'
     ].join('');
 }
 
 
 window.operateEvents = {
-    'click .save': function(e, value, row, index) {
+    'click .btn-success': function(e, value, row, index) {
         console.log("save")
-        setParty(row.id,row.party.id);
-        setMedia(row.id,row.media.id);
-        setLocation(row.id,row.location.id);
-        setLabel(row.id,row.label.id);
+        console.log("row: "+row)
     },
-    'click .save': function(e, value, row, index) {
+    'click .btn-info': function(e, value, row, index) {
         console.log("publish")
-        setParty(row.id,row.party.id);
-        setMedia(row.id,row.media.id);
-        setLocation(row.id,row.location.id);
-        setLabel(row.id,row.label.id);
     }
 };
 
 function setParty(contribId, partyId) {
     $.ajax({
         type: "POST",
-        url: "devcivicbot.herokuapp.com/Private/setParty",
+        url: api+"Private/setParty",
         data: '{"contribId": "' + contribId + '", "partyId" : "' + partyId + '"}',
         headers: {
             'Authorization': "Bearer " + localStorage.token
@@ -147,7 +152,7 @@ function setParty(contribId, partyId) {
 function setMedia(contribId, mediaId) {
     $.ajax({
         type: "POST",
-        url: "devcivicbot.herokuapp.com/Private/setMedia",
+        url: api+"Private/setMedia",
         data: '{"contribId": "' + contribId + '", "mediaId" : "' + mediaId + '"}',
         headers: {
             'Authorization': "Bearer " + localStorage.token
@@ -161,7 +166,7 @@ function setMedia(contribId, mediaId) {
 function setLocation(contribId, locationId) {
     $.ajax({
         type: "POST",
-        url: "devcivicbot.herokuapp.com/Private/setLocation",
+        url: api+"Private/setLocation",
         data: '{"contribId": "' + contribId + '", "locationId" : "' + locationId + '"}',
         headers: {
             'Authorization': "Bearer " + localStorage.token
@@ -175,7 +180,7 @@ function setLocation(contribId, locationId) {
 function setLabel(contribId, labelId) {
     $.ajax({
         type: "POST",
-        url: "devcivicbot.herokuapp.com/Private/setLabel",
+        url: api+"Private/setLabel",
         data: '{"contribId": "' + contribId + '", "labelId" : "' + labelId + '"}',
         headers: {
             'Authorization': "Bearer " + localStorage.token
@@ -190,7 +195,7 @@ function setLabel(contribId, labelId) {
 function setToPublish(contribId, publish) {
     $.ajax({
         type: "POST",
-        url: "devcivicbot.herokuapp.com/Private/setToPublish",
+        url: api+"Private/setToPublish",
         data: '{"contribId": "' + contribId + '", "publish" : "' + publish + '"}',
         headers: {
             'Authorization': "Bearer " + localStorage.token
@@ -204,7 +209,7 @@ function setToPublish(contribId, publish) {
 function getPartyList() {
     $.ajax({
         type: "GET",
-        url: "devcivicbot.herokuapp.com/Private/getPartyList",
+        url: api+"Private/getPartyList",
         headers: {
             'Authorization': "Bearer " + localStorage.token
         },
@@ -218,7 +223,7 @@ function getPartyList() {
 function getLocationList() {
     $.ajax({
         type: "GET",
-        url: "devcivicbot.herokuapp.com/Private/getLocationList",
+        url: api+"Private/getLocationList",
         headers: {
             'Authorization': "Bearer " + localStorage.token
         },
@@ -232,7 +237,7 @@ function getLocationList() {
 function getMediaList() {
     $.ajax({
         type: "GET",
-        url: "devcivicbot.herokuapp.com/Private/getMediaList",
+        url: api+"Private/getMediaList",
         headers: {
             'Authorization': "Bearer " + localStorage.token
         },
@@ -246,7 +251,7 @@ function getMediaList() {
 function getLabelList() {
     $.ajax({
         type: "GET",
-        url: "devcivicbot.herokuapp.com/Private/getLabelList",
+        url: api+"Private/getLabelList",
         headers: {
             'Authorization': "Bearer " + localStorage.token
         },
@@ -260,7 +265,7 @@ function getLabelList() {
 function getContributionList() {
     $.ajax({
         type: "GET",
-        url: "devcivicbot.herokuapp.com/Private/getContributionList",
+        url: api+"Private/getContributionList",
         headers: {
             'Authorization': "Bearer " + localStorage.token
         },
