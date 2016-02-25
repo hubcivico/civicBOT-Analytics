@@ -42,12 +42,12 @@ $(document).ready(function() {
         }, {
           field: 'published',
           title: 'Publicado?',
-          footerFormatter: totalFormatter,
+          formatter: publishedFormatter,
           align: 'center'
         }, {
           field: 'edited',
           title: 'Editado?',
-          footerFormatter: totalFormatter,
+          formatter: editedFormatter,
           align: 'center'
         }, {
           field: 'photo',
@@ -62,6 +62,10 @@ $(document).ready(function() {
           formatter: operateFormatter
         }]
       });
+    },
+    error: function (request, status, error) {
+        alert("Error al cargar la tabla.");
+        window.location.href='index.html';
     }
   });
 
@@ -83,6 +87,20 @@ function totalFormatter(data) {
 
 function imageFormatter(value, row) {
     return '<img src="'+value+'" width="100" height="50"/>';
+}
+function publishedFormatter(value, row) {
+  if(row.published==true){
+    return '<span class="glyphicon glyphicon-ok" style="color: blue"/>';
+  }else{
+    return '<span class="glyphicon glyphicon-remove" style="color: blue"/>';
+  }
+}
+function editedFormatter(value, row) {
+  if(row.edited==true){
+    return '<span class="glyphicon glyphicon-ok" style="color: blue"/>';
+  }else{
+    return '<span class="glyphicon glyphicon-remove" style="color: blue"/>';
+  }
 }
 
 function responseHandler(res) {
@@ -117,7 +135,7 @@ function getIdSelections() {
 
 function operateFormatter(value, row, index) {
   return [
-    '<div class="btn-toolbar" role="group">',
+    '<div class="btn-toolbar" role="group" align="center">',
     ' <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-save"/></button>',
     '<button type="button" class="btn btn-info publish"><span class="glyphicon glyphicon-ok"/></button>',
     '</div>'
