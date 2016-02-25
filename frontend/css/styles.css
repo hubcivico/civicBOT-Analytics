@@ -977,6 +977,7 @@ Footer
 footer {
     padding: 100px 0;
     margin-left:10px;
+    margin-top: 110px;
     text-align: center;
 }
 
@@ -1274,10 +1275,17 @@ hr {
 }
 
 .frame{
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.45);
 }
 
 #titanalytics{
     font-size: 50px;
     margin-bottom: 80px;
+}
+
+#titgaleria{
+    font-size: 50px;
+    margin-bottom: 80px;
+    margin-top: 150px;
+    text-align: center;
 }

@@ -325,12 +325,14 @@ $.getJSON(API_URL + "gettopmedia", function(data) { return data; }).then(functio
     var top_media_data = [];
 
     for (var i = 0; i < Object.keys(data).length; i++) {
-        top_media_data.push({
-            value: data[i].count,
-            color: colors[i].color,
-            highlight: colors[i].hcolor,
-            label: data[i].media.media
-        });
+        if(data[i].media){
+            top_media_data.push({
+                value: data[i].count,
+                color: colors[i].color,
+                highlight: colors[i].hcolor,
+                label: data[i].media.media
+            });
+        }
     }
 
     var currentChart = document.getElementById("donut_chart").getContext("2d");
@@ -341,12 +343,16 @@ $.getJSON(API_URL + "gettopmediabymonth", function(data) { return data; }).then(
     var top_media_data_month = [];
 
     for (var i = 0; i < Object.keys(data).length; i++) {
-        top_media_data_month.push({
-            value: data[i].count,
-            color: colors[i].color,
-            highlight: colors[i].hcolor,
-            label: data[i].media.media
-        });
+        if(data[i].media){
+            top_media_data_month.push({
+                value: data[i].count,
+                color: colors[i].color,
+                highlight: colors[i].hcolor,
+                label: data[i].media.media
+            });
+
+        }
+
     }
 
     var currentChart = document.getElementById("donut_chart2").getContext("2d");
