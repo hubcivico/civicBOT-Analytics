@@ -17,26 +17,38 @@ $(document).ready(function() {
         }, {
           field: 'label.name',
           title: 'Categoria',
-          editable: true,
+          editable: {
+            type: 'text',
+            mode: 'inline'
+          },
           footerFormatter: totalFormatter,
           align: 'center'
 
         }, {
           field: 'party.party',
           title: "Partido pol&iacutetico",
-          editable: true,
+          editable: {
+            type: 'text',
+            mode: 'inline'
+          },
           footerFormatter: totalFormatter,
           align: 'center'
         }, {
           field: 'location.name',
           title: "Municipio",
-          editable: true,
+          editable: {
+            type: 'text',
+            mode: 'inline'
+          },
           footerFormatter: totalFormatter,
           align: 'center'
         }, {
           field: 'media.media',
           title: 'Medios de comunicaci&oacuten',
-          editable: true,
+          editable: {
+            type: 'text',
+            mode: 'inline'
+          },
           footerFormatter: totalFormatter,
           align: 'center'
         }, {
@@ -53,7 +65,7 @@ $(document).ready(function() {
           field: 'photo',
           title: 'Fotografia',
           align: 'center',
-          	formatter: imageFormatter
+          formatter: imageFormatter
         }, {
           field: 'operate',
           align: 'center',
@@ -63,9 +75,9 @@ $(document).ready(function() {
         }]
       });
     },
-    error: function (request, status, error) {
-        alert("Error al cargar la tabla.");
-        window.location.href='index.html';
+    error: function(request, status, error) {
+      alert("Error al cargar la tabla.");
+      window.location.href = 'index.html';
     }
   });
 
@@ -86,19 +98,21 @@ function totalFormatter(data) {
 }
 
 function imageFormatter(value, row) {
-    return '<img src="'+value+'" width="100" height="50"/>';
+  return '<img src="' + value + '" width="100" height="50"/>';
 }
+
 function publishedFormatter(value, row) {
-  if(row.published==true){
+  if (row.published == true) {
     return '<span class="glyphicon glyphicon-ok" style="color: blue"/>';
-  }else{
+  } else {
     return '<span class="glyphicon glyphicon-remove" style="color: blue"/>';
   }
 }
+
 function editedFormatter(value, row) {
-  if(row.edited==true){
+  if (row.edited == true) {
     return '<span class="glyphicon glyphicon-ok" style="color: blue"/>';
-  }else{
+  } else {
     return '<span class="glyphicon glyphicon-remove" style="color: blue"/>';
   }
 }
@@ -122,40 +136,48 @@ function detailFormatter(index, row) {
   return html.join('');
 }
 
-
-function getHeight() {
-  return $(window).height() - $('h1').outerHeight(true);
-}
-
-function getIdSelections() {
-  return $.map($table.bootstrapTable('getSelections'), function(row) {
-    return row.id
-  });
-}
-
 function operateFormatter(value, row, index) {
-  return [
-    '<div class="btn-toolbar" role="group" align="center">',
-    ' <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-save"/></button>',
-    '<button type="button" class="btn btn-info publish"><span class="glyphicon glyphicon-ok"/></button>',
-    '</div>'
-  ].join('');
+  if (row.published == false) {
+    return [
+      '<div class="btn-toolbar" role="group" align="center">',
+      ' <button type="button" class="btn btn-success save"><span class="glyphicon glyphicon-save"/></button>',
+      '<button type="button" class="btn btn-danger unpublish"><span class="glyphicon glyphicon-remove"/></button>',
+      '</div>'
+    ].join('');
+  } else {
+    return [
+      '<div class="btn-toolbar" role="group" align="center">',
+      ' <button type="button" class="btn btn-success save"><span class="glyphicon glyphicon-save"/></button>',
+      '<button type="button" class="btn btn-info publish"><span class="glyphicon glyphicon-ok"/></button>',
+      '</div>'
+    ].join('');
+  }
+
 }
 
 
 window.operateEvents = {
-  'click .btn-success': function(e, value, row, index) {
+  'click .save': function(e, value, row, index) {
     console.log("save");
-    console.log("row: " + row.id);
+    console.log("row: " + row.id +
+      " label/" + row.label.id + " party/" + row.party.id + " location/" + row.location.id + "//" + row.location.name + " media/" + row.media.id + "/");
     setParty(row.id, row.party.id);
     setLocation(row.id, row.location.id);
-    setLabel(row.id,row.label.id);
+    setLabel(row.id, row.label.id);
+    setMedia(row.id, row.media.name, row.media.id);
 
   },
-  'click .btn-info': function(e, value, row, index) {
+  'click .publish': function(e, value, row, index) {
     console.log("publish")
-    if (row.published.equals('false')) {
-      setToPublish(row.id,1);
+    if (row.published == false) {
+      setToPublish(row.id, 1);
+    }
+  },
+  'click .unpublish': function(e, value, row, index) {
+    console.log("unpublish");
+    console.log(row.label.name);
+    if (row.published == true) {
+      setToPublish(row.id, 0);
     }
   }
 };
@@ -175,11 +197,11 @@ function setParty(contribId, partyId) {
 }
 
 //TODO: Revisar parámetros en función de arquitectura api
-function setMedia(contribId, mediaId) {
+function setMedia(contribId, mediaName, mediaId) {
   $.ajax({
     type: "POST",
     url: api + "Private/setMedia",
-    data: '{"contribId": "' + contribId + '", "mediaId" : "' + mediaId + '"}',
+    data: '{"contribId": "' + contribId + '","mediaName": "' + mediaName + '" || "mediaId" : "' + mediaId + '"}',
     headers: {
       'Authorization': "Bearer " + localStorage.token
     },
