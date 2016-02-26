@@ -14,13 +14,18 @@ $(document).ready(function() {
           field: 'createdAt',
           title: "Fecha de publicaci&oacuten",
           align: 'center',
-          sortable: true
+          sortable: true,
+          formatter: fechaFormatter
         }, {
           field: 'label.name',
           title: 'Categoria',
           editable: {
             type: 'text',
-            mode: 'inline'
+            mode: 'inline',
+            success: function(response,newValue) {
+              localStorage.setLabel = newValue;
+              console.log("Guardado: " +newValue);
+            }
           },
           footerFormatter: totalFormatter,
           sortable: true,
@@ -31,7 +36,11 @@ $(document).ready(function() {
           title: "Partido pol&iacutetico",
           editable: {
             type: 'text',
-            mode: 'inline'
+            mode: 'inline',
+            success: function(response,newValue) {
+              localStorage.setParty = newValue;
+              console.log("Guardado: " +newValue);
+            }
           },
           footerFormatter: totalFormatter,
           sortable: true,
@@ -41,7 +50,11 @@ $(document).ready(function() {
           title: "Municipio",
           editable: {
             type: 'text',
-            mode: 'inline'
+            mode: 'inline',
+            success: function(response,newValue) {
+              localStorage.setLocation = newValue;
+              console.log("Guardado: " +newValue);
+            }
           },
           footerFormatter: totalFormatter,
           sortable: true,
@@ -51,7 +64,11 @@ $(document).ready(function() {
           title: 'Medios de comunicaci&oacuten',
           editable: {
             type: 'text',
-            mode: 'inline'
+            mode: 'inline',
+            success: function(response,newValue) {
+              localStorage.setMedia = newValue;
+              console.log("Guardado: " +newValue);
+            }
           },
           footerFormatter: totalFormatter,
           sortable: true,
@@ -101,13 +118,17 @@ $(document).ready(function() {
     logOut();
   })
   $('#table').bootstrapTable('refreshOptions', {
-                exportDataType: all
+                exportDataType: 'all'
             });
   $('#table').bootstrapTable('refresh');
 });
 
 function totalFormatter(data) {
   return data.lenght;
+}
+function fechaFormatter(value,row) {
+  var fecha = value.split("T");
+  return fecha[0];
 }
 
 function imageFormatter(value, row) {
@@ -179,6 +200,11 @@ window.operateEvents = {
     console.log("save");
     console.log("row: " + row.id +
       " label/" + row.label.id + " party/" + row.party.id + " location/" + row.location.id + "//" + row.location.name + " media/" + row.media.id + "/");
+    console.log(storeLocation.setParty);
+    console.log(storeLocation.setMedia);
+    console.log(storeLocation.setLocation);
+    console.log(storeLocation.setLabel);
+
     setParty(row.id, row.party.id);
     setLocation(row.id, row.location.id);
     setLabel(row.id, row.label.id);
