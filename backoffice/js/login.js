@@ -12,6 +12,8 @@ $(document).ready(function() {
       localStorage.token = data.session.token;
       console.log("Holas");
       window.location.href='admin.html';
+    }).error(function(error){
+      alert("Usuario no encontrado! juejuejue");
     });
   })
 });

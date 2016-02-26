@@ -2,7 +2,7 @@ var api = 'https://devcivicbot.herokuapp.com/';
 $(document).ready(function() {
   $.ajax({
     type: "GET",
-    url: api+"Private/getContributionList",
+    url: api + "Private/getContributionList",
     headers: {
       'Authorization': "Bearer " + localStorage.token
     },
@@ -20,11 +20,27 @@ $(document).ready(function() {
           field: 'label.name',
           title: 'Categoria',
           editable: {
-            type: 'text',
+            type: 'typeaheadjs',
             mode: 'inline',
-            success: function(response,newValue) {
+            success: function(response, newValue) {
               localStorage.setLabel = newValue;
-              console.log("Guardado: " +newValue);
+              console.log("Guardado: " + newValue);
+            },
+            typeahead: {
+              name: 'country',
+              local: [{
+                value: 'ru',
+                tokens: ['Russia']
+              }, {
+                value: 'gb',
+                tokens: ['Great Britain']
+              }, {
+                value: 'us',
+                tokens: ['United States']
+              }],
+              template: function(item) {
+                return item.tokens[0] + ' (' + item.value + ')';
+              }
             }
           },
           footerFormatter: totalFormatter,
@@ -37,9 +53,9 @@ $(document).ready(function() {
           editable: {
             type: 'text',
             mode: 'inline',
-            success: function(response,newValue) {
+            success: function(response, newValue) {
               localStorage.setParty = newValue;
-              console.log("Guardado: " +newValue);
+              console.log("Guardado: " + newValue);
             }
           },
           footerFormatter: totalFormatter,
@@ -51,9 +67,9 @@ $(document).ready(function() {
           editable: {
             type: 'text',
             mode: 'inline',
-            success: function(response,newValue) {
+            success: function(response, newValue) {
               localStorage.setLocation = newValue;
-              console.log("Guardado: " +newValue);
+              console.log("Guardado: " + newValue);
             }
           },
           footerFormatter: totalFormatter,
@@ -65,9 +81,9 @@ $(document).ready(function() {
           editable: {
             type: 'text',
             mode: 'inline',
-            success: function(response,newValue) {
+            success: function(response, newValue) {
               localStorage.setMedia = newValue;
-              console.log("Guardado: " +newValue);
+              console.log("Guardado: " + newValue);
             }
           },
           footerFormatter: totalFormatter,
@@ -118,16 +134,18 @@ $(document).ready(function() {
     logOut();
   })
   $('#table').bootstrapTable('refreshOptions', {
-                exportDataType: 'all'
-            });
+    exportDataType: 'all'
+  });
   $('#table').bootstrapTable('refresh');
 });
 
 function totalFormatter(data) {
   return data.lenght;
 }
-function fechaFormatter(value,row) {
-  var fecha = value.split("T");
+
+function fechaFormatter(value, row) {
+  var string = string(value);
+  var fecha = string.split("T");
   return fecha[0];
 }
 
@@ -161,17 +179,16 @@ function responseHandler(res) {
 function detailFormatter(index, row) {
   var html = [];
   html.push('<table><tr><td>');
-//  $.each(row, function(key, value) {
-//    console.log("key: " + key);
-//    console.log("value: " + value);
+  //  $.each(row, function(key, value) {
+  //    console.log("key: " + key);
+  //    console.log("value: " + value);
 
-  html.push('<table><tr><td><b>Categoria: </b>'+row.label.name+ '</td></tr>'
-            +'<tr><td><b>Partido pol&iacutetico: </b>'+row.party.party+ '</td></tr>'+
-          '<tr><td><b>Municipio: </b>'+row.location.name+','+row.location.cp+ '</td></tr>'+
-        '<tr><td><b>Medios de comunicaci&oacuten: </b>'+row.media.media+ '</td></tr></table>');
+  html.push('<table><tr><td><b>Categoria: </b>' + row.label.name + '</td></tr>' + '<tr><td><b>Partido pol&iacutetico: </b>' + row.party.party + '</td></tr>' +
+    '<tr><td><b>Municipio: </b>' + row.location.name + ',' + row.location.cp + '</td></tr>' +
+    '<tr><td><b>Medios de comunicaci&oacuten: </b>' + row.media.media + '</td></tr></table>');
 
-//  });
-  html.push('</td><td><img src="'+row.photo+'"  width="300" height="200"/></td></tr></table>');
+  //  });
+  html.push('</td><td><img src="' + row.photo + '"  width="300" height="200"/></td></tr></table>');
   return html.join('');
 }
 
