@@ -2,7 +2,7 @@ var api = 'https://devcivicbot.herokuapp.com/';
 $(document).ready(function() {
   $.ajax({
     type: "GET",
-    url: "https://devcivicbot.herokuapp.com/Private/getContributionList",
+    url: api+"Private/getContributionList",
     headers: {
       'Authorization': "Bearer " + localStorage.token
     },
@@ -13,7 +13,8 @@ $(document).ready(function() {
         columns: [{
           field: 'createdAt',
           title: "Fecha de publicaci&oacuten",
-          align: 'center'
+          align: 'center',
+          sortable: true
         }, {
           field: 'label.name',
           title: 'Categoria',
@@ -22,6 +23,7 @@ $(document).ready(function() {
             mode: 'inline'
           },
           footerFormatter: totalFormatter,
+          sortable: true,
           align: 'center'
 
         }, {
@@ -32,6 +34,7 @@ $(document).ready(function() {
             mode: 'inline'
           },
           footerFormatter: totalFormatter,
+          sortable: true,
           align: 'center'
         }, {
           field: 'location.name',
@@ -41,6 +44,7 @@ $(document).ready(function() {
             mode: 'inline'
           },
           footerFormatter: totalFormatter,
+          sortable: true,
           align: 'center'
         }, {
           field: 'media.media',
@@ -50,27 +54,32 @@ $(document).ready(function() {
             mode: 'inline'
           },
           footerFormatter: totalFormatter,
+          sortable: true,
           align: 'center'
         }, {
           field: 'published',
           title: 'Publicado?',
           formatter: publishedFormatter,
+          sortable: true,
           align: 'center'
         }, {
           field: 'edited',
           title: 'Editado?',
           formatter: editedFormatter,
+          sortable: true,
           align: 'center'
         }, {
           field: 'photo',
           title: 'Fotografia',
           align: 'center',
+          sortable: true,
           formatter: imageFormatter
         }, {
           field: 'operate',
           align: 'center',
           title: 'Guardar',
           events: operateEvents,
+          sortable: true,
           formatter: operateFormatter
         }]
       });
@@ -91,6 +100,10 @@ $(document).ready(function() {
   $('#salir').on('click', function() {
     logOut();
   })
+  $('#table').bootstrapTable('refreshOptions', {
+                exportDataType: all
+            });
+  $('#table').bootstrapTable('refresh');
 });
 
 function totalFormatter(data) {
@@ -126,13 +139,18 @@ function responseHandler(res) {
 
 function detailFormatter(index, row) {
   var html = [];
-  $.each(row, function(key, value) {
-    console.log("key: " + key);
-    console.log("value: " + value);
+  html.push('<table><tr><td>');
+//  $.each(row, function(key, value) {
+//    console.log("key: " + key);
+//    console.log("value: " + value);
 
-    html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+  html.push('<table><tr><td><b>Categoria: </b>'+row.label.name+ '</td></tr>'
+            +'<tr><td><b>Partido pol&iacutetico: </b>'+row.party.party+ '</td></tr>'+
+          '<tr><td><b>Municipio: </b>'+row.location.name+','+row.location.cp+ '</td></tr>'+
+        '<tr><td><b>Medios de comunicaci&oacuten: </b>'+row.media.media+ '</td></tr></table>');
 
-  });
+//  });
+  html.push('</td><td><img src="'+row.photo+'"  width="300" height="200"/></td></tr></table>');
   return html.join('');
 }
 

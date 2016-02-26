@@ -2,56 +2,46 @@
 <html lang="en" class="no-js">
 
 <head>
-    <title>CivicBot Analytics</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/bootstrap-table/src/bootstrap-table.css">
-    <link rel="stylesheet"
-          href="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
-    <link rel="stylesheet" type="text/css" href="css/civicbot.css">
+  <title>CivicBot Analytics</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/bootstrap-table/src/bootstrap-table.css">
+  <link rel="stylesheet" href="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
+  <link rel="stylesheet" type="text/css" href="css/civicbot.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="assets/bootstrap-table/src/bootstrap-table.js"></script>
-    <script src="assets/bootstrap-table/src/locale/bootstrap-table-es-ES.js"></script>
-    <script src="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
-    <script src="assets/bootstrap-table/src/extensions/editable/bootstrap-table-editable.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="assets/bootstrap-table/src/bootstrap-table.js"></script>
+  <script src="assets/bootstrap-table/src/locale/bootstrap-table-es-ES.js"></script>
+  <script src="http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+  <script src="assets/bootstrap-table/src/extensions/editable/bootstrap-table-editable.js"></script>
+  <script src="assets/bootstrap-table/src/extensions/export/bootstrap-table-export.js"></script>
+  <script src="http://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
 
 </head>
 
 <body>
 
-    <div class="container">
-      <div id="toolbar">
-        <button id="salir" class="btn btn-danger">
-            <i class="glyphicon glyphicon-remove"></i> Salir
-        </button>
+  <div class="container">
+    <div id="toolbar">
+      <button id="salir" class="btn btn-danger">
+        <i class="glyphicon glyphicon-remove"></i> Salir
+      </button>
     </div>
-        <div class="table-responsive">
-            <table id="table" class = "table-no-bordered"
-                   data-toolbar="#toolbar"
-                   data-search="true"
-                   data-show-refresh="true"
-                   data-show-toggle="true" 
-                   data-detail-view="true"
-                   data-detail-formatter="detailFormatter"
-                   data-minimum-count-columns="2"
-                   data-pagination="true"
-                   data-id-field="id"
-                   data-page-list="[10, 25, 50, 100]"
-                   data-show-footer="false"
-                   data-mobile-responsive="true"
-                   data-response-handler="responseHandler">
-            </table>
-        </div>
+    <div class="table-responsive">
+      <table id="table" class="table-no-bordered" data-toolbar="#toolbar" data-search="true" data-show-refresh="true" data-show-export="true" data-show-toggle="true" data-detail-view="true" data-detail-formatter="detailFormatter" data-minimum-count-columns="2"
+        data-pagination="true" data-id-field="id" data-page-list="[10, 25, 50, 100]" data-show-footer="false" data-mobile-responsive="true" data-response-handler="responseHandler">
+      </table>
     </div>
+  </div>
 
 </body>
 <script src="controller/index.js"></script>
 <footer>
-    <p>
-        CivicBot- 2016<br>
-        Un proyecto de HubCivico.org
-    </p>
+  <p>
+    CivicBot- 2016
+    <br> Un proyecto de HubCivico.org
+  </p>
 </footer>
+
 </html>
