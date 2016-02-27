@@ -1,144 +1,23 @@
 var API_URL = "http://devcivicbot.herokuapp.com/Public/";
-//var pie_data = [
-//    {
-//        value: 300,
-//        color:"#659AC9",
-//        highlight: "#5B90BF",
-//        label: "Cultura"
-//    },
-//    {
-//        value: 50,
-//        color: "#B0CC99",
-//        highlight: "#A3BE8C",
-//        label: "Economia"
-//    },
-//    {
-//        value: 100,
-//        color: "#E8A590",
-//        highlight: "#D08770",
-//        label: "Educación"
-//    },
-//    {
-//        value: 100,
-//        color: "#BD9FB7",
-//        highlight: "#B48EAD",
-//        label: "M. Ambiente"
-//    },
-//    {
-//        value: 100,
-//        color: "#B88877",
-//        highlight: "#AB7967",
-//        label: "M de Comunicación"
-//    },
-//    {
-//        value: 100,
-//        color: "#96B5B4",
-//        highlight: "#7DADAC",
-//        label: "Política"
-//    },
-//    {
-//        value: 100,
-//        color: "#7DE8CF",
-//        highlight: "#6AD9BF",
-//        label: "Sanidad"
-//    },
-//    {
-//        value: 100,
-//        color: "#9FE890",
-//        highlight: "#8FE87D",
-//        label: "Otros"
-//    }
-//];
-//
-//var donut_data = [
-//    {
-//        value: 300,
-//        color:"#659AC9",
-//        highlight: "#5B90BF",
-//        label: "Television"
-//    },
-//    {
-//        value: 50,
-//        color: "#B0CC99",
-//        highlight: "#A3BE8C",
-//        label: "Periódico"
-//    },
-//    {
-//        value: 100,
-//        color: "#E8A590",
-//        highlight: "#D08770",
-//        label: "Web"
-//    },
-//    {
-//        value: 100,
-//        color: "#BD9FB7",
-//        highlight: "#B48EAD",
-//        label: "Boca a boca"
-//    }
-//];
-//
-//var line_data = {
-//    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-//    datasets: [
-//        {
-//            label: "My First dataset",
-//            fillColor: "rgba(220,220,220,0.2)",
-//            strokeColor: "rgba(220,220,220,1)",
-//            pointColor: "rgba(220,220,220,1)",
-//            pointStrokeColor: "#fff",
-//            pointHighlightFill: "#fff",
-//            pointHighlightStroke: "rgba(220,220,220,1)",
-//            data: [65, 59, 80, 81, 56, 55, 40, 55, 40, 55, 40, 30]
-//        },
-//        {
-//            label: "My Second dataset",
-//            fillColor: "rgba(151,187,205,0.2)",
-//            strokeColor: "rgba(151,187,205,1)",
-//            pointColor: "rgba(151,187,205,1)",
-//            pointStrokeColor: "#fff",
-//            pointHighlightFill: "#fff",
-//            pointHighlightStroke: "rgba(151,187,205,1)",
-//            data: [28, 48, 40, 19, 30, 40, 50, 60, 80, 100, 90, 80]
-//        }
-//    ]
-//};
-//
-//var radar_data = {
-//    labels: ["Cultura", "Economía", "Educación", "M. Ambiente", "M. de Com.", "Política", "Sanidad", "Otros"],
-//    datasets: [
-//        {
-//            label: "My First dataset",
-//            fillColor: "rgba(220,220,220,0.2)",
-//            strokeColor: "rgba(220,220,220,1)",
-//            pointColor: "rgba(220,220,220,1)",
-//            pointStrokeColor: "#fff",
-//            pointHighlightFill: "#fff",
-//            pointHighlightStroke: "rgba(220,220,220,1)",
-//            data: [65, 59, 90, 0, 0, 0, 40, 70]
-//        },
-//        {
-//            label: "My Second dataset",
-//            fillColor: "rgba(151,187,205,0.2)",
-//            strokeColor: "rgba(151,187,205,1)",
-//            pointColor: "rgba(151,187,205,1)",
-//            pointStrokeColor: "#fff",
-//            pointHighlightFill: "#fff",
-//            pointHighlightStroke: "rgba(151,187,205,1)",
-//            data: [28, 48, 40, 19, 96, 0, 0, 0]
-//        }
-//    ]
-//};
 
 var civicbot = angular.module("civicbot", ['angularGrid']);
 
 civicbot.controller('data', ['$scope','angularGridInstance', function ($scope, angularGridInstance) {
+    $scope.currentImage = 0;
+    $scope.totalImage = 0;
+    $scope.lastImage = 0;
+
         $.getJSON(API_URL + "getcontributionlist", function(data) {
             return data;
         }).then(function(data){
+            $scope.imageJson = data;
+            $scope.totalImage = Object.keys($scope.imageJson).length;
+            $scope.currentImage = 8; // Images charged per click
+
             $scope.images = [];
-            for (var i = 0; i < Object.keys(data).length; i++) {
-                if(data[i].type == 1) {
-                    $scope.images.push(data[i]);
+            for (var i = 0; i < $scope.currentImage; i++) {
+                if($scope.imageJson[i].type == 1) {
+                    $scope.images.push($scope.imageJson[i]);
                 }    
             }
 
@@ -148,7 +27,28 @@ civicbot.controller('data', ['$scope','angularGridInstance', function ($scope, a
         $scope.refresh = function(){
             angularGridInstance.gallery.refresh();
         }
+
+    $scope.loadMoreImages = function(){
+        $scope.lastImage = $scope.currentImage;
+        $scope.currentImage += 8;
+        for (var i = $scope.lastImage; i < $scope.currentImage; i++) {
+                if($scope.lastImage < $scope.totalImage - 1)
+                    if($scope.imageJson[i].type == 1)
+                        $scope.images.push($scope.imageJson[i]);
+            }
+        }
+
      }]);
+
+function loadMoreImages() {
+    var scope = angular.element(
+    document.
+    getElementById("screenshots")).
+    scope();
+    scope.$apply(function () {
+        scope.loadMoreImages();
+    });
+}
 
 var colors = [
     {"color": "#659AC9", "hcolor": "#5B90BF"},

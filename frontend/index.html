@@ -34,7 +34,7 @@
 
 </head>
 
-<body>
+<body ng-app="civicbot">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
@@ -277,7 +277,7 @@
     </div>
 </section>
 
-<section class="screenshots" id="screenshots">
+<section class="screenshots" id="screenshots" ng-controller="data">
     <div class="container-fluid">
         <div class="row">
         <div class="col-md-12">
@@ -286,116 +286,30 @@
     </div>
         <div class="row">
             <ul class="grid">
-                <li>
-                    <figure>
-                        <img src="images/01-screenshot.jpg" alt="Screenshot 01">
-                        <figcaption>
-                            <div class="caption-content">
-                                <a href="images/large/01.jpg" class="single_image">
-                                    <i class="fa fa-search"></i><br>
-                                    <p>Lorem Ipsum</p>
-                                </a>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </li>
-                <li>
-                    <figure>
-                        <img src="images/02-screenshot.jpg" alt="Screenshot 01">
-                        <figcaption>
-                            <div class="caption-content">
-                                <a href="images/large/02.jpg" class="single_image">
-                                    <i class="fa fa-search"></i><br>
-                                    <p>Lorem Ipsum</p>
-                                </a>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </li>
-                <li>
-                    <figure>
-                        <img src="images/03-screenshot.jpg" alt="Screenshot 01">
-                        <figcaption>
-                            <div class="caption-content">
-                                <a href="images/large/03.jpg" class="single_image">
-                                    <i class="fa fa-search"></i><br>
-                                    <p>Lorem Ipsum</p>
-                                </a>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </li>
-                <li>
-                    <figure>
-                        <img src="images/04-screenshot.jpg" alt="Screenshot 01">
-                        <figcaption>
-                            <div class="caption-content">
-                                <a href="images/large/04.jpg" class="single_image">
-                                    <i class="fa fa-search"></i><br>
-                                    <p>Lorem Ipsum</p>
-                                </a>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </li>
+                <object data-ng-repeat="image in images track by $index">
+                    <li>
+                        <figure class="image" style="background-image: url('{{ image.photo }}');">
+                            <!--<img ng-src="{{ image.photo }}" alt="Screenshot 01">-->
+                            <figcaption>
+                                <div class="caption-content">
+                                    <a href="{{ image.photo }}" class="single_image">
+                                        <i class="fa fa-search"></i><br>
+                                        <p>{{$index}}</p>
+                                    </a>
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </li>
+                    <object ng-if="$index != 0 && ($index + 1) % 4 == 0">
+                        </ul>
+                        </div>
+                        <div class="row">
+                        <ul class="grid">
+                    </object>
+                </object>
             </ul>
         </div>
-        <div class="row">
-            <ul class="grid">
-                <li>
-                    <figure>
-                        <img src="images/05-screenshot.jpg" alt="Screenshot 01">
-                        <figcaption>
-                            <div class="caption-content">
-                                <a href="images/large/05.jpg" class="single_image">
-                                    <i class="fa fa-search"></i><br>
-                                    <p>Lorem Ipsum</p>
-                                </a>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </li>
-                <li>
-                    <figure>
-                        <img src="images/06-screenshot.jpg" alt="Screenshot 01">
-                        <figcaption>
-                            <div class="caption-content">
-                                <a href="images/large/06.jpg" class="single_image">
-                                    <i class="fa fa-search"></i><br>
-                                    <p>Lorem Ipsum</p>
-                                </a>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </li>
-                <li>
-                    <figure>
-                        <img src="images/07-screenshot.jpg" alt="Screenshot 01">
-                        <figcaption>
-                            <div class="caption-content">
-                                <a href="images/large/07.jpg" class="single_image">
-                                    <i class="fa fa-search"></i><br>
-                                    <p>Lorem Ipsum</p>
-                                </a>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </li>
-                <li>
-                    <figure>
-                        <img src="images/08-screenshot.jpg" alt="Screenshot 01">
-                        <figcaption>
-                            <div class="caption-content">
-                                <a href="images/large/08.jpg" class="single_image">
-                                    <i class="fa fa-search"></i><br>
-                                    <p>Lorem Ipsum</p>
-                                </a>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </li>
-            </ul>
-        </div>
+        <img ng-if="currentImage < totalImage - 1" src="images/arrow.png" onClick='loadMoreImages();'></img>
     </div>
 </section>
 
