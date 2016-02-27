@@ -33,6 +33,11 @@
     /*margin-right: 10px;*/
 /*}*/
 
+.odometer {
+	font-size: 60px;
+	font-weight: bold;
+}
+
 .image {
 	display: inline-block;
     width: 100%;
