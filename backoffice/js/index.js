@@ -2,7 +2,7 @@ var api = 'https://devcivicbot.herokuapp.com/';
 $(document).ready(function() {
   $.ajax({
     type: "GET",
-    url: api + "Private/getContributionList",
+    url: api+"Private/getContributionList",
     headers: {
       'Authorization': "Bearer " + localStorage.token
     },
@@ -19,29 +19,58 @@ $(document).ready(function() {
         }, {
           field: 'label.name',
           title: 'Categoria',
+          editable: {
+            type: 'text',
+            mode: 'inline',
+            success: function(response,newValue) {
+              localStorage.setLabel = newValue;
+              console.log("Guardado: " +newValue);
+            }
+          },
+          footerFormatter: totalFormatter,
           sortable: true,
-          align: 'center',
-          events: operateEvents,
-          formatter: editarLabelFormatter
+          align: 'center'
+
         }, {
           field: 'party.party',
           title: "Partido pol&iacutetico",
-          events: operateEvents,
-          formatter: editarPartyFormatter,
+          editable: {
+            type: 'text',
+            mode: 'inline',
+            success: function(response,newValue) {
+              localStorage.setParty = newValue;
+              console.log("Guardado: " +newValue);
+            }
+          },
+          footerFormatter: totalFormatter,
           sortable: true,
           align: 'center'
         }, {
           field: 'location.name',
           title: "Municipio",
-          events: operateEvents,
-          formatter: editarLocationFormatter,
+          editable: {
+            type: 'text',
+            mode: 'inline',
+            success: function(response,newValue) {
+              localStorage.setLocation = newValue;
+              console.log("Guardado: " +newValue);
+            }
+          },
+          footerFormatter: totalFormatter,
           sortable: true,
           align: 'center'
         }, {
           field: 'media.media',
           title: 'Medios de comunicaci&oacuten',
-          events: operateEvents,
-          formatter: editarMediaFormatter,
+          editable: {
+            type: 'text',
+            mode: 'inline',
+            success: function(response,newValue) {
+              localStorage.setMedia = newValue;
+              console.log("Guardado: " +newValue);
+            }
+          },
+          footerFormatter: totalFormatter,
           sortable: true,
           align: 'center'
         }, {
@@ -89,41 +118,22 @@ $(document).ready(function() {
     logOut();
   })
   $('#table').bootstrapTable('refreshOptions', {
-    exportDataType: 'all'
-  });
+                exportDataType: 'all'
+            });
   $('#table').bootstrapTable('refresh');
 });
 
 function totalFormatter(data) {
   return data.lenght;
 }
-
-function fechaFormatter(value, row) {
-  var string = String(value);
-  var fecha = string.split("T");
+function fechaFormatter(value,row) {
+  var fecha = value.split("T");
   return fecha[0];
 }
 
 function imageFormatter(value, row) {
   return '<img src="' + value + '" width="100" height="50"/>';
 }
-
-function editarLabelFormatter(value, row) {
-  return '<textarea id="country" "  >' + value + '</textarea>';
-}
-
-function editarPartyFormatter(value, row) {
-    return '<textarea id="country" "  >' + value + '</textarea>';
-}
-
-function editarLocationFormatter(value, row) {
-    return '<textarea id="country" "  >' + value + '</textarea>';
-}
-
-function editarMediaFormatter(value, row) {
-    return '<textarea id="country" "  >' + value + '</textarea>';
-}
-
 
 function publishedFormatter(value, row) {
   if (row.published == true) {
@@ -141,26 +151,21 @@ function editedFormatter(value, row) {
   }
 }
 
-function responseHandler(res) {
-  $.each(res.rows, function(i, row) {
-    row.state = $.inArray(row.id, selections) !== -1;
-  });
-  return res;
-}
 
 function detailFormatter(index, row) {
   var html = [];
   html.push('<table><tr><td>');
-  //  $.each(row, function(key, value) {
-  //    console.log("key: " + key);
-  //    console.log("value: " + value);
+//  $.each(row, function(key, value) {
+//    console.log("key: " + key);
+//    console.log("value: " + value);
 
-  html.push('<table><tr><td><b>Categoria: </b>' + row.label.name + '</td></tr>' + '<tr><td><b>Partido pol&iacutetico: </b>' + row.party.party + '</td></tr>' +
-    '<tr><td><b>Municipio: </b>' + row.location.name + ',' + row.location.cp + '</td></tr>' +
-    '<tr><td><b>Medios de comunicaci&oacuten: </b>' + row.media.media + '</td></tr></table>');
+  html.push('<table><tr><td><b>Categoria: </b>'+row.label.name+ '</td></tr>'
+            +'<tr><td><b>Partido pol&iacutetico: </b>'+row.party.party+ '</td></tr>'+
+          '<tr><td><b>Municipio: </b>'+row.location.name+','+row.location.cp+ '</td></tr>'+
+        '<tr><td><b>Medios de comunicaci&oacuten: </b>'+row.media.media+ '</td></tr></table>');
 
-  //  });
-  html.push('</td><td><img src="' + row.photo + '"  width="300" height="200"/></td></tr></table>');
+//  });
+  html.push('</td><td><img src="'+row.photo+'"  width="300" height="200"/></td></tr></table>');
   return html.join('');
 }
 
@@ -212,21 +217,6 @@ window.operateEvents = {
     if (row.published == true) {
       setToPublish(row.id, 0);
     }
-  },
-  'click #country': function(e, value, row, index) {
-    console.log("working");
-    $('#country').textcomplete([{
-    match: /(^|\b)(\w{2,})$/,
-    search: function (term, callback) {
-        var words = ['google', 'facebook', 'github', 'microsoft', 'yahoo'];
-        callback($.map(words, function (word) {
-            return word.indexOf(term) === 0 ? word : null;
-        }));
-    },
-    replace: function (word) {
-        return word + ' ';
-    }
-}]);
   }
 };
 
@@ -303,78 +293,64 @@ function setToPublish(contribId, publish) {
 }
 
 function getPartyList() {
-  var list = [];
   $.ajax({
     type: "GET",
-    dataType: "json",
     url: api + "Private/getPartyList",
     headers: {
       'Authorization': "Bearer " + localStorage.token
     },
     success: function(data) {
-      console.log(data);
-      list = data;
+      console.log('OK');
+      return data;
     }
   });
-  return list;
 }
 
 function getLocationList() {
-  var list = [];
   $.ajax({
     type: "GET",
-    dataType: "json",
     url: api + "Private/getLocationList",
     headers: {
       'Authorization': "Bearer " + localStorage.token
     },
     success: function(data) {
       console.log('OK');
-      list = data;
+      return data;
     }
   });
-  return list;
 }
 
 function getMediaList() {
-  var list = []
   $.ajax({
     type: "GET",
-    dataType: "json",
     url: api + "Private/getMediaList",
     headers: {
       'Authorization': "Bearer " + localStorage.token
     },
     success: function(data) {
       console.log('OK');
-      list = data;
+      return data;
     }
   });
-  return list;
 }
 
 function getLabelList() {
-  var list = [];
   $.ajax({
     type: "GET",
-    dataType: "json",
     url: api + "Private/getLabelList",
     headers: {
       'Authorization': "Bearer " + localStorage.token
     },
     success: function(data) {
-      list = data;
-      console.log(list[7].name)
-
+      console.log('OK');
+      return data;
     }
   });
-  return list;
 }
 
 function getContributionList() {
   $.ajax({
     type: "GET",
-    dataType: "json",
     url: api + "Private/getContributionList",
     headers: {
       'Authorization': "Bearer " + localStorage.token
