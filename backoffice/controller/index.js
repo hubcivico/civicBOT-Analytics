@@ -359,7 +359,7 @@ $(document).ready(function(){
         },
         success: function (data) {
 
-            $("#media").append( '<datalist id="mediaList">' );
+            $("#medias").append( '<datalist id="mediaList">' );
             for(var i=0; i<data.length; i++){
                 $("#mediaList").append('<option value="'+data[i].media+'" id="'+data[i].id+'">');
             }
@@ -375,7 +375,7 @@ $(document).ready(function(){
         },
         success: function (data) {
 
-            $("#label").append( '<datalist id="labelList">' );
+            $("#labels").append( '<datalist id="labelList">' );
             for(var i=0; i<data.length; i++){
                 $("#labelList").append('<option value="'+data[i].name+'" id="'+data[i].id+'">');
             }
@@ -391,7 +391,7 @@ $(document).ready(function(){
         },
         success: function (data) {
 
-            $("#location").append( '<datalist id="locationList">' );
+            $("#locations").append( '<datalist id="locationList">' );
             for(var i=0; i<data.length; i++){
                 $("#locationList").append('<option value="'+data[i].name+'" id="'+data[i].id+'">');
             }
