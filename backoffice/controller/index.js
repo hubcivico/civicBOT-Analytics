@@ -113,7 +113,7 @@ function imageFormatter(value, row) {
 }
 
 function editarLabelFormatter(value, row) {
-    return '<input id="label" value="' + value + '"/>';
+    return '<input id="label" value="' + value + '" list="labelList"/>';
 }
 
 function editarPartyFormatter(value, row) {
@@ -121,11 +121,11 @@ function editarPartyFormatter(value, row) {
 }
 
 function editarLocationFormatter(value, row) {
-    return '<input id="location" value="' + value + '"/>';
+    return '<input id="location" value="' + value + '" list="locationList"/>';
 }
 
 function editarMediaFormatter(value, row) {
-    return '<input id="media" value="' + value + '"/>';
+    return '<input id="media" value="' + value + '" list="mediaList"/>';
 }
 
 function publishedFormatter(value, row) {
@@ -214,21 +214,6 @@ window.operateEvents = {
         if (row.published == true) {
             setToPublish(row.id, 0);
         }
-    },
-    'click #country': function (e, value, row, index) {
-        console.log("working");
-        $('#country').textcomplete([{
-            match: /(^|\b)(\w{2,})$/,
-            search: function (term, callback) {
-                var words = ['google', 'facebook', 'github', 'microsoft', 'yahoo'];
-                callback($.map(words, function (word) {
-                    return word.indexOf(term) === 0 ? word : null;
-                }));
-            },
-            replace: function (word) {
-                return word + ' ';
-            }
-        }]);
     }
 };
 
@@ -304,79 +289,6 @@ function setToPublish(contribId, publish) {
     });
 }
 
-function getPartyList() {
-    var list = [];
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: api + "Private/getPartyList",
-        headers: {
-            'Authorization': "Bearer " + localStorage.token
-        },
-        success: function (data) {
-
-            list = data;
-            for (var i=0; i<data.length; i++){
-                list[i]=data[i].party;
-            }
-            console.log(list);
-        }
-    });
-    return list;
-}
-
-function getLocationList() {
-    var list = [];
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: api + "Private/getLocationList",
-        headers: {
-            'Authorization': "Bearer " + localStorage.token
-        },
-        success: function (data) {
-            console.log('OK');
-            list = data;
-        }
-    });
-    return list;
-}
-
-function getMediaList() {
-    var list = []
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: api + "Private/getMediaList",
-        headers: {
-            'Authorization': "Bearer " + localStorage.token
-        },
-        success: function (data) {
-            console.log('OK');
-            list = data;
-        }
-    });
-    return list;
-}
-
-function getLabelList() {
-    var list = [];
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: api + "Private/getLabelList",
-        headers: {
-            'Authorization': "Bearer " + localStorage.token
-        },
-        success: function (data) {
-            list = data;
-            console.log(list[7].name)
-
-        }
-    });
-    return list;
-}
-
 function getContributionList() {
     $.ajax({
         type: "GET",
@@ -421,6 +333,54 @@ $(document).ready(function(){
             $("#parties").append( '<datalist id="partyList">' );
             for(var i=0; i<data.length; i++){
                 $("#partyList").append('<option value="'+data[i].party+'" id="'+data[i].id+'">');
+            }
+
+        }
+    });
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: api + "Private/getMediaList",
+        headers: {
+            'Authorization': "Bearer " + localStorage.token
+        },
+        success: function (data) {
+
+            $("#media").append( '<datalist id="mediaList">' );
+            for(var i=0; i<data.length; i++){
+                $("#mediaList").append('<option value="'+data[i].media+'" id="'+data[i].id+'">');
+            }
+
+        }
+    });
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: api + "Private/getLabelList",
+        headers: {
+            'Authorization': "Bearer " + localStorage.token
+        },
+        success: function (data) {
+
+            $("#label").append( '<datalist id="labelList">' );
+            for(var i=0; i<data.length; i++){
+                $("#labelList").append('<option value="'+data[i].name+'" id="'+data[i].id+'">');
+            }
+
+        }
+    });
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: api + "Private/getLocationList",
+        headers: {
+            'Authorization': "Bearer " + localStorage.token
+        },
+        success: function (data) {
+
+            $("#location").append( '<datalist id="locationList">' );
+            for(var i=0; i<data.length; i++){
+                $("#locationList").append('<option value="'+data[i].name+'" id="'+data[i].id+'">');
             }
 
         }
