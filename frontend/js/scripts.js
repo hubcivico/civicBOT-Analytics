@@ -2,24 +2,24 @@ $(document).ready(function () {
     Chart.defaults.global.responsive = true;
 
     /*currentChart = document.getElementById("polar_chart").getContext("2d");
-    var RadarChart = new Chart(currentChart).PolarArea(pie_data);
+     var RadarChart = new Chart(currentChart).PolarArea(pie_data);
 
-    currentChart = document.getElementById("polar_chart2").getContext("2d");
-    var RadarChart = new Chart(currentChart).PolarArea(pie_data);
+     currentChart = document.getElementById("polar_chart2").getContext("2d");
+     var RadarChart = new Chart(currentChart).PolarArea(pie_data);
 
-    currentChart = document.getElementById("polar_chart3").getContext("2d");
-    var RadarChart = new Chart(currentChart).PolarArea(pie_data);
+     currentChart = document.getElementById("polar_chart3").getContext("2d");
+     var RadarChart = new Chart(currentChart).PolarArea(pie_data);
 
-    currentChart = document.getElementById("polar_chart4").getContext("2d");
-    var RadarChart = new Chart(currentChart).PolarArea(pie_data);*/
+     currentChart = document.getElementById("polar_chart4").getContext("2d");
+     var RadarChart = new Chart(currentChart).PolarArea(pie_data);*/
 
-    window.onscroll = function(ev) {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            angular.element(document.getElementById('images')).scope().loadMore();
-        }
-    };
+    //window.onscroll = function(ev) {
+    //    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    //        angular.element(document.getElementById('images')).scope().loadMore();
+    //    }
+    //};
 
-    window.onbeforeunload = function () {window.scrollTo(0,0);}
+    //window.onbeforeunload = function () {window.scrollTo(0,0);}
 });
 
 $(document).ready(function () {
@@ -123,7 +123,7 @@ $('a[href*=#]:not([href=#])').click(function () {
     }
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('.title').tooltipster({
         animation: 'fade',
         delay: 200,
