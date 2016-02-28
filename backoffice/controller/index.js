@@ -232,11 +232,24 @@ function setParty(contribId, partyId) {
 }
 
 //TODO: Revisar parámetros en función de arquitectura api
-function setMedia(contribId, mediaName, mediaId) {
+function setMediaId(contribId, mediaId) {
     $.ajax({
         type: "POST",
         url: api + "Private/setMedia",
-        data: '{"contribId": "' + contribId + '","mediaName": "' + mediaName + '" || "mediaId" : "' + mediaId + '"}',
+        data: '{"contribId": "' + contribId + '","mediaId" : "' + mediaId + '"}',
+        headers: {
+            'Authorization': "Bearer " + localStorage.token
+        },
+        success: function () {
+            console.log('OK');
+        }
+    });
+}
+function setMediaName(contribId, mediaName) {
+    $.ajax({
+        type: "POST",
+        url: api + "Private/setMedia",
+        data: '{"contribId": "' + contribId + '","mediaName": "' + mediaName + '"}',
         headers: {
             'Authorization': "Bearer " + localStorage.token
         },
