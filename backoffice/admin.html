@@ -11,6 +11,8 @@
     <link href="css/select2.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/vex.css" />
     <link rel="stylesheet" href="css/vex-theme-os.css" />
+    <link rel="stylesheet" href="css/bootstrap-table-sticky-header.css"/>
+    <link rel="stylesheet" href="css/odometer.css">
 
 
 
@@ -18,30 +20,51 @@
 
 <body>
 
-
 <header>
-    <div class="container">
-        <div id="toolbar">
-            <button id="salir" class="btn btn-danger">
-                <i class="glyphicon glyphicon-remove"></i> Salir
-            </button>
-        </div>
-        </div>
+    <nav class="navbar navbar-inverse navbar-fixed-top ">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">civicBOT</a>
+                <p class="navbar-text">Panel de Gestión</p>
+                <p class="navbar-text navbar-right">Usuarios activos: <span class="badge odometer">142</span></p>
+                <p class="navbar-text navbar-right">Contribuciones: <span class="badge odometer">42</span></p>
+                <p class="navbar-text navbar-right">Mensajes procesados: <span class="badge odometer">20</span></p>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="nav-refresh" href="#"><i class="fa fa-refresh"></i></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opciones <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Salir</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
 
 </header>
 
 <table id="table"
-       data-toolbar="#toolbar"
-       data-search="true"
-       data-show-refresh="true"
-       data-show-toggle="true"
        data-show-columns="true"
-       data-show-export="true"
        data-minimum-count-columns="2"
-       data-show-pagination-switch="true"
        data-id-field="id"
-       data-show-footer="false"
-       data-side-pagination="server"
+       data-show-footer="true"
        data-response-handler="responseHandler">
 </table>
 
@@ -53,15 +76,32 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2-rc.1/js/select2.min.js"></script>
 <script src="js/vex.combined.min.js"></script>
 <script>vex.defaultOptions.className = 'vex-theme-os';</script>
+<script src="js/bootstrap-table-sticky-header.js"></script>
 <script src="controller/admin.js"></script>
+<script src="js/odometer.min.js"></script>
 
 </body>
 
 <footer>
-    <p>
-        CivicBot- 2016
-        <br> Un proyecto de HubCivico.org
-    </p>
+    <nav class="navbar navbar-inverse navbar-fixed-bottom ">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <p class="navbar-text">Un proyecto de Hub Cívico</p>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
 </footer>
 
 </html>
