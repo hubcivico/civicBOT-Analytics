@@ -10,8 +10,6 @@ deploy:
     endpoint: civicbot.hubcivico.org.s3-website-eu-west-1.amazonaws.com
     region: eu-west-1
     skip_cleanup: true
-    local-dir: output
-    acl: public_read
     detect_encoding: true
 notifications:
     email:
