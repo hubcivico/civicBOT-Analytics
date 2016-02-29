@@ -59,6 +59,57 @@ var colors = [
     {"color": "#9FE890", "hcolor": "#8FE87D"}
 ];
 
+$(document).ready(function(){
+    getTotalActiveUsers();
+    getTotalReceivedMsg();
+    getTotalReceivedImg();
+    getTodayContribNum();
+
+});
+
+function getTotalActiveUsers () {
+    setTimeout(function() {
+        $.getJSON(API_URL + "gettotalactiveusers", function (data) {
+            gente.innerHTML = data.count;
+        }, getTotalActiveUsers());
+    }, 3000);
+
+}
+
+function getTotalReceivedMsg (){
+    setTimeout(function() {
+        $.getJSON(API_URL + "gettotalreceivedmsg", function (data) {
+            mensajes.innerHTML = data.count;
+        }, getTotalReceivedMsg());
+    }, 3000);
+
+}
+
+function getTotalReceivedImg (){
+    setTimeout(function() {
+        $.getJSON(API_URL + "getTotalReceivedImg", function (data) {
+            fotos.innerHTML = data.count;
+        }, getTotalReceivedImg());
+    }, 3000);
+
+}
+
+function getTodayContribNum () {
+    setTimeout(function() {
+        $.getJSON(API_URL + "gettodaycontribnum", function (data) {
+            mensajes_hoy.innerHTML = data.count;
+        }, getTodayContribNum());
+    }, 3000);
+
+}
+
+
+
+
+
+
+
+
 $.getJSON(API_URL + "getcontribbycategory", function (data) {
     var cat_data = [];
 
@@ -91,22 +142,6 @@ $.getJSON(API_URL + "gettopcategorybymonth", function (data) {
 
     var currentChart = document.getElementById("polar_chart").getContext("2d");
     new Chart(currentChart).PolarArea(top_cat_data_month);
-});
-
-$.getJSON(API_URL + "gettotalactiveusers", function (data) {
-    gente.innerHTML = data.count;
-});
-
-$.getJSON(API_URL + "getTotalReceivedImg", function (data) {
-    fotos.innerHTML = data.count;
-});
-
-$.getJSON(API_URL + "gettotalreceivedmsg", function (data) {
-    mensajes.innerHTML = data.count;
-});
-
-$.getJSON(API_URL + "gettodaycontribnum", function (data) {
-    mensajes_hoy.innerHTML = data.count;
 });
 
 $.getJSON(API_URL + "gettoplocations", function (data) {
