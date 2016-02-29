@@ -47,24 +47,27 @@ $(document).ready(function () {
                         align: 'center',
                         sortable: true
 
-                    },  {
+                    }, {
                         field: 'photo',
-                        title: 'Fotografia',
+                        title: 'Datos',
                         align: 'center',
-                        sortable: false
+                        sortable: false,
+                        formatter:imageFormatter
                     }, {
                         field: 'published',
                         title: 'Publicado?',
                         align: 'center',
-                        sortable: true
+                        sortable: true,
+                        formatter: publishedFormatter
 
                     }, {
                         field: 'edited',
                         title: 'Editado?',
                         align: 'center',
-                        sortable: true
+                        sortable: true,
+                        formatter: editedFormatter
 
-                    },{
+                    }, {
                         field: 'operate',
                         title: 'Opciones',
                         align: 'center',
@@ -88,7 +91,7 @@ $(document).ready(function () {
         },
         success: function (data) {
             var array = [];
-            for(var i=0; i<data.length; i++){
+            for (var i = 0; i < data.length; i++) {
                 array.push({id: data[i].id, text: data[i].party});
             }
 
@@ -105,7 +108,7 @@ $(document).ready(function () {
         },
         success: function (data) {
             var array = [];
-            for(var i=0; i<data.length; i++){
+            for (var i = 0; i < data.length; i++) {
                 array.push({id: data[i].id, text: data[i].media});
             }
 
@@ -122,7 +125,7 @@ $(document).ready(function () {
         },
         success: function (data) {
             var array = [];
-            for(var i=0; i<data.length; i++){
+            for (var i = 0; i < data.length; i++) {
                 array.push({id: data[i].id, text: data[i].name});
             }
 
@@ -139,7 +142,7 @@ $(document).ready(function () {
         },
         success: function (data) {
             var array = [];
-            for(var i=0; i<data.length; i++){
+            for (var i = 0; i < data.length; i++) {
                 array.push({id: data[i].id, text: data[i].name});
             }
 
@@ -152,6 +155,14 @@ $(document).ready(function () {
 
 window.operateEvents = {
     'click .opciones': function (e, value, row, index) {
+        var estadoPub = row.published;
+        var estadoEdi = row.edited;
+        var publicBtnTxt="";
+        var estiloBtnPub ="";
+        var estiloPubAlert = "";
+        var estiloEdiAlert = "";
+        var publicAlerta ="";
+        var editAlerta ="";
         var contribId = row.id;
         var label = "";
         var labelId = "";
@@ -161,89 +172,113 @@ window.operateEvents = {
         var locationId = "";
         var media = "";
         var mediaId = "";
+        var elemento="";
 
-        if(row.label){
-            label=row.label.name;
-            labelId=row.label.id;
+        if (row.label) {
+            label = row.label.name;
+            labelId = row.label.id;
         }
-        if(row.party){
-            party=row.party.party;
-            partyId=row.party.id;
+        if (row.party) {
+            party = row.party.party;
+            partyId = row.party.id;
         }
-        if(row.location) {
-            location=row.location.name;
-            locationId=row.location.id;
+        if (row.location) {
+            location = row.location.name;
+            locationId = row.location.id;
         }
-        if(row.media){
+        if (row.media) {
             media = row.media.media;
             mediaId = row.media.id;
 
         }
 
+        if(estadoPub){
+            publicAlerta = "Elemento Publicado";
+            publicBtnTxt = "Des-Publicar";
+            estiloBtnPub = 'btn-warning';
+            estiloPubAlert = "alert-success"
+        }else if(!estadoPub){
+            publicAlerta = "Elemento No Publicado";
+            publicBtnTxt = "Publicar";
+            estiloBtnPub = 'btn-primary';
+            estiloPubAlert = "alert-warning";
+        }
+
+        if(estadoEdi){
+            editAlerta = "Elemento Editado";
+            estiloEdiAlert = "alert-success"
+        }else if(!estadoEdi){
+            editAlerta = "Elemento No Editado";
+            estiloEdiAlert = "alert-warning"
+        }
+
+        if(row.photo!=null){
+            elemento= '<img style="width:auto; height:312px; max-width: 454px;" src="' + row.photo + '" href="' + row.photo + '"/>';
+        }else{
+            elemento= '<p>'+row.text+'</p>'
+        }
+
         vex.open({
             content:
             '<div class="container-fluid">' +
-            '<div class="row">' +
-
-            '<div class="col-md-4" style="text-align:center">' +
-            '<h2>Propiedades</h2>'+
-            '<p>Categoría: </p>'+
-            '<select id="label" class="js-example-data-array">'+
-            '<option value="'+labelId+'">'+label+'</option>' +
-            '</select>' +
-            '<br>' +
-            '<br>' +
-            '<p>Partido: </p>'+
-            '<select id="party" class="js-example-data-array">' +
-            '<option value="'+partyId+'">'+party+'</option>' +
-            '</select>' +
-            '<br>' +
-            '<br>' +
-            '<p>Municipio: </p>'+
-            '<select id="location" class="js-example-data-array">' +
-            '<option value="'+locationId+'">'+location+'</option>' +
-            '</select>' +
-            '<br>' +
-            '<br>' +
-            '<p>Medio: </p>'+
-            '<select id="media" class="js-example-data-array">' +
-            '<option value="'+mediaId+'">'+media+'</option>' +
-            '<option value="-1">AÑADIR...</option>' +
-            '</select>' +
-            '<input id="nuevoMedio" type="text" style="width: 70%; margin-top:10px" class="hidden">'+
-            '<br>' +
-            '</div>' +
-            '<div class="col-md-4" style="text-align:center">' +
-            '<h2>Elemento</h2>'+
-            '<img style="width:auto; height:312px; max-width: 454px;" src="'+row.photo+'"/>' +
-            '</div>' +
-            '<div class="col-md-4" style="text-align:center">' +
-            '<h2 style="text-align: center">Estado</h2>'+
-            '<div class="row" style="margin-top: 80%;">' +
-            '<div class="col-md-12" style="text-align: right">' +
-            '<button id="cancelar" type="button" class="btn btn-danger btn-lg" style="margin-right: 7px">Cancelar</button>'+
-            '<button id="publicar" type="button" class="btn btn-warning btn-lg"style="margin-right: 7px">Publicar</button>'+
-            '<button id="guardar" type="button" class="btn btn-success btn-lg disabled">Guardar</button>'+
-
-            '</div>'+
-            '</div>'+
-            '</div>' +
-            '</div>'+
-            '' +
-            '' +
-            '' +
-
+                '<div class="row">' +
+                    '<div class="col-md-4" style="text-align:left">' +
+                        '<h2>Propiedades</h2>' +
+                            '<h4>Categoría: </h4>' +
+                                '<select id="label" class="js-example-data-array">' +
+                                    '<option value="' + labelId + '">' + label + '</option>' +
+                                '</select>' +
+                            '<br>' +
+                            '<br>' +
+                            '<h4>Partido: </h4>' +
+                                '<select id="party" class="js-example-data-array">' +
+                                    '<option value="' + partyId + '">' + party + '</option>' +
+                                '</select>' +
+                            '<br>' +
+                            '<br>' +
+                            '<h4>Municipio: </h4>' +
+                                '<select id="location" class="js-example-data-array">' +
+                                    '<option value="' + locationId + '">' + location + '</option>' +
+                                '</select>' +
+                            '<br>' +
+                            '<br>' +
+                            '<h4>Medio: </h4>' +
+                                '<select id="media" class="js-example-data-array">' +
+                                    '<option value="' + mediaId + '">' + media + '</option>' +
+                                    '<option value="-1">AÑADIR...</option>' +
+                                '</select>' +
+                                '<input id="nuevoMedio" type="text" style="width: 70%; margin-top:10px" class="hidden">' +
+                            '<br>' +
+                    '</div>' +
+                    '<div class="col-md-4" style="text-align:left">' +
+                        '<h2>Elemento</h2>' +
+                            elemento +
+                    '</div>' +
+                    '<div class="col-md-4" style="text-align:left">' +
+                        '<h2 style="text-align: left">Estado</h2>' +
+                            '<h4>Publicado</h4>'+
+                            '<div class="alert '+estiloPubAlert+'" role="alert">'+publicAlerta+'</div>'+
+                            '<h4>Editado</h4>'+
+                            '<div class="alert '+estiloEdiAlert+'" role="alert">'+editAlerta+'</div>'+
+                            '<div class="row" style="margin-top: 50%;">' +
+                                '<div class="col-md-12" style="text-align: right">' +
+                                    '<button id="cancelar" type="button" class="btn btn-danger btn-lg" style="margin-right: 7px">Cancelar</button>' +
+                                    '<button id="publicar" type="button" class="btn '+estiloBtnPub+' btn-lg"style="margin-right: 7px">'+publicBtnTxt+'</button>' +
+                                    '<button id="guardar" type="button" class="btn btn-success btn-lg disabled">Guardar</button>' +
+                                '</div>' +
+                            '</div>' +
+                    '</div>' +
+                '</div>' +
             '</div>',
             contentCSS: {width: '90%', height: '100%'},
 
-
-
-            afterOpen: function($vexContent) {
+            afterOpen: function ($vexContent) {
                 var nuevoMedio = false;
                 var editLabel = false;
                 var editParty = false;
                 var editMedia = false;
                 var editLocation = false;
+                publicado =
 
                 $("#party").select2({
                     data: JSON.parse(sessionStorage.getItem('partyList'))
@@ -268,12 +303,12 @@ window.operateEvents = {
                         return value;
                     });
                     args = JSON.parse(args);
-                    if(args.data.id == -1){
+                    if (args.data.id == -1) {
                         $('#nuevoMedio').removeClass('hidden');
                         nuevoMedio = true;
 
                     }
-                    else{
+                    else {
                         $('#nuevoMedio').addClass('hidden');
                     }
                 });
@@ -285,71 +320,70 @@ window.operateEvents = {
 
                 $('#label').on("select2:select", function (e) {
                     console.log("LABEL EDITADA");
-                    editLabel=true;
+                    editLabel = true;
                 });
                 $('#media').on("select2:select", function (e) {
                     console.log("MEDIA EDITADA");
-                    editMedia=true;
+                    editMedia = true;
                 });
                 $('#party').on("select2:select", function (e) {
                     console.log("PARTY EDITADA");
-                    editParty=true;
+                    editParty = true;
 
                 });
                 $('#location').on("select2:select", function (e) {
                     console.log("LOCATION EDITADA");
-                    editLocation=true;
+                    editLocation = true;
 
                 });
 
 
-
-                $('#cancelar').on('click', function(){
+                $('#cancelar').on('click', function () {
                     $('.vex-close').trigger('click');
                 });
 
-                $('#guardar').on('click', function(){
-                    if(editLabel){
+                $('#guardar').on('click', function () {
+                    if (editLabel) {
                         var labelId = $('#label').val();
                         $.ajax({
                             type: "POST",
                             url: api + "Private/setLabel",
-                            data: {contribId: contribId, labelId :  labelId },
+                            data: {contribId: contribId, labelId: labelId},
                             headers: {
                                 'Authorization': "Bearer " + localStorage.token
                             },
                             success: function () {
                                 console.log('CATEGORIA GUARDADA! ');
                             },
-                            error: function(err){
-                                console.log("ERROR: "+JSON.stringify(err));
+                            error: function (err) {
+                                console.log("ERROR: " + JSON.stringify(err));
                             }
                         });
 
                     }
-                    if(editMedia){
-                        if(nuevoMedio){
+                    if (editMedia) {
+                        if (nuevoMedio) {
                             var nombreMedio = $('#nuevoMedio').val();
                             $.ajax({
                                 type: "POST",
                                 url: api + "Private/setMedia",
-                                data: {contribId: contribId, mediaName :  nombreMedio },
+                                data: {contribId: contribId, mediaName: nombreMedio},
                                 headers: {
                                     'Authorization': "Bearer " + localStorage.token
                                 },
                                 success: function () {
                                     console.log('NUEVO MEDIO CREADO Y ASIGNADO!');
                                 },
-                                error: function(err){
-                                    console.log("ERROR: "+JSON.stringify(err));
+                                error: function (err) {
+                                    console.log("ERROR: " + JSON.stringify(err));
                                 }
                             });
-                        }else{
+                        } else {
                             var mediaId = $('#media').val();
                             $.ajax({
                                 type: "POST",
                                 url: api + "Private/setMedia",
-                                data: {contribId: contribId, mediaId: mediaId },
+                                data: {contribId: contribId, mediaId: mediaId},
                                 headers: {
                                     'Authorization': "Bearer " + localStorage.token
                                 },
@@ -361,12 +395,12 @@ window.operateEvents = {
                         }
 
                     }
-                    if(editParty){
+                    if (editParty) {
                         var partyId = $('#party').val();
                         $.ajax({
                             type: "POST",
                             url: api + "Private/setParty",
-                            data: {contribId: contribId, partyId:+ partyId },
+                            data: {contribId: contribId, partyId: +partyId},
                             headers: {
                                 'Authorization': "Bearer " + localStorage.token
                             },
@@ -376,12 +410,12 @@ window.operateEvents = {
                         });
 
                     }
-                    if(editLocation){
+                    if (editLocation) {
                         var locationId = $('#location').val();
                         $.ajax({
                             type: "POST",
                             url: api + "Private/setLocation",
-                            data: {contribId: contribId, locationId:locationId},
+                            data: {contribId: contribId, locationId: locationId},
                             headers: {
                                 'Authorization': "Bearer " + localStorage.token
                             },
@@ -391,12 +425,29 @@ window.operateEvents = {
                         });
 
                     }
+                    $('#guardar').addClass('disabled');
+                    $('.vex-close').trigger('click');
 
                 });
 
+                $('#publicar').on('click', function(){
+
+                    $.ajax({
+                        type: "POST",
+                        url: api + "Private/setToPublish",
+                        data: {contribId: contribId, publish: publish },
+                        headers: {
+                            'Authorization': "Bearer " + localStorage.token
+                        },
+                        success: function () {
+                            console.log("ELEMENTO PUBLICADO CORRECTAMENTE");
+                        }
+                    });
+                })
+
             },
-            afterClose: function() {
-                return console.log('vexClose');
+            afterClose: function () {
+                window.location.reload();
             }
         });
 
@@ -406,6 +457,30 @@ window.operateEvents = {
 
 function operateFormatter(index, row, element) {
     return '<a class="btn opciones" href="#"><i class="fa fa-cogs"></i></button></a>';
+}
+
+function imageFormatter(value, row) {
+    if(row.photo!=null){
+        return '<img src="' + value + '" width="100" height="50"/>';
+    }else{
+        return '<p>'+row.text+'</p>'
+    }
+}
+
+function publishedFormatter(value, row) {
+    if (row.published == true) {
+        return '<span class="glyphicon glyphicon-ok" style="color: green"/>';
+    } else {
+        return '<span class="glyphicon glyphicon-remove" style="color: red"/>';
+    }
+}
+
+function editedFormatter(value, row) {
+    if (row.edited == true) {
+        return '<span class="glyphicon glyphicon-ok" style="color: green"/>';
+    } else {
+        return '<span class="glyphicon glyphicon-remove" style="color: red"/>';
+    }
 }
 
 
