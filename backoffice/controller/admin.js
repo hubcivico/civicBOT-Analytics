@@ -17,61 +17,61 @@ $(document).ready(function () {
                     sortable: true
                 },
                     {
-                    field: 'createdAt',
-                    title: "Fecha de publicaci&oacuten",
-                    align: 'center',
-                    sortable: true
+                        field: 'createdAt',
+                        title: "Fecha de publicaci&oacuten",
+                        align: 'center',
+                        sortable: true
 
-                }, {
-                    field: 'label.name',
-                    title: 'Categoria',
-                    align: 'center',
-                    sortable: true
+                    }, {
+                        field: 'label.name',
+                        title: 'Categoria',
+                        align: 'center',
+                        sortable: true
 
 
-                }, {
-                    field: 'party.party',
-                    title: "Partido pol&iacutetico",
-                    align: 'center',
-                    sortable: true
+                    }, {
+                        field: 'party.party',
+                        title: "Partido pol&iacutetico",
+                        align: 'center',
+                        sortable: true
 
-                }, {
-                    field: 'location.name',
-                    title: "Municipio",
-                    align: 'center',
-                    sortable: true
+                    }, {
+                        field: 'location.name',
+                        title: "Municipio",
+                        align: 'center',
+                        sortable: true
 
-                }, {
-                    field: 'media.media',
-                    title: 'Medios de comunicaci&oacuten',
-                    align: 'center',
-                    sortable: true
+                    }, {
+                        field: 'media.media',
+                        title: 'Medios de comunicaci&oacuten',
+                        align: 'center',
+                        sortable: true
 
-                },  {
-                    field: 'photo',
-                    title: 'Fotografia',
-                    align: 'center',
-                    sortable: false
-                }, {
-                    field: 'published',
-                    title: 'Publicado?',
-                    align: 'center',
-                    sortable: true
+                    },  {
+                        field: 'photo',
+                        title: 'Fotografia',
+                        align: 'center',
+                        sortable: false
+                    }, {
+                        field: 'published',
+                        title: 'Publicado?',
+                        align: 'center',
+                        sortable: true
 
-                }, {
-                    field: 'edited',
-                    title: 'Editado?',
-                    align: 'center',
-                    sortable: true
+                    }, {
+                        field: 'edited',
+                        title: 'Editado?',
+                        align: 'center',
+                        sortable: true
 
-                },{
-                    field: 'operate',
-                    title: 'Opciones',
-                    align: 'center',
-                    sortable: false,
-                    events: operateEvents,
-                    formatter: operateFormatter
-                }]
+                    },{
+                        field: 'operate',
+                        title: 'Opciones',
+                        align: 'center',
+                        sortable: false,
+                        events: operateEvents,
+                        formatter: operateFormatter
+                    }]
             });
         },
         error: function (request, status, error) {
@@ -183,55 +183,55 @@ window.operateEvents = {
         vex.open({
             content:
             '<div class="container-fluid">' +
-                '<div class="row">' +
+            '<div class="row">' +
 
-                    '<div class="col-md-4" style="text-align:center">' +
-                    '<h2>Propiedades</h2>'+
-                        '<p>Categoría: </p>'+
-                        '<select id="label" class="js-example-data-array">'+
-                            '<option value="'+labelId+'">'+label+'</option>' +
-                        '</select>' +
-                        '<br>' +
-                        '<br>' +
-                        '<p>Partido: </p>'+
-                        '<select id="party" class="js-example-data-array">' +
-                            '<option value="'+partyId+'">'+party+'</option>' +
-                        '</select>' +
-                        '<br>' +
-                        '<br>' +
-                        '<p>Municipio: </p>'+
-                        '<select id="location" class="js-example-data-array">' +
-                            '<option value="'+locationId+'">'+location+'</option>' +
-                        '</select>' +
-                        '<br>' +
-                        '<br>' +
-                        '<p>Medio: </p>'+
-                        '<select id="media" class="js-example-data-array">' +
-                            '<option value="'+mediaId+'">'+media+'</option>' +
-                            '<option value="-1">AÑADIR...</option>' +
-                        '</select>' +
-                        '<input id="nuevoMedio" type="text" style="width: 70%; margin-top:10px" class="hidden">'+
-                        '<br>' +
-                    '</div>' +
-                    '<div class="col-md-4" style="text-align:center">' +
-                    '<h2>Elemento</h2>'+
-                        '<img style="width:auto; height:312px; max-width: 454px;" src="'+row.photo+'"/>' +
-                    '</div>' +
-                    '<div class="col-md-4" style="text-align:center">' +
-                        '<h2 style="text-align: center">Estado</h2>'+
-                            '<div class="row" style="margin-top: 80%;">' +
-                                '<div class="col-md-12" style="text-align: right">' +
-                                    '<button id="cancelar" type="button" class="btn btn-danger btn-lg" style="margin-right: 7px">Cancelar</button>'+
-                                    '<button id="publicar" type="button" class="btn btn-warning btn-lg"style="margin-right: 7px">Publicar</button>'+
-                                    '<button id="guardar" type="button" class="btn btn-success btn-lg disabled">Guardar</button>'+
+            '<div class="col-md-4" style="text-align:center">' +
+            '<h2>Propiedades</h2>'+
+            '<p>Categoría: </p>'+
+            '<select id="label" class="js-example-data-array">'+
+            '<option value="'+labelId+'">'+label+'</option>' +
+            '</select>' +
+            '<br>' +
+            '<br>' +
+            '<p>Partido: </p>'+
+            '<select id="party" class="js-example-data-array">' +
+            '<option value="'+partyId+'">'+party+'</option>' +
+            '</select>' +
+            '<br>' +
+            '<br>' +
+            '<p>Municipio: </p>'+
+            '<select id="location" class="js-example-data-array">' +
+            '<option value="'+locationId+'">'+location+'</option>' +
+            '</select>' +
+            '<br>' +
+            '<br>' +
+            '<p>Medio: </p>'+
+            '<select id="media" class="js-example-data-array">' +
+            '<option value="'+mediaId+'">'+media+'</option>' +
+            '<option value="-1">AÑADIR...</option>' +
+            '</select>' +
+            '<input id="nuevoMedio" type="text" style="width: 70%; margin-top:10px" class="hidden">'+
+            '<br>' +
+            '</div>' +
+            '<div class="col-md-4" style="text-align:center">' +
+            '<h2>Elemento</h2>'+
+            '<img style="width:auto; height:312px; max-width: 454px;" src="'+row.photo+'"/>' +
+            '</div>' +
+            '<div class="col-md-4" style="text-align:center">' +
+            '<h2 style="text-align: center">Estado</h2>'+
+            '<div class="row" style="margin-top: 80%;">' +
+            '<div class="col-md-12" style="text-align: right">' +
+            '<button id="cancelar" type="button" class="btn btn-danger btn-lg" style="margin-right: 7px">Cancelar</button>'+
+            '<button id="publicar" type="button" class="btn btn-warning btn-lg"style="margin-right: 7px">Publicar</button>'+
+            '<button id="guardar" type="button" class="btn btn-success btn-lg disabled">Guardar</button>'+
 
-                                '</div>'+
-                            '</div>'+
-                    '</div>' +
-                '</div>'+
-                '' +
-                '' +
-                '' +
+            '</div>'+
+            '</div>'+
+            '</div>' +
+            '</div>'+
+            '' +
+            '' +
+            '' +
 
             '</div>',
             contentCSS: {width: '90%', height: '100%'},
