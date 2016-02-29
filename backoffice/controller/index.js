@@ -1,4 +1,5 @@
 var api = 'https://devcivicbot.herokuapp.com/';
+
 $(document).ready(function () {
     $.ajax({
         type: "GET",
@@ -146,6 +147,7 @@ $(document).ready(function () {
 
         }
     });
+
 });
 
 window.operateEvents = {
