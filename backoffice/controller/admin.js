@@ -1,168 +1,207 @@
-var api = 'https://devcivicbot.herokuapp.com/';
+
+
+
+
+var api = 'https://preprodcivicbot.herokuapp.com/';
+var token = sessionStorage.getItem('token');
 
 $(document).ready(function () {
-    $.ajax({
-        type: "GET",
-        url: api + "Private/getContributionList",
-        headers: {
-            'Authorization': "Bearer " + localStorage.token
-        },
-        success: function (data) {
-            $('#table').bootstrapTable({
-                data: data,
-                stickyHeader: true,
-                rowStyle: function rowStyle(value, row, index) {
-                    return {
-                        classes: 'text-nowrap another-class',
-                        css: {"font-size": "12px", "vertical-align" : "middle"}
-                    };
-                },
-                columns: [{
-                    field: 'id',
-                    title: "ID",
-                    align: 'center',
-                    sortable: true
-                },
-                    {
-                        field: 'createdAt',
-                        title: "Fecha de publicaci&oacuten",
-                        align: 'center',
-                        sortable: true,
-                        formatter: fechaFormatter
-
-                    }, {
-                        field: 'label.name',
-                        title: 'Categoria',
+    if(token) {
+        $.ajax({
+            type: "GET",
+            url: api + "Private/getContributionList",
+            headers: {
+                'Authorization': "Bearer " + token
+            },
+            success: function (data) {
+                $('#table').bootstrapTable({
+                    data: data,
+                    stickyHeader: true,
+                    rowStyle: function rowStyle(value, row, index) {
+                        return {
+                            classes: 'text-nowrap another-class',
+                            css: {"font-size": "12px", "vertical-align": "middle"}
+                        };
+                    },
+                    columns: [{
+                        field: 'id',
+                        title: "ID",
                         align: 'center',
                         sortable: true
+                    },
+                        {
+                            field: 'createdAt',
+                            title: "Fecha de publicaci&oacuten",
+                            align: 'center',
+                            sortable: true,
+                            formatter: fechaFormatter
+
+                        }, {
+                            field: 'label.name',
+                            title: 'Categoria',
+                            align: 'center',
+                            sortable: true
 
 
-                    }, {
-                        field: 'party.party',
-                        title: "Partido pol&iacutetico",
-                        align: 'center',
-                        sortable: true
+                        }, {
+                            field: 'party.party',
+                            title: "Partido pol&iacutetico",
+                            align: 'center',
+                            sortable: true
 
-                    }, {
-                        field: 'location.name',
-                        title: "Municipio",
-                        align: 'center',
-                        sortable: true
+                        }, {
+                            field: 'location.name',
+                            title: "Municipio",
+                            align: 'center',
+                            sortable: true
 
-                    }, {
-                        field: 'media.media',
-                        title: 'Medios de comunicaci&oacuten',
-                        align: 'center',
-                        sortable: true
+                        }, {
+                            field: 'media.media',
+                            title: 'Medios de comunicaci&oacuten',
+                            align: 'center',
+                            sortable: true
 
-                    }, {
-                        field: 'photo',
-                        title: 'Datos',
-                        align: 'center',
-                        sortable: false,
-                        formatter:imageFormatter
-                    }, {
-                        field: 'published',
-                        title: 'Publicado?',
-                        align: 'center',
-                        sortable: true,
-                        formatter: publishedFormatter
+                        }, {
+                            field: 'photo',
+                            title: 'Datos',
+                            align: 'center',
+                            sortable: false,
+                            events: operateEvents,
+                            formatter: imageFormatter
+                        }, {
+                            field: 'published',
+                            title: 'Publicado?',
+                            align: 'center',
+                            sortable: true,
+                            formatter: publishedFormatter
 
-                    }, {
-                        field: 'edited',
-                        title: 'Editado?',
-                        align: 'center',
-                        sortable: true,
-                        formatter: editedFormatter
+                        }, {
+                            field: 'edited',
+                            title: 'Editado?',
+                            align: 'center',
+                            sortable: true,
+                            formatter: editedFormatter
 
-                    }, {
-                        field: 'operate',
-                        title: 'Opciones',
-                        align: 'center',
-                        sortable: false,
-                        events: operateEvents,
-                        formatter: operateFormatter
-                    }]
-            });
-        },
-        error: function (request, status, error) {
-            alert("Error al cargar la tabla.");
-            window.location.href = 'index.html';
-        }
-    });
+                        }, {
+                            field: 'operate',
+                            title: 'Opciones',
+                            align: 'center',
+                            sortable: false,
+                            events: operateEvents,
+                            formatter: operateFormatter
+                        }]
+                });
+            },
+            error: function (err) {
+                console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
+                //window.location.href = 'index.html';
+            }
+        });
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: api + "Private/getPartyList",
+            headers: {
+                'Authorization': "Bearer " + token
+            },
+            success: function (data) {
+                var array = [];
+                for (var i = 0; i < data.length; i++) {
+                    array.push({id: data[i].id, text: data[i].party});
+                }
+
+                sessionStorage.setItem('partyList', JSON.stringify(array));
+
+            }
+        });
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: api + "Private/getMediaList",
+            headers: {
+                'Authorization': "Bearer " + token
+            },
+            success: function (data) {
+                var array = [];
+                for (var i = 0; i < data.length; i++) {
+                    array.push({id: data[i].id, text: data[i].media});
+                }
+
+                sessionStorage.setItem('mediaList', JSON.stringify(array));
+
+            }
+        });
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: api + "Private/getLabelList",
+            headers: {
+                'Authorization': "Bearer " + token
+            },
+            success: function (data) {
+                var array = [];
+                for (var i = 0; i < data.length; i++) {
+                    array.push({id: data[i].id, text: data[i].name});
+                }
+
+                sessionStorage.setItem('labelList', JSON.stringify(array));
+
+            }
+        });
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: api + "Private/getLocationList",
+            headers: {
+                'Authorization': "Bearer " + token
+            },
+            success: function (data) {
+                var array = [];
+                for (var i = 0; i < data.length; i++) {
+                    array.push({id: data[i].id, text: data[i].name});
+                }
+
+                sessionStorage.setItem('locationList', JSON.stringify(array));
+
+            }
+        });
+
+        $('.nav-refresh').on('click', function () {
+            console.log("REFRESHING TABLE...");
+            refreshTable();
+            refreshMedia();
+        });
+    }
+});
+
+
+
+$(window).load(function(){
+    if(token){
+        //$(".loading").fadeOut("slow");
+        $(".content").fadeIn("slow");
+    }
+
+});
+
+$('#logOut').on('click', function(){
     $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: api + "Private/getPartyList",
+        type: 'POST',
+        url: api + "Private/logout",
         headers: {
-            'Authorization': "Bearer " + localStorage.token
+            'Authorization': "Bearer " + token
         },
         success: function (data) {
-            var array = [];
-            for (var i = 0; i < data.length; i++) {
-                array.push({id: data[i].id, text: data[i].party});
-            }
-
-            sessionStorage.setItem('partyList', JSON.stringify(array));
-
-        }
-    });
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: api + "Private/getMediaList",
-        headers: {
-            'Authorization': "Bearer " + localStorage.token
+            console.log("GOOD BYE!!!");
+            sessionStorage.removeItem('token');
+            $(".content").fadeOut("slow");
+            window.location.href = 'index.html'
         },
-        success: function (data) {
-            var array = [];
-            for (var i = 0; i < data.length; i++) {
-                array.push({id: data[i].id, text: data[i].media});
-            }
-
-            sessionStorage.setItem('mediaList', JSON.stringify(array));
-
+        error: function (err){
+            console.log("ERR: "+err);
+            //window.location.href = "index.html"
         }
-    });
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: api + "Private/getLabelList",
-        headers: {
-            'Authorization': "Bearer " + localStorage.token
-        },
-        success: function (data) {
-            var array = [];
-            for (var i = 0; i < data.length; i++) {
-                array.push({id: data[i].id, text: data[i].name});
-            }
-
-            sessionStorage.setItem('labelList', JSON.stringify(array));
-
-        }
-    });
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: api + "Private/getLocationList",
-        headers: {
-            'Authorization': "Bearer " + localStorage.token
-        },
-        success: function (data) {
-            var array = [];
-            for (var i = 0; i < data.length; i++) {
-                array.push({id: data[i].id, text: data[i].name});
-            }
-
-            sessionStorage.setItem('locationList', JSON.stringify(array));
-
-        }
-    });
-
-    $('.nav-refresh').on('click', function(){
-        refreshTable();
-        refreshMedia();
-    });
+    })
 
 });
 
@@ -226,7 +265,7 @@ window.operateEvents = {
         }
 
         if(row.photo!=null){
-            elemento= '<a href="' + row.photo + '" target="_blank" class="thumbnail" style="max-width: 50%; !important;"><img class="img-thumbnail" src="' + row.photo + '" href="' + row.photo + '"/></a>';
+            elemento= '<a href="#" class="thumbnail dialog-photo-click" style="max-width: 50%; !important;"><img id= "dialog-image" class="img-thumbnail" src="' + row.photo + '"/></a>';
         }else{
             elemento= '<p>'+row.text+'</p>'
         }
@@ -292,7 +331,6 @@ window.operateEvents = {
                 var editParty = false;
                 var editMedia = false;
                 var editLocation = false;
-                publicado =
 
                 $("#party").select2({
                     data: JSON.parse(sessionStorage.getItem('partyList'))
@@ -325,6 +363,14 @@ window.operateEvents = {
                     else {
                         $('#nuevoMedio').addClass('hidden');
                     }
+                });
+
+                $('.dialog-photo-click').on('click', function(){
+                    console.log("ROW PHOTO: "+row.photo);
+                    //var options =  {};
+                    var viewer = new Viewer(document.getElementById('dialog-image'));
+
+
                 });
 
                 $('.js-example-data-array').on("select2:select", function (e) {
@@ -364,7 +410,7 @@ window.operateEvents = {
                             url: api + "Private/setLabel",
                             data: {contribId: contribId, labelId: labelId},
                             headers: {
-                                'Authorization': "Bearer " + localStorage.token
+                                'Authorization': "Bearer " + token
                             },
                             success: function () {
                                 console.log('CATEGORIA GUARDADA! ');
@@ -383,7 +429,7 @@ window.operateEvents = {
                                 url: api + "Private/setMedia",
                                 data: {contribId: contribId, mediaName: nombreMedio},
                                 headers: {
-                                    'Authorization': "Bearer " + localStorage.token
+                                    'Authorization': "Bearer " + token
                                 },
                                 success: function () {
                                     console.log('NUEVO MEDIO CREADO Y ASIGNADO!');
@@ -399,7 +445,7 @@ window.operateEvents = {
                                 url: api + "Private/setMedia",
                                 data: {contribId: contribId, mediaId: mediaId},
                                 headers: {
-                                    'Authorization': "Bearer " + localStorage.token
+                                    'Authorization': "Bearer " + token
                                 },
                                 success: function () {
                                     console.log('MEDIO ASIGNADO CORRECTAMENTE!');
@@ -410,13 +456,15 @@ window.operateEvents = {
 
                     }
                     if (editParty) {
-                        var partyId = $('#party').val();
+                        var selectPartyId = $('#party').val();
+
+                        console.log("PARTY SELECTED: "+selectPartyId);
                         $.ajax({
                             type: "POST",
                             url: api + "Private/setParty",
-                            data: {contribId: contribId, partyId: +partyId},
+                            data: {contribId: contribId, partyId: selectPartyId},
                             headers: {
-                                'Authorization': "Bearer " + localStorage.token
+                                'Authorization': "Bearer " + token
                             },
                             success: function () {
                                 console.log('PARTIDO ASIGNADO CORRECTAMENTE!');
@@ -431,7 +479,7 @@ window.operateEvents = {
                             url: api + "Private/setLocation",
                             data: {contribId: contribId, locationId: locationId},
                             headers: {
-                                'Authorization': "Bearer " + localStorage.token
+                                'Authorization': "Bearer " + token
                             },
                             success: function () {
                                 console.log('MUNICIPIO ASIGNADO CORRECTAMENTE!');
@@ -445,19 +493,36 @@ window.operateEvents = {
                 });
 
                 $('#publicar').on('click', function(){
+                    if(!estadoPub){
+                        $.ajax({
+                            type: "POST",
+                            url: api + "Private/setToPublish",
+                            data: {contribId: contribId, publish: 1 },
+                            headers: {
+                                'Authorization': "Bearer " + token
+                            },
+                            success: function () {
+                                console.log("ELEMENTO PUBLICADO CORRECTAMENTE");
+                                $('.vex-close').trigger('click');
+                            }
+                        });
+                    }else if(estadoPub){
+                        $.ajax({
+                            type: "POST",
+                            url: api + "Private/setToPublish",
+                            data: {contribId: contribId, publish: 0 },
+                            headers: {
+                                'Authorization': "Bearer " + token
+                            },
+                            success: function () {
+                                console.log("ELEMENTO DES-PUBLICADO CORRECTAMENTE");
+                                $('.vex-close').trigger('click');
+                            }
+                        });
+                    }
 
-                    $.ajax({
-                        type: "POST",
-                        url: api + "Private/setToPublish",
-                        data: {contribId: contribId, publish: publish },
-                        headers: {
-                            'Authorization': "Bearer " + localStorage.token
-                        },
-                        success: function () {
-                            console.log("ELEMENTO PUBLICADO CORRECTAMENTE");
-                        }
-                    });
-                })
+
+                });
 
             },
             afterClose: function () {
@@ -465,6 +530,16 @@ window.operateEvents = {
                 refreshMedia();
             }
         });
+
+    },
+
+    'click .table-image-click': function(e, value, row, index){
+
+        var viewer = new Viewer(document.getElementById(row.photo));
+
+
+
+
 
     }
 };
@@ -476,7 +551,7 @@ function operateFormatter(index, row, element) {
 
 function imageFormatter(value, row) {
     if(row.photo!=null){
-        return '<img src="' + value + '" width="100" height="50"/>';
+        return '<a class="btn table-image-click" href="#"><img id="'+row.photo+'" src="' + value + '" width="100" height="50"/></a>';
     }else{
         return '<p>'+row.text+'</p>'
     }
@@ -505,11 +580,12 @@ function fechaFormatter(value, row) {
 }
 
 function refreshTable(){
+    console.log("REFRESHING");
     $.ajax({
         type: "GET",
         url: api + "Private/getContributionList",
         headers: {
-            'Authorization': "Bearer " + localStorage.token
+            'Authorization': "Bearer " + token
         },
         success: function (data) {
             $('#table').bootstrapTable('destroy').bootstrapTable({
@@ -589,9 +665,9 @@ function refreshTable(){
                     }]
             });
         },
-        error: function (request, status, error) {
-            alert("Error al cargar la tabla.");
-            window.location.href = 'index.html';
+        error: function (err) {
+            console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
+            //window.location.href = 'index.html';
         }
     });
 }
@@ -603,7 +679,7 @@ function refreshMedia(){
         dataType: "json",
         url: api + "Private/getMediaList",
         headers: {
-            'Authorization': "Bearer " + localStorage.token
+            'Authorization': "Bearer " + token
         },
         success: function (data) {
             var array = [];
@@ -617,5 +693,4 @@ function refreshMedia(){
     });
 
 }
-
 

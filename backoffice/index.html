@@ -1,25 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <!-- Latest compiled and minified CSS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>civicBOT - Gestión</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/login.css">
-
-    <!-- All the files that are required -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-
-    <title>Login | civicBot-Analytics</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link href="css/cover.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -28,31 +18,64 @@
 
 <body>
 
-<div class = "container">
-    <div class="wrapper">
-        <form id="login_form" name="login_form" class="form-signin">
-            <h3 class="form-signin-heading">Bienvenido a civicBot-Analytics</h3>
-            <hr class="colorgraph"><br>
+<div class="site-wrapper">
 
-            <input type="text" class="form-control" id="email" name="email" placeholder="Usuario" required="" autofocus="" />
-            <br>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required=""/>
+    <div class="site-wrapper-inner">
 
-            <button class="btn btn-lg btn-primary btn-block"  name="submit" value="Entrar" type="submit">Entrar</button>
-        </form>
+        <div class="cover-container">
+
+            <div class="masthead clearfix">
+                <div class="inner">
+                    <h3 class="masthead-brand">civicBOT</h3>
+                    <nav>
+                        <ul class="nav masthead-nav">
+                            <li class="active"><a href="#">Inicio</a></li>
+                            <li><a href="http://civicbot.hubcivico.org">Salir</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="inner cover">
+                <h1 class="cover-heading">Panel de Gestión</h1>
+                <p class="lead">Inicia sesión con tus credenciales de Hub Cívico</p>
+                <p class="lead"></p>
+
+                <form id="log-in" class="form-signin">
+                    <div id="wrong-data" class="alert alert-danger alert-dismissible hidden" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>Datos no validos</strong>
+                        <br>Se ha registrado un acceso erroneo.
+                    </div>
+                    <label for="inputEmail" class="sr-only">Email</label>
+                    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                    <label for="inputPassword" class="sr-only">Contraseña</label>
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="remember-me"> Recuérdame
+                        </label>
+                    </div>
+                    <button id="signInBtn" class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+                </form>
+
+            </div>
+
+            <div class="mastfoot">
+                <div class="inner">
+                    <p>Un proyecto de <a href="http://hubcivico.org" target="_blank">HubCívico</a>.</p>
+                </div>
+            </div>
+
+        </div>
+
     </div>
+
 </div>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-
-
-<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/select/1.1.2/js/dataTables.select.min.js"></script>
-<!--<script src="http://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>-->
-
-<!-- Latest compiled and minified JavaScript -->
-
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="js/login.js"></script>
+
 
 
 </body>

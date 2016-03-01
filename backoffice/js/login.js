@@ -1,19 +1,36 @@
-$(document).ready(function() {
-  $('#login_form').submit(function (event) {
-    event.preventDefault();
-    var email = $('#email').val();
-    var password = $('#password').val();
-    console.log("Holas1");
 
-    $.ajax({
-      type: 'GET',
-      url: "https://devcivicbot.herokuapp.com/Private/login?email=" + email + '&password=' + password
-    }).done(function (data) {
-      localStorage.token = data.session.token;
-      console.log("Holas");
-      window.location.href='admin.html';
-    }).error(function(error){
-      alert("Usuario no encontrado! juejuejue");
+
+
+var api = 'https://preprodcivicbot.herokuapp.com/';
+$(document).ready(function() {
+    console.log("HELLO!!");
+    $('.form-control').on('keypress', function() {
+        $('#wrong-data').addClass('hidden');
+
     });
-  })
+
+    $('#log-in').submit(function (event) {
+        event.preventDefault();
+        var email = $('#inputEmail').val();
+        var password = $('#inputPassword').val();
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: api+"Private/login?email=" + email + '&password=' + password,
+            headers: {
+            },
+            success: function (data) {
+                sessionStorage.setItem('token',data.session.token);
+                window.location.href='admin.html';
+
+            }, error: function(error){
+                if(error.status==400){
+                    $('#wrong-data').removeClass('hidden');
+
+                }
+                console.log("ERROR "+JSON.stringify(error));
+
+            }
+        });
+    });
 });

@@ -47,7 +47,7 @@
 
 
 var civicbot = angular.module("civicbot", ['angularGrid']);
-var API_URL = "http://devcivicbot.herokuapp.com/Public/";
+var API_URL = 'https://preprodcivicbot.herokuapp.com/Public/';
 var colors = [
     {"color": "#659AC9", "hcolor": "#5B90BF"},
     {"color": "#B0CC99", "hcolor": "#A3BE8C"},
