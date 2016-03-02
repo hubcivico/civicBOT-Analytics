@@ -296,6 +296,7 @@ window.operateEvents = {
                     },
                     success: function () {
                         console.log('CATEGORIA GUARDADA! ');
+
                     },
                     error: function (err) {
                         console.log("ERROR: " + JSON.stringify(err));
@@ -371,7 +372,7 @@ window.operateEvents = {
             }
             $('#guardar').addClass('disabled');
             $('.content').waitMe('hide');
-            //$('.vex-close').trigger('click');
+            $('.closebt').trigger('click');
 
         });
         $('#publicar').on('click', function(){
