@@ -26,7 +26,7 @@ $('#logOut').on('click', function(){
         },
         success: function (data) {
             console.log("GOOD BYE!!!");
-            sessionStorage.removeItem('token');
+            sessionStorage.clear();
             $(".content").fadeOut("slow");
             window.location.href = 'index.html'
         },
