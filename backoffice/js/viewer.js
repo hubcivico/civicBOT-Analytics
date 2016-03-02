@@ -2368,7 +2368,7 @@
     maxZoomRatio: 100,
 
     // Define the CSS `z-index` value of viewer in modal mode.
-    zIndex: 2015,
+    zIndex: 99999,
 
     // Define the CSS `z-index` value of viewer in inline mode.
     zIndexInline: 0,

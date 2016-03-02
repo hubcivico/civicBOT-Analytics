@@ -14,12 +14,15 @@
     <link rel="stylesheet" href="css/bootstrap-table-sticky-header.css"/>
     <link rel="stylesheet" href="css/odometer.css">
     <link  href="css/viewer.css" rel="stylesheet">
-
+    <link type="text/css" rel="stylesheet" href="css/waitMe.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
+    <link rel="stylesheet" href="css/civicbot.css">
 
 </head>
 
-<body style="display: none;" class="content">
 
+
+<body style="display: none;" class="content">
 
 <header>
     <nav class="navbar navbar-inverse navbar-fixed-top ">
@@ -34,9 +37,10 @@
                 </button>
                 <a class="navbar-brand" href="#">civicBOT</a>
                 <p class="navbar-text">Panel de Gestión</p>
-                <p class="navbar-text navbar-right">Usuarios activos: <span id="odoUsers" class="badge odometer">142</span></p>
-                <p class="navbar-text navbar-right">Contribuciones: <span class="badge odometer">42</span></p>
-                <p class="navbar-text navbar-right">Mensajes procesados: <span class="badge odometer">20</span></p>
+                <p class="navbar-text navbar-right">Usuarios activos: <span id="odoUsers" class="badge odometer">0</span></p>
+                <p class="navbar-text navbar-right">Mensajes recibidos: <span id="odoMsg" class="badge odometer">0</span></p>
+                <p class="navbar-text navbar-right">Mensajes procesados: <span id="odoImg" class="badge odometer">0</span></p>
+                <p class="navbar-text navbar-right">Contribuciones hoy: <span id="odoToday" class="badge odometer">0</span></p>
 
             </div>
 
@@ -47,19 +51,19 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opciones <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
+                            <li><a href="#">Crear Usuario</a></li>
+                            <li><a href="#">Estado del Servidor</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a id="logOut" href="#">Salir</a></li>
+                            <li><a id="logOut">Salir</a></li>
                         </ul>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-
 </header>
+
+
 
 
 
@@ -71,13 +75,89 @@
        data-response-handler="responseHandler">
 </table>
 
+<a id="demo01" href="#animatedModal" style="display: none;">DEMO01</a>
 
+<div id="animatedModal">
+    <!--THIS IS IMPORTANT! to close the modal, the class name has to match the name given on the ID  class="close-animatedModal" -->
+    <div id="closebt-container" class="close-animatedModal">
+        <img class="closebt" src="fonts/closebt.svg">
+    </div>
+
+    <div class="modal-the-content">
+
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <h3 class="title-head">Elemento</h3>
+                    <div id="elemento" class="element">
+
+                    </div>
+                </div>
+
+                <div class="col-md-6" >
+
+                    <h3 class="title-head">Propiedades</h3>
+
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="labelSelect" class="col-sm-2 control-label title-head">Categoría </label>
+                            <select id="labelSelect" class="js-example-data-array form-control">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="partySelect" class="col-sm-2 control-label title-head">Partido </label>
+                            <select id="partySelect" class="js-example-data-array form-control">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="locationSelect" class="col-sm-2 control-label title-head">Municipio </label>
+                            <select id="locationSelect" class="js-example-data-array form-control">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mediaSelect" class="col-sm-2 control-label title-head">Medio </label>
+                            <select id="mediaSelect" class="js-example-data-array form-control">
+                                <option value="-1">AÑADIR...</option>
+                            </select>
+                            <label for="nuevoMedio" class="col-sm-2 control-label title-head hidden">Nuevo Medio </label>
+                            <input id="nuevoMedio" type="text" class="hidden form-control">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="title-head">Estado</h2>
+                    <div class="row">
+                        <span id="publicAlerta" class="label "></span>
+                        <span id="editAlerta" class="label "></span>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <h3 class="title-head" >Acciones</h3>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button id="cancelar" type="button" class="btn btn-danger">Cancelar</button>
+                        <button id="publicar" type="button" class="btn "></button>
+                        <button id="guardar" type="button" class="btn btn-success disabled">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
 
 
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="js/waitMe.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/locale/bootstrap-table-es-ES.min.js"></script>
@@ -88,8 +168,19 @@
 <script src="js/viewer.js"></script>
 <script src="controller/admin.js"></script>
 <script src="js/odometer.min.js"></script>
-
-
+<script src="js/animatedModal.min.js"></script>
+<script type="text/javascript">
+    function downloadJSAtOnload() {
+        var element = document.createElement("script");
+        element.src = "controller/deferred.js";
+        document.body.appendChild(element);
+    }
+    if (window.addEventListener)
+        window.addEventListener("load", downloadJSAtOnload, false);
+    else if (window.attachEvent)
+        window.attachEvent("onload", downloadJSAtOnload);
+    else window.onload = downloadJSAtOnload;
+</script>
 
 </body>
 
