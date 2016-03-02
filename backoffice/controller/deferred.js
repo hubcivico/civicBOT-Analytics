@@ -2,219 +2,6 @@ var api = 'https://preprodcivicbot.herokuapp.com/';
 var token = sessionStorage.getItem('token');
 
 //run_waitMe();
-
-
-$(".content").fadeIn("slow");
-
-$('.nav-refresh').on('click', function () {
-    run_waitMe();
-    refreshTable();
-    refreshMedia();
-    getTotalActiveUsers();
-    getTotalReceivedMsg();
-    getTotalReceivedImg();
-    getTodayContribNum();
-
-});
-
-$('#logOut').on('click', function(){
-    $.ajax({
-        type: 'POST',
-        url: api + "Private/logout",
-        headers: {
-            'Authorization': "Bearer " + token
-        },
-        success: function (data) {
-            console.log("GOOD BYE!!!");
-            sessionStorage.clear();
-            $(".content").fadeOut("slow");
-            window.location.href = 'index.html'
-        },
-        error: function (err){
-            console.log("ERR: "+err);
-            //window.location.href = "index.html"
-        }
-    })
-
-});
-
-$('#newUser').on('click', function(){
-    $('#signup').trigger('click');
-});
-
-$('#crearUsuario').on('click', function(){
-    var email = $('#inputEmail1').val();
-    var password = $('#inputPassword1').val();
-    var confirmPassword = $('#inputPassword2').val();
-
-    if(password != confirmPassword){
-        alert("Las contraseñas han de coincidir");
-    }else if(password==confirmPassword){
-        $.ajax({
-            type: "POST",
-            url: api + "Private/create",
-            data: {email: email, password: password, confirmPassword: confirmPassword},
-            headers: {
-                'Authorization': "Bearer " + token
-            },
-            success: function () {
-                $('.closebt2').trigger('click');
-
-            },
-            error: function (err) {
-                console.log("ERROR: " + JSON.stringify(err));
-                alert("Usuario no creado");
-            }
-        });
-
-    }
-});
-
-$.ajax({
-    type: "GET",
-    dataType: "json",
-    url: api + "Private/getPartyList",
-    headers: {
-        'Authorization': "Bearer " + token
-    },
-    success: function (data) {
-        var array = [];
-        for (var i = 0; i < data.length; i++) {
-            array.push({id: data[i].id, text: data[i].party});
-        }
-
-        sessionStorage.setItem('partyList', JSON.stringify(array));
-        $("#partySelect").select2({
-            data: JSON.parse(sessionStorage.getItem('partyList'))
-        });
-    }
-});
-
-$.ajax({
-    type: "GET",
-    dataType: "json",
-    url: api + "Private/getMediaList",
-    headers: {
-        'Authorization': "Bearer " + token
-    },
-    success: function (data) {
-        var array = [];
-        for (var i = 0; i < data.length; i++) {
-            array.push({id: data[i].id, text: data[i].media});
-        }
-
-        sessionStorage.setItem('mediaList', JSON.stringify(array));
-        $("#mediaSelect").select2({
-            data: JSON.parse(sessionStorage.getItem('mediaList'))
-        });
-    }
-});
-
-$.ajax({
-    type: "GET",
-    dataType: "json",
-    url: api + "Private/getLabelList",
-    headers: {
-        'Authorization': "Bearer " + token
-    },
-    success: function (data) {
-        var array = [];
-        for (var i = 0; i < data.length; i++) {
-            array.push({id: data[i].id, text: data[i].name});
-        }
-
-        sessionStorage.setItem('labelList', JSON.stringify(array));
-        $("#labelSelect").select2({
-            data: JSON.parse(sessionStorage.getItem('labelList'))
-        });
-    }
-});
-
-$.ajax({
-    type: "GET",
-    dataType: "json",
-    url: api + "Private/getLocationList",
-    headers: {
-        'Authorization': "Bearer " + token
-    },
-    success: function (data) {
-        var array = [];
-        for (var i = 0; i < data.length; i++) {
-            array.push({id: data[i].id, text: data[i].name});
-        }
-
-        sessionStorage.setItem('locationList', JSON.stringify(array));
-        $("#locationSelect").select2({
-            data: JSON.parse(sessionStorage.getItem('locationList'))
-        });
-
-    }
-});
-
-var partySelect = $("#partySelect").select2({
-    data: JSON.parse(sessionStorage.getItem('partyList'))
-});
-var mediaSelect = $("#mediaSelect").select2({
-    data: JSON.parse(sessionStorage.getItem('mediaList'))
-});
-var labelSelect = $("#labelSelect").select2({
-    data: JSON.parse(sessionStorage.getItem('labelList'))
-});
-var locationSelect = $("#locationSelect").select2({
-    data: JSON.parse(sessionStorage.getItem('locationList'))
-});
-
-$("#demo01").animatedModal({
-    modalTarget:'animatedModal',
-    animatedIn:'lightSpeedIn',
-    animatedOut:'bounceOutDown',
-    color:'rgba(0,0,0,.8)',
-    // Callbacks
-    beforeOpen: function() {
-
-    },
-    afterOpen: function() {
-
-    },
-    beforeClose: function() {
-    },
-    afterClose: function() {
-        $('#elemento').empty();
-        $('#publicAlerta').removeClass();
-        $('#editAlerta').removeClass();
-        $('#publicAlerta').empty();
-        $('#editAlerta').empty();
-        $('#publicar').removeClass();
-        $('#publicar').empty();
-        refreshTable();
-        refreshMedia();
-    }
-});
-$("#signup").animatedModal({
-    modalTarget:'animatedModal2',
-    animatedIn:'zoomIn',
-    animatedOut:'bounceOutDown',
-    color:'rgba(0,0,0,.8)',
-    // Callbacks
-    beforeOpen: function() {
-
-    },
-    afterOpen: function() {
-
-    },
-    beforeClose: function() {
-
-    },
-    afterClose: function() {
-
-    }
-});
-
-getTotalActiveUsers();
-getTotalReceivedMsg();
-getTotalReceivedImg();
-getTodayContribNum();
-
 window.operateEvents = {
     'click .opciones': function (e, value, row, index) {
         console.log("OPERATING EVENT");
@@ -459,6 +246,219 @@ window.operateEvents = {
 
     }
 };
+
+$(".content").fadeIn("slow");
+
+$('.nav-refresh').on('click', function () {
+    run_waitMe();
+    refreshTable();
+    refreshMedia();
+    getTotalActiveUsers();
+    getTotalReceivedMsg();
+    getTotalReceivedImg();
+    getTodayContribNum();
+
+});
+
+$('#logOut').on('click', function(){
+    $.ajax({
+        type: 'POST',
+        url: api + "Private/logout",
+        headers: {
+            'Authorization': "Bearer " + token
+        },
+        success: function (data) {
+            console.log("GOOD BYE!!!");
+            sessionStorage.clear();
+            $(".content").fadeOut("slow");
+            window.location.href = 'index.html'
+        },
+        error: function (err){
+            console.log("ERR: "+err);
+            //window.location.href = "index.html"
+        }
+    })
+
+});
+
+$('#newUser').on('click', function(){
+    $('#signup').trigger('click');
+});
+
+$('#crearUsuario').on('click', function(){
+    var email = $('#inputEmail1').val();
+    var password = $('#inputPassword1').val();
+    var confirmPassword = $('#inputPassword2').val();
+
+    if(password != confirmPassword){
+        alert("Las contraseñas han de coincidir");
+    }else if(password==confirmPassword){
+        $.ajax({
+            type: "POST",
+            url: api + "Private/create",
+            data: {email: email, password: password, confirmPassword: confirmPassword},
+            headers: {
+                'Authorization': "Bearer " + token
+            },
+            success: function () {
+                $('.closebt2').trigger('click');
+
+            },
+            error: function (err) {
+                console.log("ERROR: " + JSON.stringify(err));
+                alert("Usuario no creado");
+            }
+        });
+
+    }
+});
+
+$.ajax({
+    type: "GET",
+    dataType: "json",
+    url: api + "Private/getPartyList",
+    headers: {
+        'Authorization': "Bearer " + token
+    },
+    success: function (data) {
+        var array = [];
+        for (var i = 0; i < data.length; i++) {
+            array.push({id: data[i].id, text: data[i].party});
+        }
+
+        sessionStorage.setItem('partyList', JSON.stringify(array));
+        $("#partySelect").select2({
+            data: JSON.parse(sessionStorage.getItem('partyList'))
+        });
+    }
+});
+
+$.ajax({
+    type: "GET",
+    dataType: "json",
+    url: api + "Private/getMediaList",
+    headers: {
+        'Authorization': "Bearer " + token
+    },
+    success: function (data) {
+        var array = [];
+        for (var i = 0; i < data.length; i++) {
+            array.push({id: data[i].id, text: data[i].media});
+        }
+
+        sessionStorage.setItem('mediaList', JSON.stringify(array));
+        $("#mediaSelect").select2({
+            data: JSON.parse(sessionStorage.getItem('mediaList'))
+        });
+    }
+});
+
+$.ajax({
+    type: "GET",
+    dataType: "json",
+    url: api + "Private/getLabelList",
+    headers: {
+        'Authorization': "Bearer " + token
+    },
+    success: function (data) {
+        var array = [];
+        for (var i = 0; i < data.length; i++) {
+            array.push({id: data[i].id, text: data[i].name});
+        }
+
+        sessionStorage.setItem('labelList', JSON.stringify(array));
+        $("#labelSelect").select2({
+            data: JSON.parse(sessionStorage.getItem('labelList'))
+        });
+    }
+});
+
+$.ajax({
+    type: "GET",
+    dataType: "json",
+    url: api + "Private/getLocationList",
+    headers: {
+        'Authorization': "Bearer " + token
+    },
+    success: function (data) {
+        var array = [];
+        for (var i = 0; i < data.length; i++) {
+            array.push({id: data[i].id, text: data[i].name});
+        }
+
+        sessionStorage.setItem('locationList', JSON.stringify(array));
+        $("#locationSelect").select2({
+            data: JSON.parse(sessionStorage.getItem('locationList'))
+        });
+
+    }
+});
+
+var partySelect = $("#partySelect").select2({
+    data: JSON.parse(sessionStorage.getItem('partyList'))
+});
+var mediaSelect = $("#mediaSelect").select2({
+    data: JSON.parse(sessionStorage.getItem('mediaList'))
+});
+var labelSelect = $("#labelSelect").select2({
+    data: JSON.parse(sessionStorage.getItem('labelList'))
+});
+var locationSelect = $("#locationSelect").select2({
+    data: JSON.parse(sessionStorage.getItem('locationList'))
+});
+
+$("#demo01").animatedModal({
+    modalTarget:'animatedModal',
+    animatedIn:'lightSpeedIn',
+    animatedOut:'bounceOutDown',
+    color:'rgba(0,0,0,.8)',
+    // Callbacks
+    beforeOpen: function() {
+
+    },
+    afterOpen: function() {
+
+    },
+    beforeClose: function() {
+    },
+    afterClose: function() {
+        $('#elemento').empty();
+        $('#publicAlerta').removeClass();
+        $('#editAlerta').removeClass();
+        $('#publicAlerta').empty();
+        $('#editAlerta').empty();
+        $('#publicar').removeClass();
+        $('#publicar').empty();
+        refreshTable();
+        refreshMedia();
+    }
+});
+$("#signup").animatedModal({
+    modalTarget:'animatedModal2',
+    animatedIn:'zoomIn',
+    animatedOut:'bounceOutDown',
+    color:'rgba(0,0,0,.8)',
+    // Callbacks
+    beforeOpen: function() {
+
+    },
+    afterOpen: function() {
+
+    },
+    beforeClose: function() {
+
+    },
+    afterClose: function() {
+
+    }
+});
+
+getTotalActiveUsers();
+getTotalReceivedMsg();
+getTotalReceivedImg();
+getTodayContribNum();
+
+
 
 function refreshTable(){
     //run_waitMe();
