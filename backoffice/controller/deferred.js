@@ -84,7 +84,9 @@ $.ajax({
         }
 
         sessionStorage.setItem('partyList', JSON.stringify(array));
-
+        $("#partySelect").select2({
+            data: JSON.parse(sessionStorage.getItem('partyList'))
+        });
     }
 });
 
@@ -102,7 +104,9 @@ $.ajax({
         }
 
         sessionStorage.setItem('mediaList', JSON.stringify(array));
-
+        $("#mediaSelect").select2({
+            data: JSON.parse(sessionStorage.getItem('mediaList'))
+        });
     }
 });
 
@@ -120,7 +124,9 @@ $.ajax({
         }
 
         sessionStorage.setItem('labelList', JSON.stringify(array));
-
+        $("#labelSelect").select2({
+            data: JSON.parse(sessionStorage.getItem('labelList'))
+        });
     }
 });
 
@@ -138,6 +144,9 @@ $.ajax({
         }
 
         sessionStorage.setItem('locationList', JSON.stringify(array));
+        $("#locationSelect").select2({
+            data: JSON.parse(sessionStorage.getItem('locationList'))
+        });
 
     }
 });
