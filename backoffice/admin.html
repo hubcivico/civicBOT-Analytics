@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
 
 <head>
     <title>CivicBot Analytics</title>
@@ -11,57 +11,234 @@
     <link href="css/select2.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/vex.css" />
     <link rel="stylesheet" href="css/vex-theme-os.css" />
-
-
+    <link rel="stylesheet" href="css/bootstrap-table-sticky-header.css"/>
+    <link rel="stylesheet" href="css/odometer.css">
+    <link  href="css/viewer.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/waitMe.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
+    <link rel="stylesheet" href="css/civicbot.css">
 
 </head>
 
-<body>
-
+<body style="display: none;" class="content">
 
 <header>
-    <div class="container">
-        <div id="toolbar">
-            <button id="salir" class="btn btn-danger">
-                <i class="glyphicon glyphicon-remove"></i> Salir
-            </button>
-        </div>
-        </div>
+    <nav class="navbar navbar-inverse navbar-fixed-top ">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">civicBOT</a>
+                <p class="navbar-text">Panel de Gestión</p>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="navbar-text navbar-right">Usuarios: <span id="odoUsers" class="badge odometer">0</span></li>
+                    <li class="navbar-text navbar-right">Mensajes: <span id="odoMsg" class="badge odometer">0</span></li>
+                    <li class="navbar-text navbar-right">Imágenes: <span id="odoImg" class="badge odometer">0</span></li>
+                    <li class="navbar-text navbar-right">Hoy: <span id="odoToday" class="badge odometer">0</span></li>
 
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="nav-refresh" href="#"><i class="fa fa-refresh"></i></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opciones <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a id="newUser" href="#">Crear Usuario</a></li>
+                            <li><a href="#">Estado del Servidor</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a id="logOut">Salir</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
 </header>
 
 <table id="table"
-       data-toolbar="#toolbar"
-       data-search="true"
-       data-show-refresh="true"
-       data-show-toggle="true"
        data-show-columns="true"
-       data-show-export="true"
-       data-minimum-count-columns="2"
-       data-show-pagination-switch="true"
        data-id-field="id"
-       data-show-footer="false"
-       data-side-pagination="server"
+       data-show-footer="true"
        data-response-handler="responseHandler">
 </table>
 
 
+
+<a id="demo01" href="#animatedModal" style="display: none;">DEMO01</a>
+
+<div id="animatedModal">
+    <!--THIS IS IMPORTANT! to close the modal, the class name has to match the name given on the ID  class="close-animatedModal" -->
+    <div id="closebt-container" class="close-animatedModal">
+        <img class="closebt" src="fonts/closebt.svg">
+    </div>
+
+    <div class="modal-the-content">
+
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <h3 class="title-head">Elemento</h3>
+                    <div id="elemento" class="element">
+
+                    </div>
+                </div>
+
+                <div class="col-md-6" >
+
+
+
+                    <form class="form-horizontal">
+                        <h3 class="title-head">Propiedades</h3>
+                        <div class="form-group">
+                            <label for="labelSelect" class="control-label title-head">Categoría </label>
+                            <select id="labelSelect" class="js-example-data-array form-control">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="partySelect" class="control-label title-head">Partido </label>
+                            <select id="partySelect" class="js-example-data-array form-control">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="locationSelect" class="control-label title-head">Municipio </label>
+                            <select id="locationSelect" class="js-example-data-array form-control">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mediaSelect" class="control-label title-head">Medio </label>
+                            <select id="mediaSelect" class="js-example-data-array form-control">
+                                <option value="-1">AÑADIR...</option>
+                            </select>
+                            <label for="nuevoMedio" class="control-label title-head hidden">Nuevo Medio </label>
+                            <input id="nuevoMedio" type="text" class="hidden form-control">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="title-head">Estado</h3>
+                    <div class="row">
+                        <span id="publicAlerta" class="label "></span>
+                        <span id="editAlerta" class="label "></span>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <h3 class="title-head" >Acciones</h3>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button id="cancelar" type="button" class="btn btn-danger">Cancelar</button>
+                        <button id="publicar" type="button" class="btn "></button>
+                        <button id="guardar" type="button" class="btn btn-success disabled">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<a id="signup" href="#animatedModal2" style="display: none;">DEMO01</a>
+
+<div id="animatedModal2">
+    <!--THIS IS IMPORTANT! to close the modal, the class name has to match the name given on the ID  class="close-animatedModal" -->
+    <div id="closebt2-container" class="close-animatedModal2">
+        <img class="closebt2" src="fonts/closebt.svg">
+    </div>
+
+    <div class="modal-the-content">
+
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <form>
+                        <div class="form-group">
+                            <label for="inputEmail1">Email</label>
+                            <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword1">Contraseña</label>
+                            <input type="password" class="form-control" id="inputPassword1" placeholder="Contraseña">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword2">Repetir Contraseña</label>
+                            <input type="password" class="form-control" id="inputPassword2" placeholder="Repetir Contraseña">
+                        </div>
+                        <button id="crearUsuario" type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="js/waitMe.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/locale/bootstrap-table-es-ES.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2-rc.1/js/select2.min.js"></script>
 <script src="js/vex.combined.min.js"></script>
 <script>vex.defaultOptions.className = 'vex-theme-os';</script>
+<script src="js/bootstrap-table-sticky-header.js"></script>
+<script src="js/viewer.js"></script>
 <script src="controller/admin.js"></script>
+<script src="js/odometer.min.js"></script>
+<script src="js/animatedModal.min.js"></script>
+<script type="text/javascript">
+    function downloadJSAtOnload() {
+        var element = document.createElement("script");
+        element.src = "controller/deferred.js";
+        document.body.appendChild(element);
+    }
+    if (window.addEventListener)
+        window.addEventListener("load", downloadJSAtOnload, false);
+    else if (window.attachEvent)
+        window.attachEvent("onload", downloadJSAtOnload);
+    else window.onload = downloadJSAtOnload;
+</script>
 
 </body>
 
 <footer>
-    <p>
-        CivicBot- 2016
-        <br> Un proyecto de HubCivico.org
-    </p>
+    <nav class="navbar navbar-inverse navbar-fixed-bottom ">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <p class="navbar-text">Un proyecto de Hub Cívico</p>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
 </footer>
 
 </html>
