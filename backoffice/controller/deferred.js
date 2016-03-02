@@ -8,7 +8,6 @@ $(".content").fadeIn("slow");
 
 $('.nav-refresh').on('click', function () {
     run_waitMe();
-    console.log("REFRESHING TABLE...");
     refreshTable();
     refreshMedia();
     getTotalActiveUsers();
@@ -37,6 +36,38 @@ $('#logOut').on('click', function(){
         }
     })
 
+});
+
+$('#newUser').on('click', function(){
+    $('#signup').trigger('click');
+});
+
+$('#crearUsuario').on('click', function(){
+    var email = $('#inputEmail1').val();
+    var password = $('#inputPassword1').val();
+    var confirmPassword = $('#inputPassword2').val();
+
+    if(password != confirmPassword){
+        alert("Las contraseñas han de coincidir");
+    }else if(password==confirmPassword){
+        $.ajax({
+            type: "POST",
+            url: api + "Private/create",
+            data: {email: email, password: password, confirmPassword: confirmPassword},
+            headers: {
+                'Authorization': "Bearer " + token
+            },
+            success: function () {
+                $('.closebt2').trigger('click');
+
+            },
+            error: function (err) {
+                console.log("ERROR: " + JSON.stringify(err));
+                alert("Usuario no creado");
+            }
+        });
+
+    }
 });
 
 $.ajax({
@@ -137,14 +168,38 @@ $("#demo01").animatedModal({
 
     },
     beforeClose: function() {
-        console.log("The animation was called");
     },
     afterClose: function() {
         $('#elemento').empty();
+        $('#publicAlerta').removeClass();
+        $('#editAlerta').removeClass();
+        $('#publicAlerta').empty();
+        $('#editAlerta').empty();
+        $('#publicar').removeClass();
+        $('#publicar').empty();
         refreshTable();
+        refreshMedia();
     }
 });
+$("#signup").animatedModal({
+    modalTarget:'animatedModal2',
+    animatedIn:'zoomIn',
+    animatedOut:'bounceOutDown',
+    color:'rgba(0,0,0,.8)',
+    // Callbacks
+    beforeOpen: function() {
 
+    },
+    afterOpen: function() {
+
+    },
+    beforeClose: function() {
+
+    },
+    afterClose: function() {
+
+    }
+});
 
 getTotalActiveUsers();
 getTotalReceivedMsg();
@@ -153,7 +208,7 @@ getTodayContribNum();
 
 window.operateEvents = {
     'click .opciones': function (e, value, row, index) {
-        $('#demo01').trigger('click');
+        console.log("OPERATING EVENT");
         var estadoPub = row.published;
         var estadoEdi = row.edited;
         var publicBtnTxt="";
@@ -195,29 +250,27 @@ window.operateEvents = {
             mediaId = row.media.id;
 
         }
-
         if(estadoPub){
-            publicAlerta = " Publicado ";
-            publicBtnTxt = "Des-Publicar";
-            estiloBtnPub = 'btn-warning';
-            estiloPubAlert = "label-success"
+            $('#publicAlerta').addClass('label label-success');
+            $('#publicAlerta').text(" Publicado ");
+            $('#publicar').addClass('btn btn-warning');
+            $('#publicar').text("Des-Publicar");
         }else if(!estadoPub){
-            publicAlerta = " No Publicado ";
-            publicBtnTxt = "Publicar";
-            estiloBtnPub = 'btn-primary';
-            estiloPubAlert = "label-warning";
+            $('#publicAlerta').addClass('label label-warning');
+            $('#publicAlerta').text(" No Publicado ");
+            $('#publicar').addClass('btn btn-primary');
+            $('#publicar').text("Publicar");
         }
 
         if(estadoEdi){
-            editAlerta = " Editado   ";
-            estiloEdiAlert = "label-success"
+            $('#editAlerta').addClass('label label-success');
+            $('#editAlerta').text(" Editado ");
         }else if(!estadoEdi){
-            editAlerta = " No Editado   ";
-            estiloEdiAlert = "label-warning"
+            $('#editAlerta').addClass('label label-warning');
+            $('#editAlerta').text(" No Editado ");
         }
 
         if(row.photo){
-            console.log("ESTO NO EH");
             elementoDial= '<a href="#" class="thumbnail dialog-photo-click"><img style="height: 340px;width: 100%;" id= "dialog-image" class="img-responsive" src="' + row.photo + '"/></a>';
         }else{
             elementoDial= '<textarea class="form-control" rows="8" readonly>'+row.text+'</textarea>'
@@ -227,12 +280,6 @@ window.operateEvents = {
         partySelect.val(partyId).trigger('change');
         mediaSelect.val(mediaId).trigger('change');
         locationSelect.val(locationId).trigger('change');
-        $('#publicAlerta').addClass(estiloPubAlert);
-        $('#editAlerta').addClass(estiloEdiAlert);
-        $('#publicAlerta').text(publicAlerta);
-        $('#editAlerta').text(editAlerta);
-        $('#publicar').addClass(estiloBtnPub);
-        $('#publicar').text(publicBtnTxt);
 
         $('#mediaSelect').on("select2:select", function (e) {
             var args = JSON.stringify(e.params, function (key, value) {
@@ -248,6 +295,7 @@ window.operateEvents = {
             }
             else {
                 $('#nuevoMedio').addClass('hidden');
+                editMedia = true;
             }
         });
         $('.dialog-photo-click').on('click', function(){
@@ -260,20 +308,13 @@ window.operateEvents = {
 
         });
         $('#labelSelect').on("select2:select", function (e) {
-            console.log("LABEL EDITADA");
             editLabel = true;
         });
-        $('#mediaSelect').on("select2:select", function (e) {
-            console.log("MEDIA EDITADA");
-            editMedia = true;
-        });
         $('#partySelect').on("select2:select", function (e) {
-            console.log("PARTY EDITADA");
             editParty = true;
 
         });
         $('#locationSelect').on("select2:select", function (e) {
-            console.log("LOCATION EDITADA");
             editLocation = true;
 
         });
@@ -295,7 +336,7 @@ window.operateEvents = {
                         'Authorization': "Bearer " + token
                     },
                     success: function () {
-                        console.log('CATEGORIA GUARDADA! ');
+                        editLabel=false;
 
                     },
                     error: function (err) {
@@ -315,7 +356,8 @@ window.operateEvents = {
                             'Authorization': "Bearer " + token
                         },
                         success: function () {
-                            console.log('NUEVO MEDIO CREADO Y ASIGNADO!');
+                            nuevoMedio=false;
+                            editMedia=false;
                         },
                         error: function (err) {
                             console.log("ERROR: " + JSON.stringify(err));
@@ -331,7 +373,8 @@ window.operateEvents = {
                             'Authorization': "Bearer " + token
                         },
                         success: function () {
-                            console.log('MEDIO ASIGNADO CORRECTAMENTE!');
+                            nuevoMedio=false;
+                            editMedia=false;
                         }
                     });
 
@@ -340,8 +383,6 @@ window.operateEvents = {
             }
             if (editParty) {
                 var selectPartyId = $('#partySelect').val();
-
-                console.log("PARTY SELECTED: "+selectPartyId);
                 $.ajax({
                     type: "POST",
                     url: api + "Private/setParty",
@@ -350,7 +391,7 @@ window.operateEvents = {
                         'Authorization': "Bearer " + token
                     },
                     success: function () {
-                        console.log('PARTIDO ASIGNADO CORRECTAMENTE!');
+                        editParty=false;
                     }
                 });
 
@@ -365,12 +406,13 @@ window.operateEvents = {
                         'Authorization': "Bearer " + token
                     },
                     success: function () {
-                        console.log('MUNICIPIO ASIGNADO CORRECTAMENTE!');
+                        editLocation=false;
                     }
                 });
 
             }
             $('#guardar').addClass('disabled');
+            $('#nuevoMedio').addClass('hidden');
             $('.content').waitMe('hide');
             $('.closebt').trigger('click');
 
@@ -385,7 +427,6 @@ window.operateEvents = {
                         'Authorization': "Bearer " + token
                     },
                     success: function () {
-                        console.log("ELEMENTO PUBLICADO CORRECTAMENTE");
                         $('.closebt').trigger('click');
                     }
                 });
@@ -398,7 +439,6 @@ window.operateEvents = {
                         'Authorization': "Bearer " + token
                     },
                     success: function () {
-                        console.log("ELEMENTO DES-PUBLICADO CORRECTAMENTE");
                         $('.closebt').trigger('click');
                     }
                 });
@@ -406,12 +446,13 @@ window.operateEvents = {
 
 
         });
+        $('#demo01').trigger('click');
+
     }
 };
 
 function refreshTable(){
     //run_waitMe();
-    console.log("REFRESHING");
     $.ajax({
         type: "GET",
         url: api + "Private/getContributionList",

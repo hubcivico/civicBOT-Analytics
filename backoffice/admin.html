@@ -20,8 +20,6 @@
 
 </head>
 
-
-
 <body style="display: none;" class="content">
 
 <header>
@@ -37,21 +35,22 @@
                 </button>
                 <a class="navbar-brand" href="#">civicBOT</a>
                 <p class="navbar-text">Panel de Gestión</p>
-                <p class="navbar-text navbar-right">Usuarios activos: <span id="odoUsers" class="badge odometer">0</span></p>
-                <p class="navbar-text navbar-right">Mensajes recibidos: <span id="odoMsg" class="badge odometer">0</span></p>
-                <p class="navbar-text navbar-right">Mensajes procesados: <span id="odoImg" class="badge odometer">0</span></p>
-                <p class="navbar-text navbar-right">Contribuciones hoy: <span id="odoToday" class="badge odometer">0</span></p>
-
             </div>
-
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="navbar-text navbar-right">Usuarios: <span id="odoUsers" class="badge odometer">0</span></li>
+                    <li class="navbar-text navbar-right">Mensajes: <span id="odoMsg" class="badge odometer">0</span></li>
+                    <li class="navbar-text navbar-right">Imágenes: <span id="odoImg" class="badge odometer">0</span></li>
+                    <li class="navbar-text navbar-right">Hoy: <span id="odoToday" class="badge odometer">0</span></li>
+
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a class="nav-refresh" href="#"><i class="fa fa-refresh"></i></a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opciones <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Crear Usuario</a></li>
+                            <li><a id="newUser" href="#">Crear Usuario</a></li>
                             <li><a href="#">Estado del Servidor</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a id="logOut">Salir</a></li>
@@ -63,17 +62,14 @@
     </nav>
 </header>
 
-
-
-
-
 <table id="table"
        data-show-columns="true"
-       data-minimum-count-columns="2"
        data-id-field="id"
        data-show-footer="true"
        data-response-handler="responseHandler">
 </table>
+
+
 
 <a id="demo01" href="#animatedModal" style="display: none;">DEMO01</a>
 
@@ -99,30 +95,31 @@
 
                 <div class="col-md-6" >
 
-                    <h3 class="title-head">Propiedades</h3>
+
 
                     <form class="form-horizontal">
+                        <h3 class="title-head">Propiedades</h3>
                         <div class="form-group">
-                            <label for="labelSelect" class="col-sm-2 control-label title-head">Categoría </label>
+                            <label for="labelSelect" class="control-label title-head">Categoría </label>
                             <select id="labelSelect" class="js-example-data-array form-control">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="partySelect" class="col-sm-2 control-label title-head">Partido </label>
+                            <label for="partySelect" class="control-label title-head">Partido </label>
                             <select id="partySelect" class="js-example-data-array form-control">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="locationSelect" class="col-sm-2 control-label title-head">Municipio </label>
+                            <label for="locationSelect" class="control-label title-head">Municipio </label>
                             <select id="locationSelect" class="js-example-data-array form-control">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="mediaSelect" class="col-sm-2 control-label title-head">Medio </label>
+                            <label for="mediaSelect" class="control-label title-head">Medio </label>
                             <select id="mediaSelect" class="js-example-data-array form-control">
                                 <option value="-1">AÑADIR...</option>
                             </select>
-                            <label for="nuevoMedio" class="col-sm-2 control-label title-head hidden">Nuevo Medio </label>
+                            <label for="nuevoMedio" class="control-label title-head hidden">Nuevo Medio </label>
                             <input id="nuevoMedio" type="text" class="hidden form-control">
                         </div>
                     </form>
@@ -132,7 +129,7 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <h2 class="title-head">Estado</h2>
+                    <h3 class="title-head">Estado</h3>
                     <div class="row">
                         <span id="publicAlerta" class="label "></span>
                         <span id="editAlerta" class="label "></span>
@@ -153,6 +150,44 @@
 </div>
 
 
+
+
+<a id="signup" href="#animatedModal2" style="display: none;">DEMO01</a>
+
+<div id="animatedModal2">
+    <!--THIS IS IMPORTANT! to close the modal, the class name has to match the name given on the ID  class="close-animatedModal" -->
+    <div id="closebt2-container" class="close-animatedModal2">
+        <img class="closebt2" src="fonts/closebt.svg">
+    </div>
+
+    <div class="modal-the-content">
+
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <form>
+                        <div class="form-group">
+                            <label for="inputEmail1">Email</label>
+                            <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword1">Contraseña</label>
+                            <input type="password" class="form-control" id="inputPassword1" placeholder="Contraseña">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword2">Repetir Contraseña</label>
+                            <input type="password" class="form-control" id="inputPassword2" placeholder="Repetir Contraseña">
+                        </div>
+                        <button id="crearUsuario" type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
