@@ -96,6 +96,251 @@ $(document).ready(function () {
                 console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
             }
         });
+
+        window.operateEvents = {
+            'click .opciones': function (e, value, row, index) {
+                console.log("OPERATING EVENT");
+                var estadoPub = row.published;
+                var estadoEdi = row.edited;
+                var publicBtnTxt="";
+                var estiloBtnPub ="";
+                var estiloPubAlert = "";
+                var estiloEdiAlert = "";
+                var publicAlerta ="";
+                var editAlerta ="";
+                var contribId = row.id;
+                var label = "";
+                var labelId = "";
+                var party = "";
+                var partyId = "";
+                var location = "";
+                var locationId = "";
+                var media = "";
+                var mediaId = "";
+                var elementoDial="";
+                var nuevoMedio = false;
+                var editLabel = false;
+                var editParty = false;
+                var editMedia = false;
+                var editLocation = false;
+
+                if (row.label) {
+                    label = row.label.name;
+                    labelId = row.label.id;
+                }
+                if (row.party) {
+                    party = row.party.party;
+                    partyId = row.party.id;
+                }
+                if (row.location) {
+                    location = row.location.name;
+                    locationId = row.location.id;
+                }
+                if (row.media) {
+                    media = row.media.media;
+                    mediaId = row.media.id;
+
+                }
+                if(estadoPub){
+                    $('#publicAlerta').addClass('label label-success');
+                    $('#publicAlerta').text(" Publicado ");
+                    $('#publicar').addClass('btn btn-warning');
+                    $('#publicar').text("Des-Publicar");
+                }else if(!estadoPub){
+                    $('#publicAlerta').addClass('label label-warning');
+                    $('#publicAlerta').text(" No Publicado ");
+                    $('#publicar').addClass('btn btn-primary');
+                    $('#publicar').text("Publicar");
+                }
+
+                if(estadoEdi){
+                    $('#editAlerta').addClass('label label-success');
+                    $('#editAlerta').text(" Editado ");
+                }else if(!estadoEdi){
+                    $('#editAlerta').addClass('label label-warning');
+                    $('#editAlerta').text(" No Editado ");
+                }
+
+                if(row.photo){
+                    elementoDial= '<a href="#" class="thumbnail dialog-photo-click"><img style="height: 340px;width: 100%;" id= "dialog-image" class="img-responsive" src="' + row.photo + '"/></a>';
+                }else{
+                    elementoDial= '<textarea class="form-control" rows="8" readonly>'+row.text+'</textarea>'
+                }
+                $('#elemento').append(elementoDial);
+                labelSelect.val(labelId).trigger('change'); // Notify only Select2 of changes
+                partySelect.val(partyId).trigger('change');
+                mediaSelect.val(mediaId).trigger('change');
+                locationSelect.val(locationId).trigger('change');
+
+                $('#mediaSelect').on("select2:select", function (e) {
+                    var args = JSON.stringify(e.params, function (key, value) {
+                        //if (value && value.nodeName) return "[DOM node]";
+                        if (value instanceof $.Event) return "data";
+                        return value;
+                    });
+                    args = JSON.parse(args);
+                    if (args.data.id == -1) {
+                        $('#nuevoMedio').removeClass('hidden');
+                        nuevoMedio = true;
+
+                    }
+                    else {
+                        $('#nuevoMedio').addClass('hidden');
+                        editMedia = true;
+                    }
+                });
+                $('.dialog-photo-click').on('click', function(){
+                    var viewer = new Viewer(document.getElementById('dialog-image'));
+
+
+                });
+                $('.js-example-data-array').on("select2:select", function (e) {
+                    $('#guardar').removeClass('disabled');
+
+                });
+                $('#labelSelect').on("select2:select", function (e) {
+                    editLabel = true;
+                });
+                $('#partySelect').on("select2:select", function (e) {
+                    editParty = true;
+
+                });
+                $('#locationSelect').on("select2:select", function (e) {
+                    editLocation = true;
+
+                });
+                $('#cancelar').on('click', function () {
+                    labelSelect.val(labelId).trigger('change'); // Notify only Select2 of changes
+                    partySelect.val(partyId).trigger('change');
+                    mediaSelect.val(mediaId).trigger('change');
+                    locationSelect.val(locationId).trigger('change');
+                });
+                $('#guardar').on('click', function () {
+                    run_waitMe();
+                    if (editLabel) {
+                        var labelId = $('#labelSelect').val();
+                        $.ajax({
+                            type: "POST",
+                            url: api + "Private/setLabel",
+                            data: {contribId: contribId, labelId: labelId},
+                            headers: {
+                                'Authorization': "Bearer " + token
+                            },
+                            success: function () {
+                                editLabel=false;
+
+                            },
+                            error: function (err) {
+                                console.log("ERROR: " + JSON.stringify(err));
+                            }
+                        });
+
+                    }
+                    if (editMedia) {
+                        if (nuevoMedio) {
+                            var nombreMedio = $('#nuevoMedio').val();
+                            $.ajax({
+                                type: "POST",
+                                url: api + "Private/setMedia",
+                                data: {contribId: contribId, mediaName: nombreMedio},
+                                headers: {
+                                    'Authorization': "Bearer " + token
+                                },
+                                success: function () {
+                                    nuevoMedio=false;
+                                    editMedia=false;
+                                },
+                                error: function (err) {
+                                    console.log("ERROR: " + JSON.stringify(err));
+                                }
+                            });
+                        } else {
+                            var mediaId = $('#mediaSelect').val();
+                            $.ajax({
+                                type: "POST",
+                                url: api + "Private/setMedia",
+                                data: {contribId: contribId, mediaId: mediaId},
+                                headers: {
+                                    'Authorization': "Bearer " + token
+                                },
+                                success: function () {
+                                    nuevoMedio=false;
+                                    editMedia=false;
+                                }
+                            });
+
+                        }
+
+                    }
+                    if (editParty) {
+                        var selectPartyId = $('#partySelect').val();
+                        $.ajax({
+                            type: "POST",
+                            url: api + "Private/setParty",
+                            data: {contribId: contribId, partyId: selectPartyId},
+                            headers: {
+                                'Authorization': "Bearer " + token
+                            },
+                            success: function () {
+                                editParty=false;
+                            }
+                        });
+
+                    }
+                    if (editLocation) {
+                        var locationId = $('#locationSelect').val();
+                        $.ajax({
+                            type: "POST",
+                            url: api + "Private/setLocation",
+                            data: {contribId: contribId, locationId: locationId},
+                            headers: {
+                                'Authorization': "Bearer " + token
+                            },
+                            success: function () {
+                                editLocation=false;
+                            }
+                        });
+
+                    }
+                    $('#guardar').addClass('disabled');
+                    $('#nuevoMedio').addClass('hidden');
+                    $('.content').waitMe('hide');
+                    $('.closebt').trigger('click');
+
+                });
+                $('#publicar').on('click', function(){
+                    if(!estadoPub){
+                        $.ajax({
+                            type: "POST",
+                            url: api + "Private/setToPublish",
+                            data: {contribId: contribId, publish: 1 },
+                            headers: {
+                                'Authorization': "Bearer " + token
+                            },
+                            success: function () {
+                                $('.closebt').trigger('click');
+                            }
+                        });
+                    }else if(estadoPub){
+                        $.ajax({
+                            type: "POST",
+                            url: api + "Private/setToPublish",
+                            data: {contribId: contribId, publish: 0 },
+                            headers: {
+                                'Authorization': "Bearer " + token
+                            },
+                            success: function () {
+                                $('.closebt').trigger('click');
+                            }
+                        });
+                    }
+
+
+                });
+                $('#demo01').trigger('click');
+
+            }
+        };
     }
 
 });
