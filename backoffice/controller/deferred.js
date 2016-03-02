@@ -1,4 +1,4 @@
-var api = 'https://preprodcivicbot.herokuapp.com/';
+var api = 'https://prodcivicbot.herokuapp.com/';
 var token = sessionStorage.getItem('token');
 
 //run_waitMe();

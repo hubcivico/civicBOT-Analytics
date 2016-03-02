@@ -1,53 +1,6 @@
-//civicbot.controller('data', ['$scope','angularGridInstance', function ($scope, angularGridInstance) {
-//    $scope.currentImage = 0;
-//    $scope.totalImage = 0;
-//    $scope.lastImage = 0;
-//
-//        $.getJSON(API_URL + "getcontributionlist", function(data) {
-//            return data;
-//        }).then(function(data){
-//            $scope.imageJson = data;
-//            $scope.totalImage = Object.keys($scope.imageJson).length;
-//            $scope.currentImage = 8; // Images charged per click
-//
-//            $scope.images = [];
-//            for (var i = 0; i < $scope.currentImage; i++) {
-//                if($scope.imageJson[i].type == 1) {
-//                    $scope.images.push($scope.imageJson[i]);
-//                }
-//            }
-//
-//            $scope.$apply()
-//        });
-//
-//        $scope.refresh = function(){
-//            angularGridInstance.gallery.refresh();
-//        }
-//
-//    $scope.loadMoreImages = function(){
-//        $scope.lastImage = $scope.currentImage;
-//        $scope.currentImage += 8;
-//        for (var i = $scope.lastImage; i < $scope.currentImage; i++) {
-//                if($scope.lastImage < $scope.totalImage - 1)
-//                    if($scope.imageJson[i].type == 1)
-//                        $scope.images.push($scope.imageJson[i]);
-//            }
-//        }
-//
-//     }]);
-//function loadMoreImages() {
-//    var scope = angular.element(
-//    document.
-//    getElementById("screenshots")).
-//    scope();
-//    scope.$apply(function () {
-//        scope.loadMoreImages();
-//    });
-//}
-
 
 var civicbot = angular.module("civicbot", ['angularGrid']);
-var API_URL = 'https://preprodcivicbot.herokuapp.com/Public/';
+var API_URL = 'https://prodcivicbot.herokuapp.com/Public/';
 var colors = [
     {"color": "#659AC9", "hcolor": "#5B90BF"},
     {"color": "#B0CC99", "hcolor": "#A3BE8C"},
