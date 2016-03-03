@@ -68,12 +68,18 @@ $.getJSON(API_URL + "getcontribbycategory", function (data) {
 
     for (var i = 0; i < Object.keys(data).length; i++) {
         var currentLetter = String.fromCharCode(65 + i);
-        cat_data.push({
-            value: data[currentLetter].count,
-            color: colors[i].color,
-            highlight: colors[i].hcolor,
-            label: data[currentLetter].cat
-        });
+        if(data[currentLetter].cat){
+            if(data[currentLetter].count >0){
+                cat_data.push({
+                    value: data[currentLetter].count,
+                    color: colors[i].color,
+                    highlight: colors[i].hcolor,
+                    label: data[currentLetter].cat
+                });
+
+            }
+        }
+
     }
 
     var currentChart = document.getElementById("pie_chart").getContext("2d");
@@ -85,12 +91,18 @@ $.getJSON(API_URL + "gettopcategorybymonth", function (data) {
 
     for (var i = 0; i < Object.keys(data).length; i++) {
         var currentLetter = String.fromCharCode(65 + i);
-        top_cat_data_month.push({
-            value: data[currentLetter].count,
-            color: colors[i].color,
-            highlight: colors[i].hcolor,
-            label: data[currentLetter].cat
-        });
+        if(data[currentLetter].cat){
+            if(data[currentLetter].count >0){
+                top_cat_data_month.push({
+                    value: data[currentLetter].count,
+                    color: colors[i].color,
+                    highlight: colors[i].hcolor,
+                    label: data[currentLetter].cat
+                });
+
+            }
+        }
+
     }
 
     var currentChart = document.getElementById("polar_chart").getContext("2d");
@@ -173,8 +185,14 @@ $.getJSON(API_URL + "gettopparties", function (data) {
     };
 
     for (var i = 0; i < Object.keys(data).length; i++) {
-        top_parties_data.labels.push(data[i].party.party);
-        top_parties_data.datasets[0].data.push(data[i].count);
+        if(data[i].party){
+            if(data[i].count>0){
+                top_parties_data.labels.push(data[i].party.party);
+                top_parties_data.datasets[0].data.push(data[i].count);
+            }
+
+        }
+
     }
 
     var currentChart = document.getElementById("radar_chart2").getContext("2d");
@@ -199,8 +217,13 @@ $.getJSON(API_URL + "gettoppartiesbymonth", function (data) {
     };
 
     for (var i = 0; i < Object.keys(data).length; i++) {
-        top_parties_data_month.labels.push(data[i].party.party);
-        top_parties_data_month.datasets[0].data.push(data[i].count);
+        if(data[i].party){
+            if(data[i].count>0){
+                top_parties_data_month.labels.push(data[i].party.party);
+                top_parties_data_month.datasets[0].data.push(data[i].count);
+            }
+        }
+
     }
 
     var currentChart = document.getElementById("radar_chart3").getContext("2d");
@@ -212,12 +235,16 @@ $.getJSON(API_URL + "gettopmedia", function (data) {
 
     for (var i = 0; i < Object.keys(data).length; i++) {
         if (data[i].media) {
-            top_media_data.push({
-                value: data[i].count,
-                color: colors[i].color,
-                highlight: colors[i].hcolor,
-                label: data[i].media.media
-            });
+            if(data[i].count>0){
+                top_media_data.push({
+                    value: data[i].count,
+                    color: colors[i].color,
+                    highlight: colors[i].hcolor,
+                    label: data[i].media.media
+                });
+
+            }
+
         }
     }
 
@@ -230,12 +257,16 @@ $.getJSON(API_URL + "gettopmediabymonth", function (data) {
 
     for (var i = 0; i < Object.keys(data).length; i++) {
         if (data[i].media) {
-            top_media_data_month.push({
-                value: data[i].count,
-                color: colors[i].color,
-                highlight: colors[i].hcolor,
-                label: data[i].media.media
-            });
+            if(data[i].count>0){
+                top_media_data_month.push({
+                    value: data[i].count,
+                    color: colors[i].color,
+                    highlight: colors[i].hcolor,
+                    label: data[i].media.media
+                });
+
+            }
+
 
         }
 
