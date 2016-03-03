@@ -21,39 +21,29 @@ $(document).ready(function(){
 });
 
 function getTotalActiveUsers () {
-    setTimeout(function() {
         $.getJSON(API_URL + "gettotalactiveusers", function (data) {
             gente.innerHTML = data.count;
-        }, getTotalActiveUsers());
-    }, 3000);
+        });
 
 }
 
 function getTotalReceivedMsg (){
-    setTimeout(function() {
+
         $.getJSON(API_URL + "gettotalreceivedmsg", function (data) {
             mensajes.innerHTML = data.count;
-        }, getTotalReceivedMsg());
-    }, 3000);
-
+        });
 }
 
 function getTotalReceivedImg (){
-    setTimeout(function() {
         $.getJSON(API_URL + "getTotalReceivedImg", function (data) {
             fotos.innerHTML = data.count;
-        }, getTotalReceivedImg());
-    }, 3000);
-
+        });
 }
 
 function getTodayContribNum () {
-    setTimeout(function() {
         $.getJSON(API_URL + "gettodaycontribnum", function (data) {
             mensajes_hoy.innerHTML = data.count;
-        }, getTodayContribNum());
-    }, 3000);
-
+        });
 }
 
 
