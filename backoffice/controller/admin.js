@@ -182,11 +182,13 @@ $(document).ready(function () {
                     if (args.data.id == -1) {
                         $('#nuevoMedio').removeClass('hidden');
                         nuevoMedio = true;
+                        editMedia = true;
 
                     }
                     else {
                         $('#nuevoMedio').addClass('hidden');
                         editMedia = true;
+                        nuevoMedio = false;
                     }
                 });
                 $('.dialog-photo-click').on('click', function(){
@@ -239,6 +241,7 @@ $(document).ready(function () {
                     if (editMedia) {
                         if (nuevoMedio) {
                             var nombreMedio = $('#nuevoMedio').val();
+                            console.log("NUEVO MEDIO: "+nombreMedio);
                             $.ajax({
                                 type: "POST",
                                 url: api + "Private/setMedia",
