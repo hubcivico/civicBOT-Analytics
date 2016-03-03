@@ -1,11 +1,16 @@
 
 
 
-run_waitMe();
 var api = 'https://prodcivicbot.herokuapp.com/';
 var token = sessionStorage.getItem('token');
 
 $(document).ready(function () {
+    run_waitMe();
+    sessionStorage.removeItem('labelList');
+    sessionStorage.removeItem('partyList');
+    sessionStorage.removeItem('locationList');
+    sessionStorage.removeItem('mediaList');
+
     if(token) {
         $.ajax({
             type: "GET",
@@ -99,16 +104,12 @@ $(document).ready(function () {
 
         window.operateEvents = {
             'click .opciones': function (e, value, row, index) {
-                console.log("OPERATING EVENT");
+                console.log("OPERATING EVENT ID: "+row.id);
+                $('#contributionID').text(row.id);
                 var estadoPub = row.published;
                 var estadoEdi = row.edited;
-                var publicBtnTxt="";
-                var estiloBtnPub ="";
-                var estiloPubAlert = "";
-                var estiloEdiAlert = "";
                 var publicAlerta ="";
                 var editAlerta ="";
-                var contribId = row.id;
                 var label = "";
                 var labelId = "";
                 var party = "";
@@ -218,8 +219,9 @@ $(document).ready(function () {
                     locationSelect.val(locationId).trigger('change');
                 });
                 $('#guardar').on('click', function () {
-                    run_waitMe();
-                    if (editLabel) {
+                    var contribId = $('#contributionID').text();
+                    if (editLabel && contribId!="") {
+                        console.log("GUARDANDO NUEVA ETIQUETA PARA: "+row.id);
                         var labelId = $('#labelSelect').val();
                         $.ajax({
                             type: "POST",
@@ -239,6 +241,7 @@ $(document).ready(function () {
 
                     }
                     if (editMedia) {
+                        console.log("GUARDANDO NUEVO MEDIO PARA: "+row.id);
                         if (nuevoMedio) {
                             var nombreMedio = $('#nuevoMedio').val();
                             console.log("NUEVO MEDIO: "+nombreMedio);
@@ -276,6 +279,7 @@ $(document).ready(function () {
 
                     }
                     if (editParty) {
+                        console.log("GUARDANDO NUEVO PARTIDO PARA: "+row.id);
                         var selectPartyId = $('#partySelect').val();
                         $.ajax({
                             type: "POST",
@@ -291,6 +295,7 @@ $(document).ready(function () {
 
                     }
                     if (editLocation) {
+                        console.log("GUARDANDO NUEVO MUNICIPIO PARA: "+row.id);
                         var locationId = $('#locationSelect').val();
                         $.ajax({
                             type: "POST",
@@ -311,8 +316,10 @@ $(document).ready(function () {
                     $('.closebt').trigger('click');
 
                 });
+
                 $('#publicar').on('click', function(){
-                    if(!estadoPub){
+                    var contribId = $('#contributionID').text();
+                    if(!estadoPub && contribId!=""){
                         $.ajax({
                             type: "POST",
                             url: api + "Private/setToPublish",
@@ -355,7 +362,6 @@ function operateFormatter(index, row, element) {
 
 function imageFormatter(value, row) {
     if(row.photo){
-        console.log("IS A PHOTO!");
         return '<img id="'+row.photo+'" src="' + value + '" width="100" height="50"/>';
     }else{
         return '<p>'+row.text.substring(0,20)+'</p>'

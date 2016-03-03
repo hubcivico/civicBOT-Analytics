@@ -70,6 +70,7 @@ $('#crearUsuario').on('click', function(){
     }
 });
 
+
 $.ajax({
     type: "GET",
     dataType: "json",
@@ -177,8 +178,6 @@ $("#demo01").animatedModal({
 
     },
     beforeClose: function() {
-    },
-    afterClose: function() {
         $('#elemento').empty();
         $('#publicAlerta').removeClass();
         $('#editAlerta').removeClass();
@@ -186,6 +185,9 @@ $("#demo01").animatedModal({
         $('#editAlerta').empty();
         $('#publicar').removeClass();
         $('#publicar').empty();
+        $('#contributionID').text('');
+    },
+    afterClose: function() {
         refreshTable();
         refreshMedia();
     }
