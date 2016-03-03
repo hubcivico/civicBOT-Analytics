@@ -243,21 +243,21 @@ function refreshTable(){
                 },
                     {
                         field: 'createdAt',
-                        title: "Fecha de publicaci&oacuten",
+                        title: "Fecha",
                         align: 'center',
                         sortable: true,
                         formatter: fechaFormatter
 
                     }, {
                         field: 'label.name',
-                        title: 'Categoria',
+                        title: 'Categoría',
                         align: 'center',
                         sortable: true
 
 
                     }, {
                         field: 'party.party',
-                        title: "Partido pol&iacutetico",
+                        title: "Partido",
                         align: 'center',
                         sortable: true
 
@@ -269,7 +269,7 @@ function refreshTable(){
 
                     }, {
                         field: 'media.media',
-                        title: 'Medios de comunicaci&oacuten',
+                        title: 'Medio',
                         align: 'center',
                         sortable: true
 
