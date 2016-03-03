@@ -186,10 +186,11 @@ $("#demo01").animatedModal({
         $('#publicar').removeClass();
         $('#publicar').empty();
         $('#contributionID').text('');
+        refreshMedia();
     },
     afterClose: function() {
         refreshTable();
-        refreshMedia();
+
     }
 });
 $("#signup").animatedModal({
