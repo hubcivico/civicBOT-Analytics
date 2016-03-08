@@ -889,8 +889,7 @@ Screenshots
 }
 
 .screenshots figure img {
-    width: 100%;
-    height: 100%;
+    width: 260%;
     -webkit-transition: all 300ms ease-in-out;
     transition: all 300ms ease-in-out;
 }
@@ -1320,7 +1319,7 @@ hr {
 .image {
     display: inline-block;
     width: 100%;
-    height: 25vw;
+    max-height: 365px;
     background-position: center center;
     background-size: cover;
 }
