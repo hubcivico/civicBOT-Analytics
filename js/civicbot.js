@@ -105,12 +105,12 @@ $.getJSON(API_URL + "gettoplocations", function (data) {
         datasets: [
             {
                 label: "Dataset",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
+                fillColor: "rgba(63, 97, 132, 0.85)",
+                strokeColor: "#fff",
+                pointColor: "rgba(63, 97, 132, 0.85)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
+                pointHighlightStroke: "rgba(63, 97, 132, 0.85)",
                 data: []
             }
         ]
@@ -118,7 +118,7 @@ $.getJSON(API_URL + "gettoplocations", function (data) {
 
     for (var i = 0; i < Object.keys(data).length; i++) {
         if (data[i].location) {
-            top_places_data.labels.push(data[i].location.name);
+            top_places_data.labels.push(data[i].location.name.substring(0, 19));
             top_places_data.datasets[0].data.push(data[i].count);
         }
 
@@ -134,12 +134,12 @@ $.getJSON(API_URL + "gettoplocationsbymonth", function (data) {
         datasets: [
             {
                 label: "Dataset",
-                fillColor: "rgba(220,220,220,0.2)",
+                fillColor: "rgba(63, 97, 132, 0.85)",
                 strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(63, 97, 132, 0.85)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
+                pointHighlightStroke: "rgba(63, 97, 132, 0.85)",
                 data: []
             }
         ]
@@ -147,7 +147,7 @@ $.getJSON(API_URL + "gettoplocationsbymonth", function (data) {
 
     for (var i = 0; i < Object.keys(data).length; i++) {
         if (data[i].location) {
-            top_places_data_month.labels.push(data[i].location.name);
+            top_places_data_month.labels.push(data[i].location.name.substring(0, 19));
             top_places_data_month.datasets[0].data.push(data[i].count);
         }
 
@@ -163,12 +163,12 @@ $.getJSON(API_URL + "gettopparties", function (data) {
         datasets: [
             {
                 label: "Dataset",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
+                fillColor: "rgba(63, 97, 132, 0.85)",
+                strokeColor: "rgba(63, 97, 132, 0.85)",
+                pointColor: "rgba(63, 97, 132, 0.85)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
+                pointHighlightStroke: "rgba(63, 97, 132, 0.85)",
                 data: []
             }
         ]
@@ -177,7 +177,7 @@ $.getJSON(API_URL + "gettopparties", function (data) {
     for (var i = 0; i < Object.keys(data).length; i++) {
         if(data[i].party){
             if(data[i].count>0){
-                top_parties_data.labels.push(data[i].party.party);
+                top_parties_data.labels.push(data[i].party.party.substring(0, 19));
                 top_parties_data.datasets[0].data.push(data[i].count);
             }
 
@@ -195,12 +195,12 @@ $.getJSON(API_URL + "gettoppartiesbymonth", function (data) {
         datasets: [
             {
                 label: "Dataset",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
+                fillColor: "rgba(63, 97, 132, 0.85)",
+                strokeColor: "rgba(63, 97, 132, 0.85)",
+                pointColor: "rgba(63, 97, 132, 0.85)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
+                pointHighlightStroke: "rgba(63, 97, 132, 0.85)",
                 data: []
             }
         ]
@@ -209,7 +209,7 @@ $.getJSON(API_URL + "gettoppartiesbymonth", function (data) {
     for (var i = 0; i < Object.keys(data).length; i++) {
         if(data[i].party){
             if(data[i].count>0){
-                top_parties_data_month.labels.push(data[i].party.party);
+                top_parties_data_month.labels.push(data[i].party.party.substring(0, 19));
                 top_parties_data_month.datasets[0].data.push(data[i].count);
             }
         }
