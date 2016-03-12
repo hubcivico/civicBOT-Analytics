@@ -1,9 +1,9 @@
 
 
 
-var api = 'https://preprodcivicbot.herokuapp.com/';
+var api = 'https://prodcivicbot.herokuapp.com/';
 $(document).ready(function() {
-    console.log("HELLO!!");
+    sessionStorage.clear();
     $('.form-control').on('keypress', function() {
         $('#wrong-data').addClass('hidden');
 

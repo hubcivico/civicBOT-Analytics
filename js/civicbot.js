@@ -1,53 +1,6 @@
-//civicbot.controller('data', ['$scope','angularGridInstance', function ($scope, angularGridInstance) {
-//    $scope.currentImage = 0;
-//    $scope.totalImage = 0;
-//    $scope.lastImage = 0;
-//
-//        $.getJSON(API_URL + "getcontributionlist", function(data) {
-//            return data;
-//        }).then(function(data){
-//            $scope.imageJson = data;
-//            $scope.totalImage = Object.keys($scope.imageJson).length;
-//            $scope.currentImage = 8; // Images charged per click
-//
-//            $scope.images = [];
-//            for (var i = 0; i < $scope.currentImage; i++) {
-//                if($scope.imageJson[i].type == 1) {
-//                    $scope.images.push($scope.imageJson[i]);
-//                }
-//            }
-//
-//            $scope.$apply()
-//        });
-//
-//        $scope.refresh = function(){
-//            angularGridInstance.gallery.refresh();
-//        }
-//
-//    $scope.loadMoreImages = function(){
-//        $scope.lastImage = $scope.currentImage;
-//        $scope.currentImage += 8;
-//        for (var i = $scope.lastImage; i < $scope.currentImage; i++) {
-//                if($scope.lastImage < $scope.totalImage - 1)
-//                    if($scope.imageJson[i].type == 1)
-//                        $scope.images.push($scope.imageJson[i]);
-//            }
-//        }
-//
-//     }]);
-//function loadMoreImages() {
-//    var scope = angular.element(
-//    document.
-//    getElementById("screenshots")).
-//    scope();
-//    scope.$apply(function () {
-//        scope.loadMoreImages();
-//    });
-//}
-
 
 var civicbot = angular.module("civicbot", ['angularGrid']);
-var API_URL = 'https://preprodcivicbot.herokuapp.com/Public/';
+var API_URL = 'https://prodcivicbot.herokuapp.com/Public/';
 var colors = [
     {"color": "#659AC9", "hcolor": "#5B90BF"},
     {"color": "#B0CC99", "hcolor": "#A3BE8C"},
@@ -68,39 +21,29 @@ $(document).ready(function(){
 });
 
 function getTotalActiveUsers () {
-    setTimeout(function() {
         $.getJSON(API_URL + "gettotalactiveusers", function (data) {
             gente.innerHTML = data.count;
-        }, getTotalActiveUsers());
-    }, 3000);
+        });
 
 }
 
 function getTotalReceivedMsg (){
-    setTimeout(function() {
+
         $.getJSON(API_URL + "gettotalreceivedmsg", function (data) {
             mensajes.innerHTML = data.count;
-        }, getTotalReceivedMsg());
-    }, 3000);
-
+        });
 }
 
 function getTotalReceivedImg (){
-    setTimeout(function() {
         $.getJSON(API_URL + "getTotalReceivedImg", function (data) {
             fotos.innerHTML = data.count;
-        }, getTotalReceivedImg());
-    }, 3000);
-
+        });
 }
 
 function getTodayContribNum () {
-    setTimeout(function() {
         $.getJSON(API_URL + "gettodaycontribnum", function (data) {
             mensajes_hoy.innerHTML = data.count;
-        }, getTodayContribNum());
-    }, 3000);
-
+        });
 }
 
 
@@ -115,12 +58,18 @@ $.getJSON(API_URL + "getcontribbycategory", function (data) {
 
     for (var i = 0; i < Object.keys(data).length; i++) {
         var currentLetter = String.fromCharCode(65 + i);
-        cat_data.push({
-            value: data[currentLetter].count,
-            color: colors[i].color,
-            highlight: colors[i].hcolor,
-            label: data[currentLetter].cat
-        });
+        if(data[currentLetter].cat){
+            if(data[currentLetter].count >0){
+                cat_data.push({
+                    value: data[currentLetter].count,
+                    color: colors[i].color,
+                    highlight: colors[i].hcolor,
+                    label: data[currentLetter].cat
+                });
+
+            }
+        }
+
     }
 
     var currentChart = document.getElementById("pie_chart").getContext("2d");
@@ -132,12 +81,18 @@ $.getJSON(API_URL + "gettopcategorybymonth", function (data) {
 
     for (var i = 0; i < Object.keys(data).length; i++) {
         var currentLetter = String.fromCharCode(65 + i);
-        top_cat_data_month.push({
-            value: data[currentLetter].count,
-            color: colors[i].color,
-            highlight: colors[i].hcolor,
-            label: data[currentLetter].cat
-        });
+        if(data[currentLetter].cat){
+            if(data[currentLetter].count >0){
+                top_cat_data_month.push({
+                    value: data[currentLetter].count,
+                    color: colors[i].color,
+                    highlight: colors[i].hcolor,
+                    label: data[currentLetter].cat
+                });
+
+            }
+        }
+
     }
 
     var currentChart = document.getElementById("polar_chart").getContext("2d");
@@ -150,12 +105,12 @@ $.getJSON(API_URL + "gettoplocations", function (data) {
         datasets: [
             {
                 label: "Dataset",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
+                fillColor: "rgba(63, 97, 132, 0.85)",
+                strokeColor: "#fff",
+                pointColor: "rgba(63, 97, 132, 0.85)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
+                pointHighlightStroke: "rgba(63, 97, 132, 0.85)",
                 data: []
             }
         ]
@@ -163,7 +118,7 @@ $.getJSON(API_URL + "gettoplocations", function (data) {
 
     for (var i = 0; i < Object.keys(data).length; i++) {
         if (data[i].location) {
-            top_places_data.labels.push(data[i].location.name);
+            top_places_data.labels.push(data[i].location.name.substring(0, 19));
             top_places_data.datasets[0].data.push(data[i].count);
         }
 
@@ -179,12 +134,12 @@ $.getJSON(API_URL + "gettoplocationsbymonth", function (data) {
         datasets: [
             {
                 label: "Dataset",
-                fillColor: "rgba(220,220,220,0.2)",
+                fillColor: "rgba(63, 97, 132, 0.85)",
                 strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(63, 97, 132, 0.85)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
+                pointHighlightStroke: "rgba(63, 97, 132, 0.85)",
                 data: []
             }
         ]
@@ -192,7 +147,7 @@ $.getJSON(API_URL + "gettoplocationsbymonth", function (data) {
 
     for (var i = 0; i < Object.keys(data).length; i++) {
         if (data[i].location) {
-            top_places_data_month.labels.push(data[i].location.name);
+            top_places_data_month.labels.push(data[i].location.name.substring(0, 19));
             top_places_data_month.datasets[0].data.push(data[i].count);
         }
 
@@ -208,20 +163,26 @@ $.getJSON(API_URL + "gettopparties", function (data) {
         datasets: [
             {
                 label: "Dataset",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
+                fillColor: "rgba(63, 97, 132, 0.85)",
+                strokeColor: "rgba(63, 97, 132, 0.85)",
+                pointColor: "rgba(63, 97, 132, 0.85)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
+                pointHighlightStroke: "rgba(63, 97, 132, 0.85)",
                 data: []
             }
         ]
     };
 
     for (var i = 0; i < Object.keys(data).length; i++) {
-        top_parties_data.labels.push(data[i].party.party);
-        top_parties_data.datasets[0].data.push(data[i].count);
+        if(data[i].party){
+            if(data[i].count>0){
+                top_parties_data.labels.push(data[i].party.party.substring(0, 19));
+                top_parties_data.datasets[0].data.push(data[i].count);
+            }
+
+        }
+
     }
 
     var currentChart = document.getElementById("radar_chart2").getContext("2d");
@@ -234,20 +195,25 @@ $.getJSON(API_URL + "gettoppartiesbymonth", function (data) {
         datasets: [
             {
                 label: "Dataset",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
+                fillColor: "rgba(63, 97, 132, 0.85)",
+                strokeColor: "rgba(63, 97, 132, 0.85)",
+                pointColor: "rgba(63, 97, 132, 0.85)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
+                pointHighlightStroke: "rgba(63, 97, 132, 0.85)",
                 data: []
             }
         ]
     };
 
     for (var i = 0; i < Object.keys(data).length; i++) {
-        top_parties_data_month.labels.push(data[i].party.party);
-        top_parties_data_month.datasets[0].data.push(data[i].count);
+        if(data[i].party){
+            if(data[i].count>0){
+                top_parties_data_month.labels.push(data[i].party.party.substring(0, 19));
+                top_parties_data_month.datasets[0].data.push(data[i].count);
+            }
+        }
+
     }
 
     var currentChart = document.getElementById("radar_chart3").getContext("2d");
@@ -259,12 +225,16 @@ $.getJSON(API_URL + "gettopmedia", function (data) {
 
     for (var i = 0; i < Object.keys(data).length; i++) {
         if (data[i].media) {
-            top_media_data.push({
-                value: data[i].count,
-                color: colors[i].color,
-                highlight: colors[i].hcolor,
-                label: data[i].media.media
-            });
+            if(data[i].count>0){
+                top_media_data.push({
+                    value: data[i].count,
+                    color: colors[i].color,
+                    highlight: colors[i].hcolor,
+                    label: data[i].media.media
+                });
+
+            }
+
         }
     }
 
@@ -277,12 +247,16 @@ $.getJSON(API_URL + "gettopmediabymonth", function (data) {
 
     for (var i = 0; i < Object.keys(data).length; i++) {
         if (data[i].media) {
-            top_media_data_month.push({
-                value: data[i].count,
-                color: colors[i].color,
-                highlight: colors[i].hcolor,
-                label: data[i].media.media
-            });
+            if(data[i].count>0){
+                top_media_data_month.push({
+                    value: data[i].count,
+                    color: colors[i].color,
+                    highlight: colors[i].hcolor,
+                    label: data[i].media.media
+                });
+
+            }
+
 
         }
 
